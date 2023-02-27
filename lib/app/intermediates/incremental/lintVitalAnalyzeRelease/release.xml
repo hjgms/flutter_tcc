@@ -1,0 +1,37 @@
+<variant
+    name="release"
+    package="com.example.flutter_application_firebase"
+    minSdkVersion="19"
+    targetSdkVersion="33"
+    shrinking="true"
+    mergedManifest="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\intermediates\merged_manifest\release\AndroidManifest.xml"
+    proguardFiles="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\intermediates\default_proguard_files\global\proguard-android.txt-7.1.2;C:\tools\flutter\packages\flutter_tools\gradle\flutter_proguard_rules.pro;proguard-rules.pro"
+    partialResultsDir="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\intermediates\lint_vital_partial_results\release\out">
+  <buildFeatures
+      namespacing="REQUIRED"/>
+  <sourceProviders>
+    <sourceProvider
+        manifest="src\main\AndroidManifest.xml"
+        javaDirectories="src\main\java;src\main\kotlin"
+        resDirectories="src\main\res"
+        assetsDirectories="src\main\assets"/>
+    <sourceProvider
+        manifest="src\release\AndroidManifest.xml"
+        javaDirectories="src\release\java;src\release\kotlin"
+        resDirectories="src\release\res"
+        assetsDirectories="src\release\assets"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <manifestPlaceholders>
+    <placeholder
+        name="applicationName"
+        value="io.flutter.app.FlutterMultiDexApplication" />
+  </manifestPlaceholders>
+  <mainArtifact
+      classOutputs="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\intermediates\javac\release\classes;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\tmp\kotlin-classes\release;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\kotlinToolingMetadata;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\intermediates\compile_and_runtime_not_namespaced_r_class_jar\release\R.jar"
+      applicationId="com.example.flutter_application_firebase"
+      generatedSourceFolders="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\ap_generated_sources\release\out;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\aidl_source_output_dir\release\out;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\source\buildConfig\release;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\renderscript_source_output_dir\release\out"
+      generatedResourceFolders="C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\res\rs\release;C:\Users\rafae\StudioProjects\flutter_tcc\lib\app\generated\res\resValues\release">
+  </mainArtifact>
+</variant>

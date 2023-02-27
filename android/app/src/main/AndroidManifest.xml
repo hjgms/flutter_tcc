@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_application_firebase">
+    package="com.example.flutter_tcc">
    <application
-        android:label="flutter_application_firebase"
+        android:label="flutter_tcc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

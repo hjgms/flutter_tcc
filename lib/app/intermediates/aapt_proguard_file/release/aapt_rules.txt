@@ -1,0 +1,6 @@
+-keep class androidx.core.app.CoreComponentFactory { <init>(); }
+-keep class com.example.flutter_application_firebase.MainActivity { <init>(); }
+-keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
+-keep class com.google.firebase.components.ComponentDiscoveryService { <init>(); }
+-keep class com.google.firebase.provider.FirebaseInitProvider { <init>(); }
+-keep class io.flutter.app.FlutterMultiDexApplication { <init>(); }

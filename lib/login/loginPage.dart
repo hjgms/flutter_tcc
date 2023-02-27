@@ -61,7 +61,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             children: [
-              Image.asset("../web/icons/Icon-512.png",
+              Image.asset("assets/Icon-512.png",
                 scale: 2.0,
               ),
               Padding(
@@ -84,7 +84,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         width: 4,
                       )
                     ),
-                    suffixIcon: Icon(Icons.email),
+                    suffixIcon: const Icon(Icons.email),
                   ),
                 ),  
               ),
