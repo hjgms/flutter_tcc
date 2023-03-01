@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 //page view
-import '../mensagePageView/MensagePageView.dart';
-import '../../widgets/postPersonWidget/PostPersonWidget.dart';
+import 'package:flutter_application_firebase/views/mensagePageView/MensagePageView.dart';
+import 'package:flutter_application_firebase/widgets/postPersonWidget/PostPersonWidget.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -24,7 +24,12 @@ class _HomePageViewState extends State<HomePageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        leading: IconButton(
+          onPressed: (){}, 
+          icon: const Icon(Icons.notifications)
+        ),
+        title: const Text("Feed"),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: mensage, 
@@ -37,45 +42,20 @@ class _HomePageViewState extends State<HomePageView> {
         ],
       ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 40),
         children: [
           PostPersonWidget(
-            imagePost: "",
+            contentPost: "content",
+            nameAuthor: "author",
+          ),
+          PostPersonWidget(
+            contentPost: "content",
+            nameAuthor: "author",
+          ),
+          PostPersonWidget(
             contentPost: "content",
             nameAuthor: "author",
           )
-          // Container(
-          //   margin: const EdgeInsets.all(10),
-          //   color: Colors.amber,
-          //   child: Column(
-          //     children: [
-          //       Row(
-          //         children: const [
-          //           Padding(
-          //             padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-          //             child: Icon(Icons.person),
-          //           ),
-          //           Text("author post")
-          //         ],
-          //       ),
-          //       Padding(
-          //         padding: const EdgeInsets.all(1),
-          //         child: Image.asset("assets/Icon-512.png")
-          //       ),
-          //       Padding(
-          //         padding: const EdgeInsets.all(10),
-          //         child: Row(
-          //           children:  [
-          //             IconButton(
-          //               onPressed: (){}, 
-          //               icon: const Icon(Icons.favorite_border)
-          //             ),
-          //             const Text("comment for post")
-          //           ],
-          //         )
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );
