@@ -34,7 +34,7 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                child: Icon(Icons.person),
+                child: Icon(Icons.person, color: Colors.black26),
               ),
               Text(widget.nameAuthor,
                 style: const TextStyle(
@@ -43,9 +43,20 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(1),
-            child: Image.asset(widget.imagePost)
+          GestureDetector(
+            onDoubleTap: (){
+              setState(() {
+                if(_liked){
+                  _liked = false;
+                }else{
+                  _liked = true;
+                }
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(1),
+              child: Image.asset(widget.imagePost)
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -61,7 +72,10 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
                       }
                     });
                   }, 
-                  icon: Icon(_liked == true?Icons.favorite : Icons.favorite_border)
+                  icon: Icon( _liked == true? 
+                    Icons.favorite : Icons.favorite_border,
+                     color: _liked == true? Colors.red.shade400 : Colors.black26  
+                  )
                 ),
                 Text(widget.contentPost)
               ],

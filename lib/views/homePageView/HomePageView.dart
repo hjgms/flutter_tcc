@@ -14,10 +14,12 @@ class HomePageView extends StatefulWidget {
 
 class _HomePageViewState extends State<HomePageView> {
 
-  mensage(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => 
-      const MensagePageView()
-    ));
+  void mensage(){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const MensagePageView()
+      )
+    );
   }
 
   @override

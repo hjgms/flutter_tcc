@@ -65,17 +65,38 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
         currentIndex: globalvariables.pageIndex,
         onTap: (page) => onPageChanged(page),
       ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) => onPageChanged(index),
-        physics: const NeverScrollableScrollPhysics(),
-        children: const <Widget> [
-          HomePageView(),
-          SearchPageView(),
-          PerfilPageView(),
-          ConfigurePageView()
-        ],
-      ),
+      body: FutureBuilder<String>(
+        future: Future<String>.delayed(
+          const Duration(seconds: 1),
+          () => 'dwad',
+        ),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          Widget level = Container();
+          
+          if (snapshot.hasData) {
+            level = PageView(
+              controller: _pageController,
+              onPageChanged: (index) => onPageChanged(index),
+              physics: const NeverScrollableScrollPhysics(),
+              children: const <Widget> [
+                HomePageView(),
+                SearchPageView(),
+                PerfilPageView(),
+                ConfigurePageView()
+              ],
+            );
+          }else{
+            level = const Center(
+              child: SizedBox(
+                width: 60,
+                height: 60,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return level;
+        },
+      )
     );
   }
 }

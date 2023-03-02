@@ -1,4 +1,6 @@
 // ignore: file_names
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 //view widget
@@ -18,7 +20,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? errorTextEmail;
-  String? errorTextPassword;
+  String? errorTextPassword; 
 
   //functions
   test() async{
@@ -33,11 +35,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       setState(() {
         globalvariables.logado = true;
       });
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context){
-        return const PrincipalWidget();
-      }));
-      // print("sucess is: ${globalvariables.logado? "true":"false"}");
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context){
+            return const PrincipalWidget();
+          }
+        )
+      );
     }
   }
 
