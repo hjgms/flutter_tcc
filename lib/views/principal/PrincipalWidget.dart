@@ -1,4 +1,6 @@
 // ignore: file_names
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 //view page
@@ -32,6 +34,7 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: false,
         showSelectedLabels: false,
+        backgroundColor: Colors.transparent,
         selectedIconTheme: const IconThemeData(
           size: 28
         ),
@@ -44,22 +47,22 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
             label: "",
-            tooltip: "home"
+            tooltip: "home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: "",
-            tooltip: "search"
+            tooltip: "search",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: "",
-            tooltip: "perfil"
+            tooltip: "perfil",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: "",
-            tooltip: "config"
+            tooltip: "config",
           )
         ],
         currentIndex: globalvariables.pageIndex,

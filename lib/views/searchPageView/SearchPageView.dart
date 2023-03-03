@@ -14,30 +14,42 @@ class _SearchPageViewState extends State<SearchPageView> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Colors.black12,
+        backgroundColor: Colors.blue,
         elevation: 0,
         title: Container(
-          color: Colors.white,
-          height: 70,
-          width: double.maxFinite,
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: Padding(
-            padding: const  EdgeInsets.all(20),
-            child: TextField(
+          height: 60,
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 1,
+                spreadRadius: 10,
+                color: Colors.blue.shade400
+              )
+            ]
+          ),
+          child: TextField(
               decoration: InputDecoration(
-                disabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.blue,
-                    width: 1
+                border: InputBorder.none,
+                errorBorder: InputBorder.none,
+                suffixIcon:  IconButton(
+                  onPressed: (){
+                  }, 
+                  icon: const Icon(Icons.search,
+                    size: 25,
+                    color: Colors.black26,
                   ),
-                  borderRadius: BorderRadius.circular(30)
                 ),
                 hintText: "Search",
-                suffixIcon: const Icon(Icons.search),
-                suffixIconColor: Colors.black26,
+                hintStyle: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black26
+                )
               ),
-            ),
-          ),
+            ),  
         )
       )
     );
