@@ -12,13 +12,11 @@ class _SearchPageViewState extends State<SearchPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 80,
-        backgroundColor: Colors.blue,
-        elevation: 0,
-        title: Container(
+      appBar: AppBar(),
+      body: ListView(children: [
+        Container(
           height: 60,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -51,7 +49,7 @@ class _SearchPageViewState extends State<SearchPageView> {
               ),
             ),  
         )
-      )
+      ],),
     );
   }
 }

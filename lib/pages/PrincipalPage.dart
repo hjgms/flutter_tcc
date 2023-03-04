@@ -4,10 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 //view page
-import 'package:flutter_application_firebase/views/homePageView/HomePageView.dart';
-import 'package:flutter_application_firebase/views/perfilPageView/PerfilPageView.dart';
-import 'package:flutter_application_firebase/views/searchPageView/SearchPageView.dart';
-import 'package:flutter_application_firebase/views/configurePageView/ConfigurePageView.dart';
+import 'package:flutter_application_firebase/pages/HomePage.dart';
+import 'package:flutter_application_firebase/pages/PerfilPage.dart';
+import 'package:flutter_application_firebase/pages/SearchPage.dart';
+import 'package:flutter_application_firebase/pages/ConfigurePage.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
 
 class PrincipalWidget extends StatefulWidget {
@@ -80,7 +80,6 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
             level = PageView(
               controller: _pageController,
               onPageChanged: (index) => onPageChanged(index),
-              physics: const NeverScrollableScrollPhysics(),
               children: const <Widget> [
                 HomePageView(),
                 SearchPageView(),

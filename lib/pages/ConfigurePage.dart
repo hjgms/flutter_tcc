@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //view
-import 'package:flutter_application_firebase/views/login/loginPage.dart';
+import 'package:flutter_application_firebase/pages/LoginPage.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
 
 class ConfigurePageView extends StatefulWidget {

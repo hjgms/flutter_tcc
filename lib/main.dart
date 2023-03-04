@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_firebase/pages/HomePage.dart';
 import 'config/firebase_options.dart';
 
 //view widget
-import 'views/login/loginPage.dart';
-import './views/principal/PrincipalWidget.dart';
+import 'pages/LoginPage.dart';
+import 'pages/PrincipalPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

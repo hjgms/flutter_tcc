@@ -1,12 +1,10 @@
 // ignore: file_names
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 //view widget
-import '../principal/PrincipalWidget.dart';
-import '../../config/functionsback.dart';
-import '../../config/globalvariables.dart' as globalvariables;
+import 'PrincipalPage.dart';
+import '../config/functionsback.dart';
+import '../config/globalvariables.dart' as globalvariables;
 
 class LoginPageWidget extends StatefulWidget {
   const LoginPageWidget({super.key});

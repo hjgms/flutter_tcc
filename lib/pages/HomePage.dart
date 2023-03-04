@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 
 //page view
-import 'package:flutter_application_firebase/views/mensagePageView/MensagePageView.dart';
-import 'package:flutter_application_firebase/widgets/postPersonWidget/PostPersonWidget.dart';
+import 'package:flutter_application_firebase/pages/MensagePage.dart';
+import 'package:flutter_application_firebase/views/postPersonWidget.dart';
+
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
