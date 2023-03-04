@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 //view widget
 import 'PrincipalPage.dart';
@@ -59,73 +60,110 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                 scale: 2.0,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: TextField(
                   controller: emailController,
                   decoration: InputDecoration(
                     errorText: errorTextEmail,
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 4,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
+                        color: Colors.black26,
+                        width: 1.5,
                       )
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                        width: 1.5,
+                      )
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
                         color: Colors.red,
                         width: 4,
                       )
                     ),
-                    suffixIcon: const Icon(Icons.email),
+                    suffixIcon: Container(
+                      height: 20,
+                      width: 20,
+                      padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                      child: SvgPicture.asset(
+                        "../../assets/icons/envelope.svg",
+                        color: Colors.black26,
+                      ),
+                    )
                   ),
                 ),  
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
                     errorText: errorTextPassword,
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                        width: 4,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
+                        color: Colors.black26,
+                        width: 1.5,
                       )
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
+                    border:OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                        width: 1.5,
+                      )
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
                         color: Colors.red,
                         width: 4,
                       )
                     ),
-                    suffixIcon: const Icon(Icons.lock),
+                    suffixIcon:  Container(
+                      height: 20,
+                      width: 20,
+                      padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                      child: SvgPicture.asset(
+                        "../../assets/icons/trancar.svg",
+                        color: Colors.black26,
+                      ),
+                    ),
                   ),
                   obscureText: true,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: TextButton(
-                  onPressed:  () async{
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: GestureDetector(
+                  onTap:  () async{
                     setState(() {
                       errorTextEmail = null;
                       errorTextPassword = null;
                       test();
                     });
                   },
-                  style: TextButton.styleFrom(
-                    fixedSize: const Size(double.maxFinite, 60),
-                    backgroundColor: Colors.blue
-                  ), 
-                  child: const Text("Conectar", 
-                    style: TextStyle(
-                      color: Colors.white
+                  child: Container(
+                    height: 55,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(30)
                     ),
-                  ),
+                    child: const Center(
+                      child: Text("Entrar", 
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                        ),
+                      ),
+                    )
+                  )
                 ), 
               )
             ],

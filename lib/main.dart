@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_application_firebase/pages/HomePage.dart';
 import 'config/firebase_options.dart';
 
 //view widget
 import 'pages/LoginPage.dart';
-import 'pages/PrincipalPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const PrincipalWidget();
+    return const LoginPageWidget();
   }
 }

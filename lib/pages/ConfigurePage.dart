@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //view
 import 'package:flutter_application_firebase/pages/LoginPage.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ConfigurePageView extends StatefulWidget {
   const ConfigurePageView({super.key});
@@ -30,31 +31,16 @@ class _ConfigurePageViewState extends State<ConfigurePageView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("configurações"),
+        centerTitle: true,
+        toolbarHeight: 60,
+        title: const Text(
+          "Configurações",
+          style: TextStyle(
+            color: Colors.black26
+          ),
+        ),
         elevation: 0,
-        actions: const [
-          Icon(Icons.circle,color: Colors.blue)
-        ],
-      ),  
-      body: Column(
-        children: [
-          TextButton(
-            style: TextButton.styleFrom(
-              fixedSize: const Size.fromHeight(50)
-            ),
-            onPressed: (){
-              logout();
-            }, 
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Text("logout"),
-                Icon(Icons.logout)
-              ],
-            )
-          )
-        ],
-      ),
+      )
     );
   }
 }
