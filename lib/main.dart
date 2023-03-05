@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_firebase/pages/HomePage.dart';
+import 'package:flutter_application_firebase/pages/loginPage.dart';
 import 'config/firebase_options.dart';
 
 //view widget
-import 'pages/LoginPage.dart';
 import 'pages/PrincipalPage.dart';
+
+// colors
+import 'package:flutter_application_firebase/palette.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +24,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage()
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            primarySwatch: Palette.shadesPrimary,),
+        home: const PrincipalPage());
   }
 }
 
@@ -35,9 +40,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
-    return const PrincipalWidget();
+    return const PrincipalPage();
   }
 }

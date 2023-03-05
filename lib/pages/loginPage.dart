@@ -1,18 +1,19 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/palette.dart';
 
 //view widget
 import 'PrincipalPage.dart';
 import '../config/functionsback.dart';
 import '../config/globalvariables.dart' as globalvariables;
 
-class LoginPageWidget extends StatefulWidget {
-  const LoginPageWidget({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
   @override
-  State<LoginPageWidget> createState() => _LoginPageWidgetState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageWidgetState extends State<LoginPageWidget> {
+class _LoginPageState extends State<LoginPage> {
 
   //variables
   TextEditingController emailController = TextEditingController();
@@ -37,7 +38,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context){
-            return const PrincipalWidget();
+            return const PrincipalPage();
           }
         )
       );
@@ -51,12 +52,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       backgroundColor: Colors.white,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(40),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           child: ListView(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             children: [
-              Image.asset("assets/Icon-512.png",
-                scale: 2.0,
+              Image.asset("assets/app-logo.png"
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -67,7 +67,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Palette.shadesPrimary,
                         width: 4,
                       )
                     ),
@@ -91,7 +91,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
                       borderSide: BorderSide(
-                        color: Colors.blue,
+                        color: Palette.shadesPrimary,
                         width: 4,
                       )
                     ),
@@ -119,7 +119,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   },
                   style: TextButton.styleFrom(
                     fixedSize: const Size(double.maxFinite, 60),
-                    backgroundColor: Colors.blue
+                    backgroundColor: Palette.shadesPrimary,
                   ), 
                   child: const Text("Conectar", 
                     style: TextStyle(

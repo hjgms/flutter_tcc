@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 
 //view page
 import 'package:flutter_application_firebase/pages/HomePage.dart';
-import 'package:flutter_application_firebase/pages/PerfilPage.dart';
+import 'package:flutter_application_firebase/pages/ProfilePage.dart';
 import 'package:flutter_application_firebase/pages/SearchPage.dart';
-import 'package:flutter_application_firebase/pages/ConfigurePage.dart';
+import 'package:flutter_application_firebase/pages/settingsPage.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
+import 'package:flutter_application_firebase/palette.dart';
 
-class PrincipalWidget extends StatefulWidget {
-  const PrincipalWidget({super.key});
+class PrincipalPage extends StatefulWidget {
+  const PrincipalPage({super.key});
 
   @override
-  State<PrincipalWidget> createState() => _PrincipalWidgetState();
+  State<PrincipalPage> createState() => _PrincipalPageState();
 }
 
-class _PrincipalWidgetState extends State<PrincipalWidget> {
+class _PrincipalPageState extends State<PrincipalPage> {
 
   final PageController _pageController = PageController();
 
@@ -41,7 +42,7 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
         unselectedIconTheme: const IconThemeData(
           size: 28
         ),
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Palette.shadesPrimary,
         unselectedItemColor: Colors.black12,
         items: const [
           BottomNavigationBarItem(
@@ -81,10 +82,10 @@ class _PrincipalWidgetState extends State<PrincipalWidget> {
               controller: _pageController,
               onPageChanged: (index) => onPageChanged(index),
               children: const <Widget> [
-                HomePageView(),
-                SearchPageView(),
-                PerfilPageView(),
-                ConfigurePageView()
+                HomePage(),
+                SearchPage(),
+                ProfilePage(),
+                SettingsPage()
               ],
             );
           }else{

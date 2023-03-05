@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MensagePageView extends StatefulWidget {
-  const MensagePageView({super.key});
+class MessagePage extends StatefulWidget {
+  const MessagePage({super.key});
 
   @override
-  State<MensagePageView> createState() => _MensagePageViewState();
+  State<MessagePage> createState() => _MessagePageState();
 }
 
-class _MensagePageViewState extends State<MensagePageView> {
+class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

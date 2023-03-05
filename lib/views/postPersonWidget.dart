@@ -55,7 +55,7 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
             },
             child: Padding(
               padding: const EdgeInsets.all(1),
-              child: Image.asset(widget.imagePost)
+              // child: Image.asset(widget.imagePost)
             ),
           ),
           Padding(

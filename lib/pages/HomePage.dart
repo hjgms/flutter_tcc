@@ -2,23 +2,23 @@
 import 'package:flutter/material.dart';
 
 //page view
-import 'package:flutter_application_firebase/pages/MensagePage.dart';
+import 'package:flutter_application_firebase/pages/MessagePage.dart';
 import 'package:flutter_application_firebase/views/postPersonWidget.dart';
 
 
-class HomePageView extends StatefulWidget {
-  const HomePageView({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomePageView> createState() => _HomePageViewState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageViewState extends State<HomePageView> {
+class _HomePageState extends State<HomePage> {
 
   void mensage(){
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const MensagePageView()
+        builder: (context) => const MessagePage()
       )
     );
   }

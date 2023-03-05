@@ -1,55 +1,47 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/palette.dart';
+import 'package:flutter_application_firebase/views/customDropdownButton.dart';
+import 'package:flutter_application_firebase/views/customSwitch.dart';
+import 'package:flutter_application_firebase/views/searchButton.dart';
 
-class SearchPageView extends StatefulWidget {
-  const SearchPageView({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
   @override
-  State<SearchPageView> createState() => _SearchPageViewState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageViewState extends State<SearchPageView> {
+class _SearchPageState extends State<SearchPage> {
+  // <variaveis de teste>
+  bool switch1Val = false;
+  bool switch2Val = false;
+  var dropdownItems = ["Brasil", "Japão", "Portugal"];
+  String dropdownValue = "Brasil";
+  // </variaveis de teste>
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: ListView(children: [
-        Container(
-          height: 60,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 1,
-                spreadRadius: 10,
-                color: Colors.blue.shade400
-              )
-            ]
-          ),
-          child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                errorBorder: InputBorder.none,
-                suffixIcon:  IconButton(
-                  onPressed: (){
-                  }, 
-                  icon: const Icon(Icons.search,
-                    size: 25,
-                    color: Colors.black26,
-                  ),
-                ),
-                hintText: "Search",
-                hintStyle: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.black26
-                )
-              ),
-            ),  
-        )
-      ],),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: ListView(
+          children: [
+            const SearchButton(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomSwitch(title: "músicos", switchValue: switch1Val),
+                CustomSwitch(title: "empresas", switchValue: switch2Val),
+              ],
+            ),
+            CustomDropdownButton(
+              dropdownItems: dropdownItems,
+              dropdownValue: dropdownValue,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

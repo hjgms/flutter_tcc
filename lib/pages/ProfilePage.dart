@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 //view page
 // import '../../login/loginPage.dart';
 
-class PerfilPageView extends StatefulWidget {
-  const PerfilPageView({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<PerfilPageView> createState() => _PerfilPageViewState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _PerfilPageViewState extends State<PerfilPageView> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
