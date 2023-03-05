@@ -1,12 +1,12 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-
+ 
 //view
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
 import 'package:flutter_application_firebase/pages/loginPage.dart';
 import 'package:flutter_application_firebase/palette.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+ 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -66,4 +66,4 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-}
+} 
