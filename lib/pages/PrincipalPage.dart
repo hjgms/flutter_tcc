@@ -1,6 +1,4 @@
 // ignore: file_names
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 //view page
@@ -10,6 +8,7 @@ import 'package:flutter_application_firebase/pages/SearchPage.dart';
 import 'package:flutter_application_firebase/pages/settingsPage.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
 import 'package:flutter_application_firebase/palette.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PrincipalPage extends StatefulWidget {
   const PrincipalPage({super.key});
@@ -37,31 +36,43 @@ class _PrincipalPageState extends State<PrincipalPage> {
         showSelectedLabels: false,
         backgroundColor: Colors.transparent,
         selectedIconTheme: const IconThemeData(
-          size: 28
+          size: 20
         ),
         unselectedIconTheme: const IconThemeData(
-          size: 28
+          size: 20
         ),
         selectedItemColor: Palette.shadesPrimary,
         unselectedItemColor: Colors.black12,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
+            icon: SvgPicture.asset(
+              "../../assets/icons/casa.svg",
+              color: 0 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+            ),
             label: "",
             tooltip: "home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: SvgPicture.asset(
+              "../../assets/icons/procurar.svg",
+              color: 1 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+            ),
             label: "",
             tooltip: "search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: SvgPicture.asset(
+              "../../assets/icons/doutilizador.svg",
+              color: 2 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+            ),
             label: "",
             tooltip: "perfil",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: SvgPicture.asset(
+              "../../assets/icons/aplicativos.svg",
+              color: 3 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+            ),
             label: "",
             tooltip: "config",
           )

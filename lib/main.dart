@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_firebase/pages/HomePage.dart';
-import 'package:flutter_application_firebase/pages/loginPage.dart';
+import 'package:flutter_application_firebase/pages/PrincipalPage.dart';
 import 'config/firebase_options.dart';
 
 //view widget
-import 'pages/PrincipalPage.dart';
-
+import 'pages/LoginPage.dart';
 // colors
 import 'package:flutter_application_firebase/palette.dart';
 

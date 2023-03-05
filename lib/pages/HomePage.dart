@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //page view
 import 'package:flutter_application_firebase/pages/MessagePage.dart';
 import 'package:flutter_application_firebase/views/postPersonWidget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -27,10 +28,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: (){}, 
-          icon: const Icon(Icons.notifications)
-        ),
+        elevation: 2,
+        toolbarHeight: 70,
         title: const Text("Feed"),
         centerTitle: true,
         actions: [
@@ -40,7 +39,10 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.black
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            icon: const Icon(Icons.sms)
+            icon: SvgPicture.asset(
+              "../../assets/icons/comentarios.svg",
+              color: Colors.white,
+            )
           )
         ],
       ),

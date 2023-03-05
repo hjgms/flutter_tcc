@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
 import 'package:flutter_application_firebase/pages/loginPage.dart';
 import 'package:flutter_application_firebase/palette.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -31,7 +32,14 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("configurações"),
+        centerTitle: true,
+        toolbarHeight: 60,
+        title: const Text(
+          "Configurações",
+          style: TextStyle(
+            color: Colors.black26
+          ),
+        ),
         elevation: 0,
         actions: const [
           Icon(Icons.circle,color: Palette.shadesPrimary,)
