@@ -1,6 +1,4 @@
-# flutter_application_firebase
-
-A new Flutter project.
+# TCC ETEC - Flutter / Firebase
 
 ### Folder meanings
 
