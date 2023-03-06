@@ -28,3 +28,43 @@ usuariosGet(TextEditingController email,TextEditingController password, errorTex
   }
   return false;
 }
+
+//para testes ainda ....
+//get - global
+getdb(String? collection,String id) async{
+	var ID = "";
+	var from;
+	try{
+		ID = Number(id);
+	}catch{}
+	if(ID == ""){
+		from = FirebaseFirestore.instance.collection("${collection}").doc();	
+	}else{
+		from = FirebaseFirestore.instance.collection("${collection}").doc("${ID}");
+	}
+	await from.get().then((data){
+		return data.json();
+	}).catch((err){
+		print(err);
+		return false;
+	});
+}
+//post - global
+postdb(String? collection,String id,Map obj){
+	var ID = "";
+	var from;
+	try{
+		ID = Number(id);
+	}catch{}
+	if(ID == ""){
+		from = FirebaseFirestore.instance.collection("${collection}").doc();	
+	}else{
+		from = FirebaseFirestore.instance.collection("${collection}").doc("${ID}");
+	}
+	from.add(obj).then((){
+		return true;
+	}).catch((err){
+		print(err);
+		return false;
+	});
+}
