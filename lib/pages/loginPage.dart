@@ -1,155 +1,145 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_firebase/palette.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-//view widget
-import 'PrincipalPage.dart';
-import '../config/functionsback.dart';
-import '../config/globalvariables.dart' as globalvariables;
+import 'package:flutter_project/config/firebase/config.dart';
+import 'package:flutter_project/pages/inicial.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-  //variables
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? errorTextEmail;
-  String? errorTextPassword; 
+  var result;
 
-  //functions
-  test() async{
-    var resp = await usuariosGet(
-      emailController,
-      passwordController,
-      errorTextEmail,
-      errorTextPassword
+  jumpPage(){
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder:(context) {
+          return const InicialPage();
+        }, 
+      )
     );
-
-    if(resp){
-      setState(() {
-        globalvariables.logado = true;
-      });
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context){
-            return const PrincipalPage();
-          }
-        )
-      );
-    }
   }
 
-  //visual
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            children: [
-              Image.asset("assets/app-logo.png"
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    errorText: errorTextEmail,
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
-                        color: Palette.shadesPrimary,
-                        width: 4,
-                      )
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                        width: 4,
-                      )
-                    ),
-                    suffixIcon: Container(
-                      height: 20,
-                      width: 20,
-                      padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                      child: SvgPicture.asset(
-                        "../../assets/icons/envelope.svg",
-                      ),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  hintText: "Email",
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.black87,
+                      width: 2
                     )
                   ),
-                ),  
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    errorText: errorTextPassword,
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
-                      borderSide: BorderSide(
-                        color: Palette.shadesPrimary,
-                        width: 4,
-                      )
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                        width: 4,
-                      )
-                    ),
-                    suffixIcon:  Container(
-                      height: 20,
-                      width: 20,
-                      padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-                      child: SvgPicture.asset(
-                        "../../assets/icons/trancar.svg",
-                      ),
-                    ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.blueAccent,
+                      width: 2
+                    )
                   ),
-                  obscureText: true,
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                      width: 2
+                    )
+                  ),
+
+                  suffixIcon: Icon(Icons.email,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: GestureDetector(
-                  onTap:  () async{
-                    setState(() {
-                      errorTextEmail = null;
-                      errorTextPassword = null;
-                      test();
-                    });
-                  },
-                  child: Container(
-                    height: 55,
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                  child: const Text("Conectar", 
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  hintText: "Password",
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.black87,
+                      width: 2
+                    )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.blueAccent,
+                      width: 2
+                    )
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                      width: 2
+                    )
+                  ),
+
+                  suffixIcon: Icon(Icons.lock,
+                    color: Colors.black87,
+                  )
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  result = await loginAcount(emailController,passwordController);
+                  if(result == "user-not-found"){
+                    print("usuario nao encontrado");
+                  }else if(result == "wrong-password"){
+                    print("email ou senha incorretos");
+                  }else if(result == "sucess"){
+                    print("sucess");
+                    jumpPage();
+                  }
+                }, 
+                child: Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)
+                    )
+                  ),
+                  child: const Text("Entrar",
                     style: TextStyle(
-                      color: Colors.white
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20
                     ),
                   ),
-                ), 
-              ))
+                )
+              )
             ],
-          ), 
+          ),
         )
-      ),
+      )
     );
   }
 }
