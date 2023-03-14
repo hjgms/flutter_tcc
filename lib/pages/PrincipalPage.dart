@@ -100,11 +100,13 @@ class _PrincipalPageState extends State<PrincipalPage> {
               ],
             );
           }else{
-            level = const Center(
+            level = Center(
               child: SizedBox(
                 width: 60,
                 height: 60,
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Palette.shadesPrimary.shade200,
+                ),
               ),
             );
           }

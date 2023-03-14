@@ -18,7 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   var result;
 
   jumpPage(){
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder:(context) {
           return const PrincipalPage();

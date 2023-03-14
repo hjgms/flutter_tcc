@@ -12,13 +12,13 @@ class _MessagePageState extends State<MessagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.blue.shade50,
+        elevation: 2,
+        backgroundColor: Colors.black87,
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back,color:Colors.black26),
+          icon: const Icon(Icons.arrow_back,color:Colors.white),
         ),
       ),
       body: Column(
