@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 
 //create acout for new user
 createAcount(emailAddress,password) async{
@@ -30,10 +33,11 @@ loginAcount(TextEditingController emailAddress,TextEditingController password) a
     };
     result = "sucess";
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print("error");
+    print(e.code);
+    if (e.code == 'invalid-email') {
+      return "invalid-email";
     } else if (e.code == 'wrong-password') {
-      print("error");
+      return "wrong-password";
     }
     result = e.code;
   }

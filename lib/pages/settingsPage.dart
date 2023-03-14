@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
  
 //view
-import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 import 'package:flutter_application_firebase/pages/loginPage.dart';
-import 'package:flutter_application_firebase/palette.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_application_firebase/config/functionsback.dart';
  
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -16,53 +15,41 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  logout(){
-    setState(() {
-      globalvariables.logado = false;
-      globalvariables.pageIndex = 0;
-    });
-    Navigator.of(context).pop();
-    Navigator.of(context).push(MaterialPageRoute(builder:(context){
-      return const LoginPage();
-    }));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black87,
         centerTitle: true,
-        toolbarHeight: 60,
+        toolbarHeight: 70,
         title: const Text(
           "Configurações",
           style: TextStyle(
-            color: Colors.black26
+            color: Colors.white
           ),
         ),
-        elevation: 0,
-        actions: const [
-          Icon(Icons.circle,color: Palette.shadesPrimary,)
-        ],
-      ),  
-      body: Column(
-        children: [
-          TextButton(
-            style: TextButton.styleFrom(
-              fixedSize: const Size.fromHeight(50)
+        actions: [
+          GestureDetector(
+            onTap: () async{
+              await signoutAcount();
+              global.authentication = false;
+              global.pageIndex = 0;
+              Navigator.of(context).push(MaterialPageRoute(builder:(context){
+                return const LoginPage();
+              }));
+            },
+            child: Container(
+              height: 50,
+              width: 50,
+              margin: const EdgeInsets.all(10),
+              child: const Icon(Icons.logout),
             ),
-            onPressed: (){
-              logout();
-            }, 
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Text("logout"),
-                Icon(Icons.logout)
-              ],
-            )
           )
         ],
+        elevation: 2
+      ),  
+      body: Column(
+        children: const [],
       ),
     );
   }

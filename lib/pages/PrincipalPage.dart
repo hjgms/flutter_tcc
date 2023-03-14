@@ -47,7 +47,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "../../assets/icons/casa.svg",
-              color: 0 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+              color: 0 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
             ),
             label: "",
             tooltip: "home",
@@ -55,7 +55,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "../../assets/icons/procurar.svg",
-              color: 1 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+              color: 1 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
             ),
             label: "",
             tooltip: "search",
@@ -63,7 +63,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "../../assets/icons/doutilizador.svg",
-              color: 2 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+              color: 2 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
             ),
             label: "",
             tooltip: "perfil",
@@ -71,7 +71,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
               "../../assets/icons/aplicativos.svg",
-              color: 3 != globalvariables.pageIndex ? Colors.black26 : Colors.blue,
+              color: 3 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
             ),
             label: "",
             tooltip: "config",

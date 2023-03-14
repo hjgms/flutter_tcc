@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/config/firebase/config.dart';
-import 'package:flutter_project/pages/inicial.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_firebase/pages/PrincipalPage.dart';
+import 'package:flutter_application_firebase/config/functionsback.dart';
+import 'package:flutter_application_firebase/palette.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,13 +13,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String? passwordError = null;
+  String? emailError = null;
   var result;
 
   jumpPage(){
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder:(context) {
-          return const InicialPage();
+          return const PrincipalPage();
         }, 
       )
     );
@@ -36,9 +38,10 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextField(
                 controller: emailController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  errorText: emailError,
                   hintText: "Email",
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
                       color: Colors.black87,
@@ -46,13 +49,20 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Colors.blueAccent,
+                      color: Palette.shadesPrimary.shade200,
                       width: 2
                     )
                   ),
-                  errorBorder: OutlineInputBorder(
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                      width: 2
+                    )
+                  ),
+                  errorBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
                       color: Colors.red,
@@ -60,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
 
-                  suffixIcon: Icon(Icons.email,
+                  suffixIcon: const Icon(Icons.email,
                     color: Colors.black87,
                   ),
                 ),
@@ -70,9 +80,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextField(
                 controller: passwordController,
-                decoration: const InputDecoration(
+                obscureText: true,
+                decoration: InputDecoration(
+                  errorText: passwordError,
                   hintText: "Password",
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
                       color: Colors.black87,
@@ -80,13 +92,20 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Colors.blueAccent,
+                      color: Palette.shadesPrimary.shade200,
                       width: 2
                     )
                   ),
-                  errorBorder: OutlineInputBorder(
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                      width: 2
+                    )
+                  ),
+                  errorBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
                       color: Colors.red,
@@ -94,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
 
-                  suffixIcon: Icon(Icons.lock,
+                  suffixIcon: const Icon(Icons.lock,
                     color: Colors.black87,
                   )
                 ),
@@ -104,15 +123,23 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () async {
+                  setState(() {
+                    emailError = null;
+                    passwordError = null;
+                  });  
                   result = await loginAcount(emailController,passwordController);
-                  if(result == "user-not-found"){
-                    print("usuario nao encontrado");
+                  if(result == "invalid-email"){
+                    setState(() {
+                      emailError = "invalid-email";
+                    });
                   }else if(result == "wrong-password"){
-                    print("email ou senha incorretos");
+                    setState(() {
+                      passwordError = "wrong-password";
+                    });
                   }else if(result == "sucess"){
-                    print("sucess");
                     jumpPage();
                   }
+                  
                 }, 
                 child: Container(
                   height: 50,

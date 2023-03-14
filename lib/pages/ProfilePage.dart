@@ -16,6 +16,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black87,
+        toolbarHeight: 70,
         actions: const [
           // IconButton(
           //   onPressed: (){
