@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/pages/PrincipalPage.dart';
 import 'package:flutter_application_firebase/config/functionsback.dart';
-import 'package:flutter_application_firebase/palette.dart';
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,9 +13,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? passwordError = null;
-  String? emailError = null;
-  var result;
+  String? passwordError;
+  String? emailError;
+  String? result;
+  bool _obscureText = true;
+  bool? _selectedText1 = false;
+  bool? _selectedText2 = false;
 
   jumpPage(){
     Navigator.of(context).pop();
@@ -26,6 +29,33 @@ class _LoginPageState extends State<LoginPage> {
         }, 
       )
     );
+  }
+
+  login() async {
+    result = await loginAcount(emailController,passwordController);
+    if(result == "invalid-email"){
+      setState(() {
+        emailError = "invalid-email";
+      });
+    }else if(result == "wrong-password"){
+      setState(() {
+        passwordError = "wrong-password";
+      });
+    }else if(result == "sucess"){
+      jumpPage();
+    }
+  }
+
+  selected(selected){
+    if(selected == 1){
+      setState(() {
+         _selectedText1 == false? _selectedText1 = true : _selectedText1 = false;
+      });
+    }else if(selected == 2){
+      setState(() {
+         _selectedText2 == false? _selectedText2 = true : _selectedText2 = false;
+      });
+    }
   }
 
   @override
@@ -39,6 +69,9 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextField(
                 controller: emailController,
+                cursorColor: global.cor,
+                onTap: selected(1),
+                onTapOutside: selected(1),
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: "Email",
@@ -52,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Palette.shadesPrimary.shade200,
+                      color: global.cor,
                       width: 2
                     )
                   ),
@@ -70,9 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                       width: 2
                     )
                   ),
-
-                  suffixIcon: const Icon(Icons.email,
-                    color: Colors.black87,
+                  suffixIcon: Icon(Icons.email_outlined,
+                    color: _selectedText1 == false? Colors.black87 : global.cor,
                   ),
                 ),
               ),
@@ -81,7 +113,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: _obscureText,
+                cursorColor: global.cor,
+                onTap: selected(2),
+                onTapOutside: selected(2),
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: "Password",
@@ -95,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Palette.shadesPrimary.shade200,
+                      color: global.cor,
                       width: 2
                     )
                   ),
@@ -113,9 +148,17 @@ class _LoginPageState extends State<LoginPage> {
                       width: 2
                     )
                   ),
-
-                  suffixIcon: const Icon(Icons.lock,
-                    color: Colors.black87,
+                  suffixIcon: IconButton(
+                    onPressed: () => setState(() {
+                      _obscureText == true? _obscureText = false : _obscureText = true;
+                    }),
+                    icon: _obscureText == true? 
+                    Icon(Icons.lock_outline,
+                      color: _selectedText2 == false? Colors.black87 : global.cor,
+                    ) :
+                    Icon(Icons.lock_open,
+                      color: _selectedText2 == false? Colors.black87 : global.cor,
+                    ),
                   )
                 ),
               ),
@@ -123,25 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 30,
               ),
               GestureDetector(
-                onTap: () async {
-                  setState(() {
-                    emailError = null;
-                    passwordError = null;
-                  });  
-                  result = await loginAcount(emailController,passwordController);
-                  if(result == "invalid-email"){
-                    setState(() {
-                      emailError = "invalid-email";
-                    });
-                  }else if(result == "wrong-password"){
-                    setState(() {
-                      passwordError = "wrong-password";
-                    });
-                  }else if(result == "sucess"){
-                    jumpPage();
-                  }
-                  
-                }, 
+                onTap: login, 
                 child: Container(
                   height: 50,
                   width: double.maxFinite,

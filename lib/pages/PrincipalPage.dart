@@ -1,14 +1,13 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/config/functionsback.dart';
 
 //view page
 import 'package:flutter_application_firebase/pages/HomePage.dart';
 import 'package:flutter_application_firebase/pages/ProfilePage.dart';
 import 'package:flutter_application_firebase/pages/SearchPage.dart';
 import 'package:flutter_application_firebase/pages/settingsPage.dart';
-import 'package:flutter_application_firebase/config/globalvariables.dart' as globalvariables;
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 import 'package:flutter_application_firebase/palette.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PrincipalPage extends StatefulWidget {
   const PrincipalPage({super.key});
@@ -23,7 +22,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
 
   void onPageChanged(int page) {
     setState(() {
-      globalvariables.pageIndex = page;
+      global.pageIndex = page;
       _pageController.jumpToPage(page);
     });
   }
@@ -41,54 +40,39 @@ class _PrincipalPageState extends State<PrincipalPage> {
         unselectedIconTheme: const IconThemeData(
           size: 20
         ),
-        selectedItemColor: Palette.shadesPrimary,
+        selectedItemColor: global.cor,
         unselectedItemColor: Colors.black12,
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "../../assets/icons/casa.svg",
-              color: 0 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
-            ),
+            icon: Icon(Icons.home_filled),
             label: "",
             tooltip: "home",
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "../../assets/icons/procurar.svg",
-              color: 1 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
-            ),
+            icon: Icon(Icons.search_rounded),
             label: "",
             tooltip: "search",
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "../../assets/icons/doutilizador.svg",
-              color: 2 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
-            ),
+            icon: Icon(Icons.person),
             label: "",
             tooltip: "perfil",
           ),
           BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "../../assets/icons/aplicativos.svg",
-              color: 3 != globalvariables.pageIndex ? Colors.black26 : Palette.shadesPrimary.shade200,
-            ),
+            icon: Icon(Icons.settings),
             label: "",
             tooltip: "config",
           )
         ],
-        currentIndex: globalvariables.pageIndex,
+        currentIndex: global.pageIndex,
         onTap: (page) => onPageChanged(page),
       ),
       body: FutureBuilder<String>(
-        future: Future<String>.delayed(
-          const Duration(seconds: 1),
-          () => 'dwad',
-        ),
+        future: Future(() => getUser()),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           Widget level = Container();
           
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data == "sucess") {
             level = PageView(
               controller: _pageController,
               onPageChanged: (index) => onPageChanged(index),
@@ -99,13 +83,17 @@ class _PrincipalPageState extends State<PrincipalPage> {
                 SettingsPage()
               ],
             );
+          }else if(snapshot.hasError){
+            level = const Center(
+              child: Text("Usuario não ancontrado")
+            );
           }else{
             level = Center(
               child: SizedBox(
                 width: 60,
                 height: 60,
                 child: CircularProgressIndicator(
-                  color: Palette.shadesPrimary.shade200,
+                  color: global.cor,
                 ),
               ),
             );

@@ -1,5 +1,4 @@
-import 'dart:html';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
@@ -19,7 +18,7 @@ createAcount(emailAddress,password) async{
 }
 //test for login user
 loginAcount(TextEditingController emailAddress,TextEditingController password) async{
-  var result;
+  String? result;
   try {
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailAddress.text,
@@ -33,17 +32,30 @@ loginAcount(TextEditingController emailAddress,TextEditingController password) a
     };
     result = "sucess";
   } on FirebaseAuthException catch (e) {
-    print(e.code);
     if (e.code == 'invalid-email') {
-      return "invalid-email";
+      return e.code;
     } else if (e.code == 'wrong-password') {
-      return "wrong-password";
+      return e.code;
     }
-    result = e.code;
   }
   return result;
 }
 //sign out user
 signoutAcount() async{
   await FirebaseAuth.instance.signOut();
+}
+
+getUser() async {
+  await FirebaseFirestore.instance.collection("user")
+    .doc(global.credentialUser["user"].uid)
+    .get()
+    .then((value){
+      global.user["name"] = value["nome"];
+      global.user["lastname"] = value["sobrenome"];
+      global.user["perfilimageurl"] = value["fotoperfil"];
+      return "sucess";
+    }).catchError((err){
+      print(err);
+      return err; 
+    });
 }
