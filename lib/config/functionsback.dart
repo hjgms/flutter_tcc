@@ -27,7 +27,7 @@ loginAcount(TextEditingController emailAddress,TextEditingController password) a
     global.authentication = true;
     global.credentialUser = {
       "login": true,
-      "user": credential.user,
+      "user": credential.user?.uid,
       "info": credential.additionalUserInfo
     };
     result = "sucess";
@@ -45,17 +45,12 @@ signoutAcount() async{
   await FirebaseAuth.instance.signOut();
 }
 
-getUser() async {
-  await FirebaseFirestore.instance.collection("user")
-    .doc(global.credentialUser["user"].uid)
-    .get()
-    .then((value){
-      global.user["name"] = value["nome"];
-      global.user["lastname"] = value["sobrenome"];
-      global.user["perfilimageurl"] = value["fotoperfil"];
-      return "sucess";
-    }).catchError((err){
-      print(err);
-      return err; 
-    });
+getUser(){
+  final reference = FirebaseFirestore.instance.collection("usuarios");
+  reference.doc(global.user["user"]).get().then((value){
+    print("${value.data()}");
+    final resp = value.data();
+    global.user["nome"] = resp?["name"]; 
+    return "sucess";
+  });
 }

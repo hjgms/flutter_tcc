@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/config/functionsback.dart';
 
@@ -67,13 +68,18 @@ class _PrincipalPageState extends State<PrincipalPage> {
         currentIndex: global.pageIndex,
         onTap: (page) => onPageChanged(page),
       ),
-      body: FutureBuilder<String>(
-        future: Future(() => getUser()),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          Widget level = Container();
-          
-          if (snapshot.hasData && snapshot.data == "sucess") {
-            level = PageView(
+      body: FutureBuilder<DocumentSnapshot>(
+        future: getUser(),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("usuario não encontrado"),
+            );
+          }
+
+          if (snapshot.hasData) {
+            return PageView(
               controller: _pageController,
               onPageChanged: (index) => onPageChanged(index),
               children: const <Widget> [
@@ -83,22 +89,13 @@ class _PrincipalPageState extends State<PrincipalPage> {
                 SettingsPage()
               ],
             );
-          }else if(snapshot.hasError){
-            level = const Center(
-              child: Text("Usuario não ancontrado")
-            );
-          }else{
-            level = Center(
-              child: SizedBox(
-                width: 60,
-                height: 60,
-                child: CircularProgressIndicator(
-                  color: global.cor,
-                ),
-              ),
-            );
           }
-          return level;
+
+          return Center(
+            child: CircularProgressIndicator(
+              color: global.cor,
+            )
+          );
         },
       )
     );

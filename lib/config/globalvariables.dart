@@ -13,4 +13,4 @@ Map user = {
   "lastname":"",
   "perfilimageurl":""
 };
-Color cor = Colors.blueAccent.shade700;
+Color cor = Color.fromARGB(255, 236, 61, 22);
