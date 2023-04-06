@@ -1,26 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_firebase/config/functionsback.dart';
 
-//view page
-import 'package:flutter_application_firebase/pages/HomePage.dart';
-import 'package:flutter_application_firebase/pages/ProfilePage.dart';
-import 'package:flutter_application_firebase/pages/SearchPage.dart';
-import 'package:flutter_application_firebase/pages/settingsPage.dart';
+//firebase
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
+
+//configs
 import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
-import 'package:flutter_application_firebase/palette.dart';
+import 'package:flutter_application_firebase/config/palette.dart';
 
-class PrincipalPage extends StatefulWidget {
-  const PrincipalPage({super.key});
+//pages
+import 'package:flutter_application_firebase/pages/homePage.dart';
+import 'package:flutter_application_firebase/pages/profilePage.dart';
+import 'package:flutter_application_firebase/pages/searchPage.dart';
+import 'package:flutter_application_firebase/pages/settingsPage.dart';
+
+class ProviderPage extends StatefulWidget {
+  const ProviderPage({super.key});
 
   @override
-  State<PrincipalPage> createState() => _PrincipalPageState();
+  State<ProviderPage> createState() => _ProviderPageState();
 }
 
-class _PrincipalPageState extends State<PrincipalPage> {
-
+class _ProviderPageState extends State<ProviderPage> {
   final PageController _pageController = PageController();
 
+  //move inside pages
   void onPageChanged(int page) {
     setState(() {
       global.pageIndex = page;
@@ -32,17 +36,6 @@ class _PrincipalPageState extends State<PrincipalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        backgroundColor: Colors.transparent,
-        selectedIconTheme: const IconThemeData(
-          size: 20
-        ),
-        unselectedIconTheme: const IconThemeData(
-          size: 20
-        ),
-        selectedItemColor: global.cor,
-        unselectedItemColor: Colors.black12,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
@@ -65,19 +58,31 @@ class _PrincipalPageState extends State<PrincipalPage> {
             tooltip: "config",
           )
         ],
+
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        selectedIconTheme: const IconThemeData(
+          size: 20
+        ),
+        unselectedIconTheme: const IconThemeData(
+          size: 20
+        ),
+        selectedItemColor: global.cor,
+        unselectedItemColor: Colors.black12,
+        backgroundColor: Colors.transparent,
+
         currentIndex: global.pageIndex,
         onTap: (page) => onPageChanged(page),
       ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: getUser(),
+        future: getUser(global.credentialUser["user"].uid),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
           if (snapshot.hasError) {
-            return Center(
-              child: Text("usuario não encontrado"),
+            return const Center(
+              child: Text("Probelmas no sistema"),
             );
           }
-
+          
           if (snapshot.hasData) {
             return PageView(
               controller: _pageController,

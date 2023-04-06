@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_firebase/pages/PrincipalPage.dart';
-import 'package:flutter_application_firebase/config/functionsback.dart';
-import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
+
+//firebase
+import 'package:flutter_application_firebase/data/functions.dart';
+
+//configs
+import 'package:flutter_application_firebase/config/globalVariables.dart' as global;
+
+//pages
+import 'package:flutter_application_firebase/pages/providerPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,49 +17,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //input
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  //returns errors
   String? passwordError;
   String? emailError;
   String? result;
-  bool _obscureText = true;
-  bool? _selectedText1 = false;
-  bool? _selectedText2 = false;
 
-  jumpPage(){
+  //password view
+  bool _obscureText = true;
+
+  //transition navbar pages
+  jumpProviderPage(){
     Navigator.of(context).pop();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder:(context) {
-          return const PrincipalPage();
+          return const ProviderPage();
         }, 
       )
     );
   }
 
+  //login test
   login() async {
+    emailError = null;
+    passwordError = null;
     result = await loginAcount(emailController,passwordController);
-    if(result == "invalid-email"){
+    if(result == "sucess"){
+      jumpProviderPage();
+    }else if(result == "invalid-email"){
       setState(() {
-        emailError = "invalid-email";
+        emailError = "Email invalido!";
       });
     }else if(result == "wrong-password"){
       setState(() {
-        passwordError = "wrong-password";
-      });
-    }else if(result == "sucess"){
-      jumpPage();
-    }
-  }
-
-  selected(selected){
-    if(selected == 1){
-      setState(() {
-         _selectedText1 == false? _selectedText1 = true : _selectedText1 = false;
-      });
-    }else if(selected == 2){
-      setState(() {
-         _selectedText2 == false? _selectedText2 = true : _selectedText2 = false;
+        passwordError = "Senha incorreta!";
       });
     }
   }
@@ -70,8 +71,6 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 controller: emailController,
                 cursorColor: global.cor,
-                onTap: selected(1),
-                onTapOutside: selected(1),
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: "Email",
@@ -103,8 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 2
                     )
                   ),
-                  suffixIcon: Icon(Icons.email_outlined,
-                    color: _selectedText1 == false? Colors.black87 : global.cor,
+                  suffixIcon: const Icon(
+                    Icons.email_outlined,
+                    color:Colors.black87,
                   ),
                 ),
               ),
@@ -115,8 +115,6 @@ class _LoginPageState extends State<LoginPage> {
                 controller: passwordController,
                 obscureText: _obscureText,
                 cursorColor: global.cor,
-                onTap: selected(2),
-                onTapOutside: selected(2),
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: "Password",
@@ -153,11 +151,11 @@ class _LoginPageState extends State<LoginPage> {
                       _obscureText == true? _obscureText = false : _obscureText = true;
                     }),
                     icon: _obscureText == true? 
-                    Icon(Icons.lock_outline,
-                      color: _selectedText2 == false? Colors.black87 : global.cor,
+                    const Icon(Icons.lock_outline,
+                      color: Colors.black87,
                     ) :
-                    Icon(Icons.lock_open,
-                      color: _selectedText2 == false? Colors.black87 : global.cor,
+                    const Icon(Icons.lock_open,
+                      color: Colors.black87,
                     ),
                   )
                 ),
@@ -173,12 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color: Colors.black87,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)
-                    )
+                    borderRadius: BorderRadius.all(Radius.circular(20))
                   ),
                   child: const Text("Entrar",
                     style: TextStyle(

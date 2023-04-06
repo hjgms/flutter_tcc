@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_application_firebase/palette.dart';
+
+import 'package:flutter_application_firebase/config/palette.dart';
 
 class SearchButton extends StatefulWidget {
   const SearchButton({super.key});

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+
+//firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_application_firebase/pages/HomePage.dart';
-import 'package:flutter_application_firebase/pages/PrincipalPage.dart';
-import 'config/firebase_options.dart';
+import 'package:flutter_application_firebase/data/firebase/firebase_options.dart';
 
-//view widget
-import 'pages/LoginPage.dart';
-// colors
-import 'package:flutter_application_firebase/palette.dart';
+//configs
+import 'package:flutter_application_firebase/config/globalVariables.dart' as global;
 
+//pages
+import 'package:flutter_application_firebase/pages/loginPage.dart';
+import 'package:flutter_application_firebase/pages/providerPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +24,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: const MyHomePage());
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyHomePage()
+    );
   }
 }
 
@@ -39,6 +41,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const LoginPage();
+    return global.credentialUser["authentication"]? const ProviderPage() : const LoginPage();
   }
 }

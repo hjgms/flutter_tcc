@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 //page view
 import 'package:flutter_application_firebase/pages/MessagePage.dart';
-import 'package:flutter_application_firebase/views/postPersonWidget.dart';
+import 'package:flutter_application_firebase/components/postPersonWidget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 

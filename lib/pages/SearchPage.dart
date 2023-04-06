@@ -1,9 +1,9 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_firebase/palette.dart';
-import 'package:flutter_application_firebase/views/customDropdownButton.dart';
-import 'package:flutter_application_firebase/views/customSwitch.dart';
-import 'package:flutter_application_firebase/views/searchButton.dart';
+import 'package:flutter_application_firebase/config/palette.dart';
+import 'package:flutter_application_firebase/components/customDropdownButton.dart';
+import 'package:flutter_application_firebase/components/customSwitch.dart';
+import 'package:flutter_application_firebase/components/searchButton.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
