@@ -2,17 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class PostPersonWidget extends StatefulWidget {
+class PostHomeWidget extends StatefulWidget {
   String nameAuthor ="Rodrigo dela cruz";
   String contentPost ="Meu mundo";
-  String imagePost = "../../assets/image_post1.jpg";
-  PostPersonWidget({super.key, required String nameAuthor,required String contentPost, imagePost});
+  Widget imagePost = const Placeholder();
+  PostHomeWidget({super.key, required String nameAuthor,required String contentPost, imagePost});
 
   @override
-  State<PostPersonWidget> createState() => _PostPersonWidgetState();
+  State<PostHomeWidget> createState() => _PostHomeWidgetState();
 }
 
-class _PostPersonWidgetState extends State<PostPersonWidget> {
+class _PostHomeWidgetState extends State<PostHomeWidget> {
   var _liked = false;
 
   @override
@@ -35,12 +35,9 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                  child: SvgPicture.asset(
-                    "../../assets/icons/doutilizador.svg",
-                    color: Colors.black26,
-                  ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  child: Icon(Icons.person)
                 ),
                 Text(widget.nameAuthor,
                   style: const TextStyle(
@@ -62,7 +59,7 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
             },
             child: Padding(
               padding: const EdgeInsets.all(1),
-              // child: Image.asset(widget.imagePost)
+              child: widget.imagePost
             ),
           ),
           Padding(
@@ -79,8 +76,8 @@ class _PostPersonWidgetState extends State<PostPersonWidget> {
                       }
                     });
                   }, 
-                  icon: SvgPicture.asset(
-                    "../../assets/icons/${_liked == true? "coracaocheio":"coracao"}.svg",
+                  icon: Icon(
+                    Icons.person,
                     color: _liked == true? Colors.red.shade400 : Colors.black26
                   ),
                 ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 //page view
 import 'package:flutter_application_firebase/pages/MessagePage.dart';
-import 'package:flutter_application_firebase/components/postPersonWidget.dart';
+import 'package:flutter_application_firebase/components/postHomeWidget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
@@ -28,40 +28,61 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
-        elevation: 2,
-        toolbarHeight: 70,
-        title: const Text("Feed"),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: mensage, 
-            style: IconButton.styleFrom(
-              backgroundColor: Colors.black
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            icon: SvgPicture.asset(
-              "../../assets/icons/comentarios.svg",
-              color: Colors.white,
-            )
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 80,
+        title:  Container(
+          height: 60,
+          width: double.maxFinite,
+          margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.black87
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // notification
+              GestureDetector(
+                onTap: (){},
+                child: Container(
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.notifications_none),
+                ),
+              ),
+              // title
+              const Text("feed"),
+              // mensages
+              GestureDetector(
+                onTap: (){},
+                child: Container(
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.messenger_outline_rounded),
+                ),
+              ),
+            ],
           )
-        ],
+        ),
+        centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 40),
         children: [
-          PostPersonWidget(
-            contentPost: "content",
-            nameAuthor: "author",
-          ),
-          PostPersonWidget(
-            contentPost: "content",
-            nameAuthor: "author",
-          ),
-          PostPersonWidget(
-            contentPost: "content",
-            nameAuthor: "author",
-          )
+          // PostHomeWidget(
+          //   contentPost: "content",
+          //   nameAuthor: "author",
+          // ),
+          // PostHomeWidget(
+          //   contentPost: "content",
+          //   nameAuthor: "author",
+          // ),
+          // PostHomeWidget(
+          //   contentPost: "content",
+          //   nameAuthor: "author",
+          // )
         ],
       ),
     );

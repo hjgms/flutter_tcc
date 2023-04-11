@@ -11,9 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 FirebaseFirestore dataBase = FirebaseFirestore.instance;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-
-//create acout for new user
-createAcount(emailAddress,password) async{
+//create account for new user
+createAccount(emailAddress,password) async{
   String? result;
   try {
     final credential = await firebaseAuth.createUserWithEmailAndPassword(
@@ -31,7 +30,7 @@ createAcount(emailAddress,password) async{
 }
 
 //test for login user
-loginAcount(TextEditingController emailAddress,TextEditingController password) async{
+loginAccount(TextEditingController emailAddress,TextEditingController password) async{
   String? result;
   try {
     final credential = await firebaseAuth.signInWithEmailAndPassword(
@@ -57,22 +56,21 @@ loginAcount(TextEditingController emailAddress,TextEditingController password) a
 }
 
 //sign out user
-signoutAcount() async{
+signoutAccount() async{
   await firebaseAuth.signOut();
 }
 
-getUser(uid){
+getUser(uid) async{
   try{
-    dataBase.collection("users").doc(uid).get().then((value){
+    await dataBase.collection("users").doc(uid).get().then((value){
       final resp = value.data();
       
       global.user = {
         "name": resp?["name"],
         "lastname": resp?["lastname"]
-      };
-
-      return "sucess";
+      };  
     });
+    return "sucess";
   }catch(e){
     return e;
   }

@@ -34,57 +34,72 @@ class _ProviderPageState extends State<ProviderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
-            label: "",
-            tooltip: "home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search_rounded),
-            label: "",
-            tooltip: "search",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "",
-            tooltip: "perfil",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "",
-            tooltip: "config",
-          )
-        ],
+    return FutureBuilder(
+      future: getUser(global.credentialUser["user"].uid),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text("Problemas no sistema"),
+          );
+        }
+        
+        if (snapshot.hasData) {
+          return Scaffold(
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.only(
+                  topLeft:Radius.circular(30),
+                  topRight: Radius.circular(30)
+                )
+              ),
+              padding: const EdgeInsets.all(10),
+              child: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home_filled),
+                    label: "",
+                    tooltip: "home",
+                    backgroundColor: Colors.transparent,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search_rounded),
+                    label: "",
+                    tooltip: "search",
+                    backgroundColor: Colors.transparent,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: "",
+                    tooltip: "perfil",
+                    backgroundColor: Colors.transparent,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: "",
+                    tooltip: "config",
+                    backgroundColor: Colors.transparent,
+                  )
+                ],
 
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        selectedIconTheme: const IconThemeData(
-          size: 20
-        ),
-        unselectedIconTheme: const IconThemeData(
-          size: 20
-        ),
-        selectedItemColor: global.cor,
-        unselectedItemColor: Colors.black12,
-        backgroundColor: Colors.transparent,
-
-        currentIndex: global.pageIndex,
-        onTap: (page) => onPageChanged(page),
-      ),
-      body: FutureBuilder<DocumentSnapshot>(
-        future: getUser(global.credentialUser["user"].uid),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text("Probelmas no sistema"),
-            );
-          }
-          
-          if (snapshot.hasData) {
-            return PageView(
+                showUnselectedLabels: false,
+                showSelectedLabels: false,
+                selectedIconTheme: const IconThemeData(
+                  size: 24
+                ),
+                unselectedIconTheme: const IconThemeData(
+                  size: 24
+                ),
+                selectedItemColor: global.cor,
+                unselectedItemColor: Colors.white60,
+                backgroundColor: Colors.transparent,
+                currentIndex: global.pageIndex,
+                elevation: 0,
+                landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+                onTap: (page) => onPageChanged(page),
+              ),
+            ),
+            body: PageView(
               controller: _pageController,
               onPageChanged: (index) => onPageChanged(index),
               children: const <Widget> [
@@ -93,16 +108,16 @@ class _ProviderPageState extends State<ProviderPage> {
                 ProfilePage(),
                 SettingsPage()
               ],
-            );
-          }
-
-          return Center(
-            child: CircularProgressIndicator(
-              color: global.cor,
-            )
+            ) 
           );
-        },
-      )
+        }
+
+        return Center(
+          child: CircularProgressIndicator(
+            color: global.cor,
+          )
+        );
+      },
     );
   }
 }

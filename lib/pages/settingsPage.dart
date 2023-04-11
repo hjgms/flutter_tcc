@@ -31,10 +31,10 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           GestureDetector(
             onTap: () async{
-              await signoutAcount();
+              await signoutAccount();
               global.credentialUser["autentication"] = false;
               global.pageIndex = 0;
-              Navigator.of(context).push(MaterialPageRoute(builder:(context){
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context){
                 return const LoginPage();
               }));
             },

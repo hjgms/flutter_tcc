@@ -31,8 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //transition navbar pages
   jumpProviderPage(){
-    Navigator.of(context).pop();
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder:(context) {
           return const ProviderPage();
@@ -45,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   login() async {
     emailError = null;
     passwordError = null;
-    result = await loginAcount(emailController,passwordController);
+    result = await loginAccount(emailController,passwordController);
     if(result == "sucess"){
       jumpProviderPage();
     }else if(result == "invalid-email"){
