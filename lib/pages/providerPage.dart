@@ -47,41 +47,40 @@ class _ProviderPageState extends State<ProviderPage> {
           return Scaffold(
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.only(
-                  topLeft:Radius.circular(30),
-                  topRight: Radius.circular(30)
+                border: Border(
+                  top: BorderSide(
+                    color: global.colorTheme["color3"] as Color,
+                    width: 1
+                  )
                 )
               ),
-              padding: const EdgeInsets.all(10),
               child: BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_filled),
+                    activeIcon: Icon(Icons.home_filled),
                     label: "",
-                    tooltip: "home",
-                    backgroundColor: Colors.transparent,
+                    tooltip: "Home",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.search_rounded),
+                    activeIcon: Icon(Icons.search_rounded),
                     label: "",
-                    tooltip: "search",
-                    backgroundColor: Colors.transparent,
+                    tooltip: "Search",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person),
+                    activeIcon: Icon(Icons.person),
                     label: "",
-                    tooltip: "perfil",
-                    backgroundColor: Colors.transparent,
+                    tooltip: "Perfil",
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
+                    icon: Icon(Icons.settings_sharp),
+                    activeIcon: Icon(Icons.settings_sharp),
                     label: "",
-                    tooltip: "config",
-                    backgroundColor: Colors.transparent,
+                    tooltip: "Config",
                   )
                 ],
-
                 showUnselectedLabels: false,
                 showSelectedLabels: false,
                 selectedIconTheme: const IconThemeData(
@@ -90,14 +89,13 @@ class _ProviderPageState extends State<ProviderPage> {
                 unselectedIconTheme: const IconThemeData(
                   size: 24
                 ),
-                selectedItemColor: global.cor,
-                unselectedItemColor: Colors.white60,
-                backgroundColor: Colors.transparent,
+                selectedItemColor: global.colorTheme["color1"],
+                unselectedItemColor: global.colorTheme["color3"],
+                backgroundColor: global.colorTheme["color5"],
                 currentIndex: global.pageIndex,
                 elevation: 0,
-                landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
                 onTap: (page) => onPageChanged(page),
-              ),
+              )
             ),
             body: PageView(
               controller: _pageController,

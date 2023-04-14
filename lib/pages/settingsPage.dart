@@ -19,13 +19,23 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black87,
-        centerTitle: true,
-        toolbarHeight: 70,
-        title: const Text(
-          "Configurações",
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white70,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4.0),
+          child: Container(
+            height: 1,
+            color: global.colorTheme["color3"],
+          ),
+        ),
+        elevation: 0,
+        toolbarHeight: 45,
+        title: Text(
+          "Settings",
           style: TextStyle(
-            color: Colors.white
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: global.colorTheme["color2"]
           ),
         ),
         actions: [
@@ -42,11 +52,13 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 50,
               width: 50,
               margin: const EdgeInsets.all(10),
-              child: const Icon(Icons.logout),
+              child: Icon(
+                Icons.logout,
+                color: global.colorTheme["color2"],
+              ),
             ),
           )
-        ],
-        elevation: 2
+        ]
       ),  
       body: Column(
         children: const [],
