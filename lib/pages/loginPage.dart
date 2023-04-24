@@ -69,21 +69,21 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextField(
                 controller: emailController,
-                cursorColor: global.cor,
+                cursorColor: global.colorTheme["color2"] as Color,
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: "Email",
                   enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Colors.black87,
-                      width: 2
+                      color: Colors.black54,
+                      width: 1
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: global.cor,
+                      color: global.colorTheme["color2"] as Color,
                       width: 2
                     )
                   ),
@@ -103,31 +103,31 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   suffixIcon: const Icon(
                     Icons.email_outlined,
-                    color:Colors.black87,
+                    color:Colors.black54,
                   ),
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextField(
                 controller: passwordController,
                 obscureText: _obscureText,
-                cursorColor: global.cor,
+                cursorColor: global.colorTheme["color2"] as Color,
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: "Password",
                   enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: Colors.black87,
-                      width: 2
+                      color: Colors.black54,
+                      width: 1
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: global.cor,
+                      color: global.colorTheme["color2"] as Color,
                       width: 2
                     )
                   ),
@@ -151,16 +151,16 @@ class _LoginPageState extends State<LoginPage> {
                     }),
                     icon: _obscureText == true? 
                     const Icon(Icons.lock_outline,
-                      color: Colors.black87,
+                      color: Colors.black54,
                     ) :
                     const Icon(Icons.lock_open,
-                      color: Colors.black87,
+                      color: Colors.black54,
                     ),
                   )
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               GestureDetector(
                 onTap: login, 
@@ -168,9 +168,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   width: double.maxFinite,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.all(Radius.circular(20))
+                  decoration: BoxDecoration(
+                    color: global.colorTheme["color1"] as Color,
+                    borderRadius: const BorderRadius.all(Radius.circular(20))
                   ),
                   child: const Text("Entrar",
                     style: TextStyle(

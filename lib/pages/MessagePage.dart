@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+//configs
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 
 class MessagePage extends StatefulWidget {
   const MessagePage({super.key});
@@ -13,13 +17,15 @@ class _MessagePageState extends State<MessagePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        backgroundColor: Colors.black87,
+        backgroundColor: global.colorTheme["color1"] as Color,
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back,color:Colors.white),
+          icon: Icon(Icons.arrow_back,color: global.colorTheme["color5"] as Color),
         ),
+        title: const Text("Mensages"),
+        centerTitle: true,
       ),
       body: Column(
         children: [

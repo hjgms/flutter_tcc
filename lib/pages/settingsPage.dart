@@ -20,22 +20,15 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white70,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4.0),
-          child: Container(
-            height: 1,
-            color: global.colorTheme["color3"],
-          ),
-        ),
-        elevation: 0,
+        backgroundColor: global.colorTheme["color1"] as Color,
+        elevation: 2,
         toolbarHeight: 45,
         title: Text(
           "Settings",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color: global.colorTheme["color2"]
+            color: global.colorTheme["color5"]
           ),
         ),
         actions: [
@@ -54,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
               margin: const EdgeInsets.all(10),
               child: Icon(
                 Icons.logout,
-                color: global.colorTheme["color2"],
+                color: global.colorTheme["color5"],
               ),
             ),
           )

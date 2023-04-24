@@ -21,7 +21,7 @@ class _SearchButtonState extends State<SearchButton> {
         vertical: 5
       ),
       decoration: BoxDecoration(
-        color: global.colorTheme["color4"],
+        color: global.colorTheme["color2"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(
@@ -32,14 +32,14 @@ class _SearchButtonState extends State<SearchButton> {
             onPressed: () {},
             icon: Icon(
               Icons.search,
-              size: 25,
-              color: global.colorTheme["color2"],
+              size: 26,
+              color: global.colorTheme["color5"],
             ),
           ),
           hintText: "Find users",
           hintStyle: TextStyle(
             fontSize: 16, 
-            color: global.colorTheme["color2"]
+            color: global.colorTheme["color5"]
           )
         ),
       ),

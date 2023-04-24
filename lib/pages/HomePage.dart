@@ -31,28 +31,27 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white70,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4.0),
-          child: Container(
-            height: 1,
-            color: global.colorTheme["color3"],
-          ),
-        ),
-        elevation: 0,
+        backgroundColor: global.colorTheme["color1"] as Color,
+        elevation: 2,
         toolbarHeight: 45,
         title: Text(
           "Feed",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color: global.colorTheme["color2"]
+            color: global.colorTheme["color5"] as Color
           ),
         ),
         actions: [
           // mensages
           GestureDetector(
-            onTap: (){},
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const MessagePage(), 
+                )
+              );
+            },
             child: Container(
               height: 45,
               width: 45,
@@ -63,9 +62,9 @@ class _HomePageState extends State<HomePage> {
                 horizontal: 5,
               ),
               alignment: Alignment.center,
-              child: const Icon(
+              child: Icon(
                 Icons.messenger_outline_rounded,
-                color: Colors.black12,
+                color: global.colorTheme["color5"] as Color,
               ),
             ),
           ),

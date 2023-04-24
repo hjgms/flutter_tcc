@@ -45,57 +45,47 @@ class _ProviderPageState extends State<ProviderPage> {
         
         if (snapshot.hasData) {
           return Scaffold(
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: global.colorTheme["color3"] as Color,
-                    width: 1
-                  )
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_filled),
+                  activeIcon: Icon(Icons.home_filled),
+                  label: "",
+                  tooltip: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search_rounded),
+                  activeIcon: Icon(Icons.search_rounded),
+                  label: "",
+                  tooltip: "Search",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  activeIcon: Icon(Icons.person),
+                  label: "",
+                  tooltip: "Perfil",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_sharp),
+                  activeIcon: Icon(Icons.settings_sharp),
+                  label: "",
+                  tooltip: "Config",
                 )
+              ],
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+              selectedIconTheme: const IconThemeData(
+                size: 24
               ),
-              child: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home_filled),
-                    activeIcon: Icon(Icons.home_filled),
-                    label: "",
-                    tooltip: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search_rounded),
-                    activeIcon: Icon(Icons.search_rounded),
-                    label: "",
-                    tooltip: "Search",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    activeIcon: Icon(Icons.person),
-                    label: "",
-                    tooltip: "Perfil",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings_sharp),
-                    activeIcon: Icon(Icons.settings_sharp),
-                    label: "",
-                    tooltip: "Config",
-                  )
-                ],
-                showUnselectedLabels: false,
-                showSelectedLabels: false,
-                selectedIconTheme: const IconThemeData(
-                  size: 24
-                ),
-                unselectedIconTheme: const IconThemeData(
-                  size: 24
-                ),
-                selectedItemColor: global.colorTheme["color1"],
-                unselectedItemColor: global.colorTheme["color3"],
-                backgroundColor: global.colorTheme["color5"],
-                currentIndex: global.pageIndex,
-                elevation: 0,
-                onTap: (page) => onPageChanged(page),
-              )
+              unselectedIconTheme: const IconThemeData(
+                size: 24
+              ),
+              selectedItemColor: global.colorTheme["color1"],
+              unselectedItemColor: global.colorTheme["color3"],
+              backgroundColor: global.colorTheme["color5"],
+              currentIndex: global.pageIndex,
+              elevation: 0,
+              onTap: (page) => onPageChanged(page),
             ),
             body: PageView(
               controller: _pageController,
@@ -112,7 +102,7 @@ class _ProviderPageState extends State<ProviderPage> {
 
         return Center(
           child: CircularProgressIndicator(
-            color: global.cor,
+            color: global.colorTheme["color1"] as Color,
           )
         );
       },

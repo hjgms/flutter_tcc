@@ -18,27 +18,14 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  // <variaveis de teste>
-  bool switch1Val = false;
-  bool switch2Val = false;
-  var dropdownItems = ["Brasil", "Japão", "Portugal"];
-  String dropdownValue = "Brasil";
-  // </variaveis de teste>
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white70,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4.0),
-          child: Container(
-            height: 1,
-            color: global.colorTheme["color3"],
-          ),
-        ),
-        elevation: 0,
+        backgroundColor: global.colorTheme["color1"] as Color,
+        elevation: 2,
         toolbarHeight: 100,
         title: Column(
           children: [
@@ -49,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: global.colorTheme["color2"]
+                    color: global.colorTheme["color5"]
                   ),
                 ),
               ],
@@ -61,19 +48,8 @@ class _SearchPageState extends State<SearchPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ListView(
-          children: [
-            
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: [
-            //     CustomSwitch(title: "músicos", switchValue: switch1Val),
-            //     CustomSwitch(title: "empresas", switchValue: switch2Val),
-            //   ],
-            // ),
-            // CustomDropdownButton(
-            //   dropdownItems: dropdownItems,
-            //   dropdownValue: dropdownValue,
-            // )
+          children: const [
+
           ],
         ),
       ),
