@@ -5,7 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_firebase/data/firebase/firebase_options.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalVariables.dart' as global;
+import 'package:flutter_application_firebase/config/globalvariables.dart'
+    as global;
 
 //pages
 import 'package:flutter_application_firebase/pages/loginPage.dart';
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage()
-    );
+        debugShowCheckedModeBanner: false, home: MyHomePage());
   }
 }
 
@@ -41,6 +40,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return global.credentialUser["authentication"]? const ProviderPage() : const LoginPage();
+    return global.credentialUser["authentication"]
+        ? const ProviderPage()
+        : const LoginPage();
   }
 }
