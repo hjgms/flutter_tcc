@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   //returns errors
   String? passwordError;
   String? emailError;
-  String? result;
+  Map resul = {};
 
   //password view
   bool _obscureText = true;
@@ -40,20 +40,44 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  createUser(){
+
+  }
+
   //login test
   login() async {
     emailError = null;
     passwordError = null;
-    result = await loginAccount(emailController,passwordController);
-    if(result == "sucess"){
+
+    if(emailController.text == "" || passwordController.text == ""){
+      setState(() {
+      });
+      return;
+    }
+
+    resul = await loginUser(emailController.text,passwordController.text);
+    if(resul["ok"]){
       jumpProviderPage();
-    }else if(result == "invalid-email"){
+    }else if(resul["args"].toString().contains("[firebase_auth/invalid-email]")){
       setState(() {
         emailError = "Email invalido!";
+        emailController.clear();
       });
-    }else if(result == "wrong-password"){
+    }else if(resul["args"].toString().contains("[firebase_auth/wrong-password]")){
       setState(() {
         passwordError = "Senha incorreta!";
+        passwordController.clear();
+      });
+    }else if(resul["args"].toString().contains("[firebase_auth/too-many-requests]")){
+      setState(() {
+        emailError = "";
+        passwordError = "Limite de tentativas excedido, Por favor tente novamente mais tarde!";
+      });
+    }else if(resul["args"].toString().contains("[firebase_auth/user-not-found]")){
+      setState(() {
+        emailError = "Usúario não existente!";
+        emailController.clear();
+        passwordController.clear();
       });
     }
   }
@@ -61,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -103,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   suffixIcon: const Icon(
                     Icons.email_outlined,
-                    color:Colors.black54,
+                    color: Colors.black54,
                   ),
                 ),
               ),
@@ -177,6 +202,32 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
                       fontSize: 20
+                    ),
+                  ),
+                )
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: createUser, 
+                child: Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: global.colorTheme["color5"] as Color,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    border: Border.all(
+                      color: global.colorTheme["color1"] as Color,
+                      width: 2
+                    )
+                  ),
+                  child: Text("Criar conta",
+                    style: TextStyle(
+                      color: global.colorTheme["color1"] as Color,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22
                     ),
                   ),
                 )

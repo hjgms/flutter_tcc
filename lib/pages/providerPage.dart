@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 //firebase
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //configs
 import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
-import 'package:flutter_application_firebase/config/palette.dart';
 
 //pages
 import 'package:flutter_application_firebase/pages/homePage.dart';
@@ -35,7 +33,7 @@ class _ProviderPageState extends State<ProviderPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUser(global.credentialUser["user"].uid),
+      future: getUser(global.user["uid"]),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           return const Center(
