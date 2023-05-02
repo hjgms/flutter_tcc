@@ -24,7 +24,7 @@ class _MessagePageState extends State<MessagePage> {
           },
           icon: Icon(Icons.arrow_back,color: global.colorTheme["color5"] as Color),
         ),
-        title: const Text("Mensages"),
+        title: const Text("Notifícations"),
         centerTitle: true,
       ),
       body: Column(
@@ -42,9 +42,9 @@ class _MessagePageState extends State<MessagePage> {
                           children: const [
                             Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                              child: Icon(Icons.person,color: Colors.black26),
+                              child: Icon(Icons.circle,color: Colors.black26),
                             ),
-                            Text("Name User",
+                            Text("new provider",
                               style: TextStyle(
                                 color: Colors.black26
                               ),

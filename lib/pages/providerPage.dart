@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 //firebase
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart'
-    as global;
-// import 'package:flutter_application_firebase/config/palette.dart';
-import 'package:flutter_application_firebase/pages/HomePage.dart';
+import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
 
 //pages
 import 'ProfilePage.dart';
 import 'SearchPage.dart';
 import 'package:flutter_application_firebase/pages/settingsPage.dart';
+import 'package:flutter_application_firebase/pages/HomePage.dart';
 
 class ProviderPage extends StatefulWidget {
   const ProviderPage({super.key});
@@ -36,7 +33,7 @@ class _ProviderPageState extends State<ProviderPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: getUser(global.credentialUser["user"].uid),
+      future: getUser(global.user["uid"]),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           return const Center(

@@ -1,94 +1,57 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PostHomeWidget extends StatefulWidget {
-  String nameAuthor ="Rodrigo dela cruz";
-  String contentPost ="Meu mundo";
-  Widget imagePost = const Placeholder();
-  PostHomeWidget({super.key, required String nameAuthor,required String contentPost, imagePost});
+  String namePublication = "Exemple";
+  PostHomeWidget({super.key, required namePublication});
 
   @override
   State<PostHomeWidget> createState() => _PostHomeWidgetState();
 }
 
 class _PostHomeWidgetState extends State<PostHomeWidget> {
-  var _liked = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      height: 400,
+      width: double.maxFinite,
+      margin: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             blurRadius: 2,
             color: Colors.black12,
-            spreadRadius: 0.5
+            spreadRadius: 5
           )
-        ]
+        ],
+        color: Colors.black12
       ),
       child: Column(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20)
+            ),
+            margin: const EdgeInsets.all(10),
+            height: 300,
+            width: double.maxFinite,
+            child: const Placeholder(),
+          ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                  child: Icon(Icons.person)
-                ),
-                Text(widget.nameAuthor,
+                Text("${widget.namePublication}",
                   style: const TextStyle(
-                    color: Colors.black26
-                  ),
-                )
-              ],
-            ),
-          ),
-          GestureDetector(
-            onDoubleTap: (){
-              setState(() {
-                if(_liked){
-                  _liked = false;
-                }else{
-                  _liked = true;
-                }
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(1),
-              child: widget.imagePost
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children:  [
-                IconButton(
-                  onPressed: (){
-                    setState(() {
-                      if(_liked){
-                        _liked = false;
-                      }else{
-                        _liked = true;
-                      }
-                    });
-                  }, 
-                  icon: Icon(
-                    Icons.person,
-                    color: _liked == true? Colors.red.shade400 : Colors.black26
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500
                   ),
                 ),
-                Text(widget.contentPost,
-                  style: const TextStyle(
-                    color: Colors.black26
-                  ),
-                )
               ],
-            )
-          ),
+            ), 
+          )
         ],
       ),
     );

@@ -40,8 +40,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return global.credentialUser["authentication"]
-        ? const ProviderPage()
-        : const LoginPage();
+    return global.user["auth"]? const ProviderPage() : const LoginPage();
   }
 }

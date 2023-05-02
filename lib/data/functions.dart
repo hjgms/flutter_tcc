@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 //configs
@@ -7,71 +9,221 @@ import 'package:flutter_application_firebase/config/globalvariables.dart' as glo
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
 //instances firebase
 FirebaseFirestore dataBase = FirebaseFirestore.instance;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 //create account for new user
-createAccount(emailAddress,password) async{
-  String? result;
-  try {
-    final credential = await firebaseAuth.createUserWithEmailAndPassword(
-      email: emailAddress,
-      password: password,
-    );
+Future<Map> createLoginUser( String email, String password) async {
+  await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
+    .then((value){
+      if(value.user!.emailVerified){
+        if(value.user!.uid != ""){
+          return {
+            "ok":true,
+            "args": {
+              "uid": value.user!.uid,
+              "number": value.user!.phoneNumber
+            }
+          };
+        }
+      }
+    }).onError((error, stackTrace){
+      return {
+        "ok":false,
+        "args": error!
+      };
+    });
+  return {
+    "ok":false,
+    "args": {}
+  };
+}
 
-    if(credential.user != null){
-      result = "sucess";
-    }
-  } on FirebaseAuthException catch (e) {
-    result = e.code;
+Future<Map> createUser(String uid) async {
+  try{
+    await dataBase.collection("users").doc(uid).set(
+      {
+        //values new user
+      }
+    );
+  }catch(e){
+    return {
+      "ok":false,
+      "args": e
+    };
   }
-  return result;
+
+  try{
+    await dataBase.collection("users").doc(uid).get().then((value){
+      if(value.exists){
+        return {
+          "ok":true,
+          "args": {}
+        };
+      }
+    });
+  }catch(e){
+    return {
+      "ok":false,
+      "args": e
+    };
+  }
+
+  return {
+    "ok":false,
+    "args": {}
+  };
+}
+
+Future<Map> combinationAuthCreate() async {
+  String email = "";
+  String password = "";
+  
+  var userAuth = await createLoginUser(email,password);
+  if(userAuth["ok"] && userAuth["args"]["uid"] != ""){
+    var response = await createUser(userAuth["args"]["uid"]);
+    if(response["ok"]){
+      var authPass = await combinationAuth(email,password);
+      if(authPass["ok"]){
+        return {
+          "ok":true,
+          "agrs":{}
+        };
+      }else{
+        return {
+          "ok":false,
+          "args":authPass["args"]
+        };
+      }
+    }else{
+      return {
+        "ok":false,
+        "args":response["args"]
+      };
+    }
+  }else{
+    return {
+      "ok":false,
+      "agrs":{
+        "auth":userAuth["args"]
+      }
+    };
+  }
 }
 
 //test for login user
-loginAccount(TextEditingController emailAddress,TextEditingController password) async{
-  String? result;
-  try {
-    final credential = await firebaseAuth.signInWithEmailAndPassword(
-      email: emailAddress.text,
-      password: password.text
-    );
-
-    global.credentialUser = {
-      "authentication": true,
-      "user": credential.user,
-      "info": credential.additionalUserInfo
+Future<Map> loginUser(String email, String password) async {
+  try{
+    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
+    .then((value){
+      global.user["auth"] = true;
+      global.user["uid"] = value.user!.uid != null? value.user!.uid : "";
+      global.user["nameDisplay"] = value.user!.displayName != null? value.user!.displayName : "";
+    });
+  }catch(e){
+    print(e);
+    return {
+      "ok":false,
+      "args":e
     };
-    
-    result = "sucess";
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'invalid-email') {
-      return e.code;
-    } else if (e.code == 'wrong-password') {
-      return e.code;
-    }
   }
-  return result;
+  return {
+    "ok":true,
+    "args":{}
+  };
+  
+}
+
+Future<Map> getUser(String uid) async {
+  try{
+    await dataBase.collection("users")
+    .doc(uid)
+    .get()
+    .then((value){
+      global.user["obj"] = value.data();
+    });
+  }catch(e){
+    return {
+      "ok":false,
+      "args":e
+    };
+  }
+  return {
+    "ok":true,
+    "args":{}
+  };
+}
+
+Future<Map> combinationAuth(String email, String password) async {
+
+  var autentication = await loginUser(email, password);
+  
+  if(autentication["ok"]){
+    var response = await getUser(global.user["uid"]);
+    if(response["ok"]){
+      return {
+        "ok": true,
+        "args":{}
+      };
+    }else{
+      return {
+        "ok":false,
+        "args": response["args"]
+      };
+    }
+  }else{
+    return {
+      "ok":false,
+      "args": autentication["args"]
+    };
+  }
 }
 
 //sign out user
-signoutAccount() async{
+Future signoutUser() async{
   await firebaseAuth.signOut();
+  global.user["auth"] = false;
 }
 
-getUser(uid) async{
-  try{
-    await dataBase.collection("users").doc(uid).get().then((value){
-      final resp = value.data();
+//publication
+Future<Map> getPublication(String uid) async {
+  return await dataBase.collection("publications")
+  .limit(10)
+  .get()
+  .then((value){
+    var c = 0;
+    for (var element in value.docs) {
+      if(global.publicationsFeed.length > 0){
+        if(global.publicationsFeed[c]["uid"] != element.id){
+          global.publicationsFeed.add(
+            {
+              "obj": element.data(),
+              "uid": element.id
+            }
+          );
+        }
+      }else{
+        global.publicationsFeed.add(
+          {
+            "obj": element.data(),
+            "uid": element.id
+          }
+        );
+      }
       
-      global.user = {
-        "name": resp?["name"],
-        "lastname": resp?["lastname"]
-      };  
-    });
-    return "sucess";
-  }catch(e){
-    return e;
-  }
+      c++;
+    }
+    return {
+      "ok":true,
+      "args":{}
+    };
+  }).catchError((e){
+    print(e);
+    return {
+      "ok":false,
+      "args":e
+    };
+  });
 }

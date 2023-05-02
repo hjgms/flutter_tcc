@@ -29,9 +29,9 @@ class _ProfilePageState extends State<ProfilePage> {
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["color1"] as Color,
         elevation: 2,
-        toolbarHeight: 45,
+        toolbarHeight: 60,
         title: Text(
-          "Juninho_Gamer123",
+          global.user["obj"]["name"],
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
@@ -62,6 +62,32 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView(
           children: [
+            Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black12,
+                  ),
+                  height: 190,
+                  width: double.maxFinite,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  height: 240,
+                  width: double.maxFinite,
+                  child: const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://images.pexels.com/photos/16511744/pexels-photo-16511744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                        scale: 2),
+                    backgroundColor: Colors.black26,
+                    radius: 20,
+                  ),
+                )
+              ],
+            ),
             const SizedBox(height: 12),
             Text(
               "Junior Alves Vieira Vasconcelos da Silva",

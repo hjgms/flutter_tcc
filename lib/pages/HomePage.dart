@@ -1,10 +1,10 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //page view
 import 'package:flutter_application_firebase/pages/MessagePage.dart';
 import 'package:flutter_application_firebase/components/postHomeWidget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 //configs
 import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController _scroll = ScrollController();
 
   void mensage(){
     Navigator.of(context).push(
@@ -26,6 +27,60 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  createPublications(){
+    if(global.publicationsFeed.length > 0){
+      List<Widget> publi = [];
+      for (var element in global.publicationsFeed) {
+        publi.add(
+          PostHomeWidget(
+            namePublication: element["obj"]["name"],
+          )
+        );
+      }
+      return ListView(
+        controller: _scroll,
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        children: publi
+      );
+    }else{
+      return FutureBuilder(
+        future: getPublication(global.user["uid"]),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          if(snapshot.hasData){
+            if(snapshot.data["ok"] == true){
+              List<Widget> publi = [];
+              for (var element in global.publicationsFeed) {
+                publi.add(
+                  PostHomeWidget(
+                    namePublication: element["obj"]["name"],
+                  )
+                );
+              }
+              return ListView(
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                children: publi
+              );
+            }else if(snapshot.data["ok"] == false){
+              return const Center(
+                child: Text("not found publications"),
+              );
+            }
+          }
+          if(snapshot.hasError){
+            return const Center(
+              child: Text("error"),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: global.colorTheme["color1"],
+            ),
+          );
+        },
+      );
+    } 
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["color1"] as Color,
         elevation: 2,
-        toolbarHeight: 45,
+        toolbarHeight: 60,
         title: Text(
           "Feed",
           style: TextStyle(
@@ -63,30 +118,14 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.center,
               child: Icon(
-                Icons.messenger_outline_rounded,
+                Icons.notifications_outlined,
                 color: global.colorTheme["color5"] as Color,
               ),
             ),
           ),
         ]
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 40),
-        children: [
-          // PostHomeWidget(
-          //   contentPost: "content",
-          //   nameAuthor: "author",
-          // ),
-          // PostHomeWidget(
-          //   contentPost: "content",
-          //   nameAuthor: "author",
-          // ),
-          // PostHomeWidget(
-          //   contentPost: "content",
-          //   nameAuthor: "author",
-          // )
-        ],
-      ),
+      body: createPublications()
     );
   }
 }

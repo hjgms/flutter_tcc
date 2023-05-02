@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["color1"] as Color,
         elevation: 2,
-        toolbarHeight: 45,
+        toolbarHeight: 60,
         title: Text(
           "Settings",
           style: TextStyle(
@@ -34,8 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           GestureDetector(
             onTap: () async{
-              await signoutAccount();
-              global.credentialUser["autentication"] = false;
+              await signoutUser();
               global.pageIndex = 0;
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context){
                 return const LoginPage();

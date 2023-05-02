@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 bool logado = false;
 int pageIndex = 0;
-Map credentialUser = {
-  "authentication": false,
-  "user": {},
-  "info": ""
+Map user = {
+  "auth":false
 };
-Map user = {};
+
+List publicationsFeed = [];
 
 Map<String,Color> colorTheme = {
   "color1":Color.fromARGB(255, 86, 22, 236),
