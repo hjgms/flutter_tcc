@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart'
-    as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
+
 //pages
 import 'package:flutter_application_firebase/pages/providerPage.dart';
 

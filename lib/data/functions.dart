@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
 
 //firebase
 import 'package:cloud_firestore/cloud_firestore.dart';

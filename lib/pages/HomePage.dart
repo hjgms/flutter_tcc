@@ -7,7 +7,7 @@ import 'package:flutter_application_firebase/pages/MessagePage.dart';
 import 'package:flutter_application_firebase/components/postHomeWidget.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,60 +25,6 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => const MessagePage()
       )
     );
-  }
-
-  createPublications(){
-    if(global.publicationsFeed.length > 0){
-      List<Widget> publi = [];
-      for (var element in global.publicationsFeed) {
-        publi.add(
-          PostHomeWidget(
-            namePublication: element["obj"]["name"],
-          )
-        );
-      }
-      return ListView(
-        controller: _scroll,
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        children: publi
-      );
-    }else{
-      return FutureBuilder(
-        future: getPublication(global.user["uid"]),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
-            if(snapshot.data["ok"] == true){
-              List<Widget> publi = [];
-              for (var element in global.publicationsFeed) {
-                publi.add(
-                  PostHomeWidget(
-                    namePublication: element["obj"]["name"],
-                  )
-                );
-              }
-              return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                children: publi
-              );
-            }else if(snapshot.data["ok"] == false){
-              return const Center(
-                child: Text("not found publications"),
-              );
-            }
-          }
-          if(snapshot.hasError){
-            return const Center(
-              child: Text("error"),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              color: global.colorTheme["color1"],
-            ),
-          );
-        },
-      );
-    } 
   }
 
   @override
@@ -126,6 +72,41 @@ class _HomePageState extends State<HomePage> {
         ]
       ),
       body: createPublications()
+    );
+  }
+
+  Widget createPublications(){
+    return FutureBuilder(
+      future: getPublication(global.user["uid"]),
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        if(snapshot.hasData){
+          if(snapshot.data["ok"] == true){
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              itemCount: global.publicationsFeed.length,
+              itemBuilder: (context, index) {
+                return PostHomeWidget(
+                  namePublication: global.publicationsFeed[index]["obj"]["name"],
+                );
+              },
+            );
+          }else if(snapshot.data["ok"] == false){
+            return const Center(
+              child: Text("not found publications"),
+            );
+          }
+        }
+        if(snapshot.hasError){
+          return const Center(
+            child: Text("error"),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(
+            color: global.colorTheme["color1"],
+          ),
+        );
+      },
     );
   }
 }

@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 // import '../../login/loginPage.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart'
-    as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
 
 // PAGES
 import 'package:flutter_application_firebase/pages/EditProfilePage.dart';
