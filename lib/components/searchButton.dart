@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_application_firebase/config/palette.dart';
 
 //configs
 import 'package:flutter_application_firebase/globals/variables.dart' as global;

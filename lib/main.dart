@@ -5,8 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_firebase/data/firebase/firebase_options.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart'
-    as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
 
 //pages
 import 'package:flutter_application_firebase/pages/loginPage.dart';

@@ -86,7 +86,10 @@ class _HomePageState extends State<HomePage> {
               itemCount: global.publicationsFeed.length,
               itemBuilder: (context, index) {
                 return PostHomeWidget(
-                  namePublication: global.publicationsFeed[index]["obj"]["name"],
+                  titlePublication: global.publicationsFeed[index]["obj"]["name"],
+                  description: global.publicationsFeed[index]["obj"]["description"],
+                  providerImagePerfil: "",
+                  providerName: "User 1233",
                 );
               },
             );

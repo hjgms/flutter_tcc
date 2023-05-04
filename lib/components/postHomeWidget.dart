@@ -24,7 +24,7 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: 430,
       width: double.maxFinite,
       margin: const EdgeInsets.all(15),
       decoration: BoxDecoration(

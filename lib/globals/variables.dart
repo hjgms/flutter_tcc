@@ -2,29 +2,6 @@ import 'package:flutter/material.dart';
 
 bool logado = false;
 int pageIndex = 0;
-<<<<<<< HEAD:lib/config/globalvariables.dart
-Map user = {"auth": true, "uid": "3Ha8x0k5AFNLKsPp0dtoVImcKrj2"};
-
-List publicationsFeed = [];
-
-Map<String, Color> colorTheme = {
-  "color1": Color.fromARGB(255, 86, 22, 236),
-  "color2": Color.fromARGB(255, 107, 55, 230),
-  "color3": Color(0xFFE0E0E0),
-  "color4": Color(0xFFEEEEEE),
-  "color5": Color(0xFFFFFFFF),
-};
-
-class ClassStyles {
-  TextStyle listaEstilosMusicaisStyle() {
-    return const TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w400, height: 1.8);
-  }
-
-}
-
-var styles = ClassStyles();
-=======
 Map user = {
   "auth":true,
   "uid":"EvdXTmOnGeNPyIadnIgpplgfR4A2"
@@ -39,4 +16,13 @@ Map<String,Color> colorTheme = {
   "color4":Color(0xFFEEEEEE),
   "color5":Color(0xFFFFFFFF),
 };
->>>>>>> dfeaecc1e75b9153576d7df9c2c3257b298abfb6:lib/globals/variables.dart
+
+
+class ClassStyles {
+  TextStyle listaEstilosMusicaisStyle() {
+    return const TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w400, height: 1.8);
+  }
+}
+
+var styles = ClassStyles();
