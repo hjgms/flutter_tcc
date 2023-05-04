@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/config/palette.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
 
 class SearchButton extends StatefulWidget {
   const SearchButton({super.key});
