@@ -2,9 +2,18 @@
 import 'package:flutter/material.dart';
 
 class PostHomeWidget extends StatefulWidget {
-  String? namePublication;
-  String? description;
-  PostHomeWidget({super.key, @required this.namePublication, @required this.description});
+  final titlePublication;
+  final description;
+  final providerName;
+  final providerImagePerfil;
+
+  const PostHomeWidget({
+    super.key, 
+    @required this.titlePublication, 
+    @required this.description, 
+    @required this.providerName,
+    @required this.providerImagePerfil
+  });
 
   @override
   State<PostHomeWidget> createState() => _PostHomeWidgetState();
@@ -31,14 +40,30 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
       ),
       child: Column(
         children: [
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage(
+                "${widget.providerImagePerfil}",
+              ),
+            ),
+            contentPadding: EdgeInsets.all(0),
+            title: Text(
+              "${widget.providerName}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20)
             ),
-            margin: const EdgeInsets.all(10),
-            height: 300,
+            margin: const EdgeInsets.all(20),
+            height: 250,
             width: double.maxFinite,
-            child: const Placeholder(),
+            child: const Placeholder(
+              //providerImagePerfil
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -47,7 +72,7 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
               children: [
                 Row(
                   children: [
-                    Text("${widget.namePublication}",
+                    Text("${widget.titlePublication}",
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w500
@@ -64,7 +89,21 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
                       ),
                     ),
                   ],
-                )
+                ),
+                // GestureDetector(
+                //   onTap: (){
+
+                //   },
+                //   child: Container(
+                //     height: 40,
+                //     width: double.maxFinite,
+                //     decoration: BoxDecoration(
+                //       color: Colors.black54,
+                //       borderRadius: BorderRadius.circular(20)
+                //     ),
+                //     child: Text("connect"),
+                //   )
+                // )
               ],
             ), 
           )
