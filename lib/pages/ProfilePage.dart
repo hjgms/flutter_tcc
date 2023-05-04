@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/config/globalvariables.dart'
     as global;
 
+// PAGES
+import 'package:flutter_application_firebase/pages/EditProfilePage.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -17,8 +20,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // ESTILOS
-  TextStyle listaEstilosMusicaisStyle =
-      const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, height: 1.8);
+  
   TextStyle titulos =
       const TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
 
@@ -40,7 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              print("profile btn works!");
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EditProfilePage()));
             },
             child: Container(
               height: 45,
@@ -121,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 4),
                 DefaultTextStyle.merge(
-                    style: listaEstilosMusicaisStyle,
+                    style: global.styles.listaEstilosMusicaisStyle(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const <Widget>[
