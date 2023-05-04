@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 // import '../../login/loginPage.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart'
-    as global;
+import 'package:flutter_application_firebase/config/globals.dart' as global;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
