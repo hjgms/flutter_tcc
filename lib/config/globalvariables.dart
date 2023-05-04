@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 bool logado = false;
 int pageIndex = 0;
 Map user = {
-  "auth":false
+  "auth":true,
+  "uid":"EvdXTmOnGeNPyIadnIgpplgfR4A2"
 };
 
 List publicationsFeed = [];

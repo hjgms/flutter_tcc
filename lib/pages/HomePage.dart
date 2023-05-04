@@ -33,7 +33,8 @@ class _HomePageState extends State<HomePage> {
       for (var element in global.publicationsFeed) {
         publi.add(
           PostHomeWidget(
-            namePublication: element["obj"]["name"],
+            namePublication: element["obj"]["description"],
+            description: element["obj"]["description"],
           )
         );
       }

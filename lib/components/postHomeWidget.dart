@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 
 class PostHomeWidget extends StatefulWidget {
-  String namePublication = "Exemple";
-  PostHomeWidget({super.key, required namePublication});
+  String? namePublication;
+  String? description;
+  PostHomeWidget({super.key, @required this.namePublication, @required this.description});
 
   @override
   State<PostHomeWidget> createState() => _PostHomeWidgetState();
@@ -19,14 +20,14 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
       margin: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            blurRadius: 2,
+            blurRadius: 10,
             color: Colors.black12,
-            spreadRadius: 5
+            spreadRadius: 2
           )
         ],
-        color: Colors.black12
+        color: Colors.white60
       ),
       child: Column(
         children: [
@@ -41,14 +42,29 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
           ),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${widget.namePublication}",
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500
-                  ),
+                Row(
+                  children: [
+                    Text("${widget.namePublication}",
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ],
                 ),
+                Row(
+                  children: [
+                    Text("${widget.description}",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                  ],
+                )
               ],
             ), 
           )
