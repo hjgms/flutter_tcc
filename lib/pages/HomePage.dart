@@ -7,7 +7,7 @@ import 'package:flutter_application_firebase/pages/MessagePage.dart';
 import 'package:flutter_application_firebase/components/postHomeWidget.dart';
 
 //configs
-import 'package:flutter_application_firebase/config/globalvariables.dart' as global;
+import 'package:flutter_application_firebase/config/globals.dart' as global;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
