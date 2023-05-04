@@ -27,61 +27,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  createPublications(){
-    if(global.publicationsFeed.length > 0){
-      List<Widget> publi = [];
-      for (var element in global.publicationsFeed) {
-        publi.add(
-          PostHomeWidget(
-            namePublication: element["obj"]["description"],
-            description: element["obj"]["description"],
-          )
-        );
-      }
-      return ListView(
-        controller: _scroll,
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        children: publi
-      );
-    }else{
-      return FutureBuilder(
-        future: getPublication(global.user["uid"]),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          if(snapshot.hasData){
-            if(snapshot.data["ok"] == true){
-              List<Widget> publi = [];
-              for (var element in global.publicationsFeed) {
-                publi.add(
-                  PostHomeWidget(
-                    namePublication: element["obj"]["name"],
-                  )
-                );
-              }
-              return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                children: publi
-              );
-            }else if(snapshot.data["ok"] == false){
-              return const Center(
-                child: Text("not found publications"),
-              );
-            }
-          }
-          if(snapshot.hasError){
-            return const Center(
-              child: Text("error"),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              color: global.colorTheme["color1"],
-            ),
-          );
-        },
-      );
-    } 
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,6 +72,41 @@ class _HomePageState extends State<HomePage> {
         ]
       ),
       body: createPublications()
+    );
+  }
+
+  Widget createPublications(){
+    return FutureBuilder(
+      future: getPublication(global.user["uid"]),
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        if(snapshot.hasData){
+          if(snapshot.data["ok"] == true){
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              itemCount: global.publicationsFeed.length,
+              itemBuilder: (context, index) {
+                return PostHomeWidget(
+                  namePublication: global.publicationsFeed[index]["obj"]["name"],
+                );
+              },
+            );
+          }else if(snapshot.data["ok"] == false){
+            return const Center(
+              child: Text("not found publications"),
+            );
+          }
+        }
+        if(snapshot.hasError){
+          return const Center(
+            child: Text("error"),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(
+            color: global.colorTheme["color1"],
+          ),
+        );
+      },
     );
   }
 }
