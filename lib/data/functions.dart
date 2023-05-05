@@ -188,39 +188,52 @@ Future signoutUser() async{
 }
 
 //publication
-Future<Map> getPublication(String uid) async {
+Future<Map<String,dynamic>> getPublication(String uid) async {
   return await dataBase.collection("publications")
   .limit(10)
   .get()
-  .then((value){
+  .then((value) async {
     var c = 0;
-    for (var element in value.docs) {
-      if(global.publicationsFeed.length > 0){
+    for (var element in value.docs){
+      if(global.publicationsFeed.isNotEmpty){
+
         if(global.publicationsFeed[c]["uid"] != element.id){
           global.publicationsFeed.add(
             {
               "obj": element.data(),
-              "uid": element.id
+              "uid": element.id,
+              "nameProvider": ""
             }
           );
         }
       }else{
+
         global.publicationsFeed.add(
           {
             "obj": element.data(),
-            "uid": element.id
+            "uid": element.id,
+            "nameProvider": ""
           }
         );
       }
       
       c++;
     }
+
+    for (var item in global.publicationsFeed) {
+      await dataBase.collection("users")
+        .doc(item["obj"]["userUid"].toString().trim())
+        .get()
+        .then((value) => item["nameProvider"] = value.data()?["name"] );
+    }
+
     return {
       "ok":true,
       "args":{}
     };
   }).catchError((e){
-    print(e);
+    print("caindo fora: $e");
+    // ignore: invalid_return_type_for_catch_error
     return {
       "ok":false,
       "args":e
