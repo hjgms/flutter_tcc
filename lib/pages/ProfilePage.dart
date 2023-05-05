@@ -19,9 +19,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // ESTILOS
-  
-  TextStyle titulos =
-      const TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 12),
                 Text(
                   "Junior Alves Vieira Vasconcelos da Silva",
-                  style: titulos,
+                  style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
                 const Text("Marília - SP"),
@@ -105,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Text(
                   "Descrição",
-                  style: titulos,
+                  style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
                 const Text(
@@ -119,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 12),
                 Text(
                   "Estilos musicais",
-                  style: titulos,
+                  style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
                 DefaultTextStyle.merge(
@@ -138,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 12),
                 Text(
                   "Horários Disponíveis (Podem variar)",
-                  style: titulos,
+                  style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
                 const Text(
@@ -154,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 12),
                 Text(
                   "Imagens",
-                  style: titulos,
+                  style: global.styles.titulo(),
                 ),
               ],
             ),
