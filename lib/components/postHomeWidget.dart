@@ -1,6 +1,9 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 
+//global
+import 'package:flutter_application_firebase/globals/variables.dart' as global;
+
 class PostHomeWidget extends StatefulWidget {
   final titlePublication;
   final description;
@@ -40,19 +43,23 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
       ),
       child: Column(
         children: [
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(
-                "${widget.providerImagePerfil}",
+          Padding(
+            padding: const EdgeInsets.all(10),
+              child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: global.colorTheme["color1"],
+                // backgroundImage: AssetImage(
+                //   "${widget.providerImagePerfil}",
+                // ),
               ),
-            ),
-            contentPadding: EdgeInsets.all(0),
-            title: Text(
-              "${widget.providerName}",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            )
+              contentPadding: EdgeInsets.all(0),
+              title: Text(
+                "${widget.providerName}",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ), 
           ),
           Container(
             decoration: BoxDecoration(

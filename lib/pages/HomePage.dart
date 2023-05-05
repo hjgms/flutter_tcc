@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   titlePublication: global.publicationsFeed[index]["obj"]["name"],
                   description: global.publicationsFeed[index]["obj"]["description"],
                   providerImagePerfil: "",
-                  providerName: "User 1233",
+                  providerName: global.publicationsFeed[index]["nameProvider"],
                 );
               },
             );
