@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //view page
 // import '../../login/loginPage.dart';
@@ -18,8 +19,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // ESTILOS
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +75,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 height: 240,
                 width: double.maxFinite,
-                child: const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://images.pexels.com/photos/16511744/pexels-photo-16511744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                      scale: 2),
-                  backgroundColor: Colors.black26,
-                  radius: 20,
-                ),
+                // child: FutureBuilder(
+                //   future: getPhotoPerfil(global.user["uid"], 1),
+                //   builder: (context, snapshot) {
+                //     if(snapshot.hasData){
+                //       return CircleAvatar(
+                //         backgroundImage: MemoryImage(snapshot.data!),
+                //       );
+                //     }else if(snapshot.hasError){
+                //       return const CircleAvatar(
+                //         child: Icon(Icons.person),
+                //       );
+                //     }
+                //     return const CircularProgressIndicator();
+                //   }, 
+                // )
               )
             ],
           ),

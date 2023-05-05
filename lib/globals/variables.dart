@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 bool logado = false;
 int pageIndex = 0;
 Map user = {"auth": true, "uid": "EvdXTmOnGeNPyIadnIgpplgfR4A2"};
+String storage = 'gs://lithe-strata-348418.appspot.com/';
 
 List publicationsFeed = [];
 

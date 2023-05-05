@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -8,11 +8,12 @@ import 'package:flutter_application_firebase/globals/variables.dart' as global;
 //firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 
 //instances firebase
 FirebaseFirestore dataBase = FirebaseFirestore.instance;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+Reference firebaseStorage = FirebaseStorage.instance.ref();
 
 //create account for new user
 Future<Map> createLoginUser( String email, String password) async {
@@ -240,3 +241,24 @@ Future<Map<String,dynamic>> getPublication(String uid) async {
     };
   });
 }
+
+//profile
+// Future<Uint8List?> getPhotoPerfil(String uid, int n) async {
+//   try{
+//     final url = "/photoperfil/$uid/photo1.jpg";
+//     final photo = await FirebaseStorage.instance
+//       .ref()
+//       .child(url)
+//       .getData()
+//       .onError((error, stackTrace){
+//         print(error);
+//       });
+
+//     print("url:$url\nimg:$photo");
+
+//     return photo;
+//   }on FirebaseException catch (e) {
+//     print("exeption : $e");
+//     return Uint8List(10);
+//   }
+// }
