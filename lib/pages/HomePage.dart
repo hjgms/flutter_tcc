@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: global.colorTheme["color1"] as Color,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
         elevation: 2,
         toolbarHeight: 60,
         title: Text(
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
         }
         return Center(
           child: CircularProgressIndicator(
-            color: global.colorTheme["color1"],
+            color: global.colorTheme["mainPurple"],
           ),
         );
       },

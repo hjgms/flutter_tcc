@@ -20,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: global.colorTheme["color1"] as Color,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
         elevation: 2,
         toolbarHeight: 60,
         title: Text(

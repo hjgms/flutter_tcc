@@ -8,9 +8,9 @@ String storage = 'gs://lithe-strata-348418.appspot.com/';
 List publicationsFeed = [];
 
 Map<String, Color> colorTheme = {
-  "color1": const Color.fromARGB(255, 86, 22, 236),
-  "color2": const Color.fromARGB(255, 107, 55, 230),
-  "color3": const Color(0xFFE0E0E0),
+  "mainPurple": const Color.fromARGB(255, 86, 22, 236),
+  "clearMainPurple": const Color.fromARGB(255, 107, 55, 230),
+  "watergreen": const Color(0xff17C3B2),
   "color4": const Color(0xFFEEEEEE),
   "color5": const Color(0xFFFFFFFF),
 };
@@ -27,9 +27,12 @@ class ClassStyles {
 
   TextStyle labelText() {
     return const TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w600, height: 2);
+        fontSize: 16, fontWeight: FontWeight.w600);
   }
 
+  EdgeInsetsDirectional espacamentoInputs() {
+    return const EdgeInsetsDirectional.only(top: 6, bottom: 10);
+  }
 }
 
 var styles = ClassStyles();

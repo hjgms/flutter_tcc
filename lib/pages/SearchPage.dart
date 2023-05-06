@@ -24,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: global.colorTheme["color1"] as Color,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
         elevation: 2,
         toolbarHeight: 100,
         title: Column(

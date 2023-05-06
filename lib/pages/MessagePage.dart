@@ -24,7 +24,7 @@ class _MessagePageState extends State<MessagePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        backgroundColor: global.colorTheme["color1"] as Color,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).pop();
@@ -52,7 +52,7 @@ class _MessagePageState extends State<MessagePage> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: CircleAvatar(
-                          backgroundColor: global.colorTheme["color1"],
+                          backgroundColor: global.colorTheme["mainPurple"],
                         )
                       ),
                       Text("${widget.providerName}",

@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextField(
                 controller: emailController,
-                cursorColor: global.colorTheme["color2"] as Color,
+                cursorColor: global.colorTheme["clearMainPurple"] as Color,
                 decoration: InputDecoration(
                   errorText: emailError,
                   hintText: "Email",
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: global.colorTheme["color2"] as Color,
+                      color: global.colorTheme["clearMainPurple"] as Color,
                       width: 2
                     )
                   ),
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               TextField(
                 controller: passwordController,
                 obscureText: _obscureText,
-                cursorColor: global.colorTheme["color2"] as Color,
+                cursorColor: global.colorTheme["clearMainPurple"] as Color,
                 decoration: InputDecoration(
                   errorText: passwordError,
                   hintText: "Password",
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     borderSide: BorderSide(
-                      color: global.colorTheme["color2"] as Color,
+                      color: global.colorTheme["clearMainPurple"] as Color,
                       width: 2
                     )
                   ),
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.maxFinite,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: global.colorTheme["color1"] as Color,
+                    color: global.colorTheme["mainPurple"] as Color,
                     borderRadius: const BorderRadius.all(Radius.circular(20))
                   ),
                   child: const Text("Entrar",
@@ -219,13 +219,13 @@ class _LoginPageState extends State<LoginPage> {
                     color: global.colorTheme["color5"] as Color,
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     border: Border.all(
-                      color: global.colorTheme["color1"] as Color,
+                      color: global.colorTheme["mainPurple"] as Color,
                       width: 2
                     )
                   ),
                   child: Text("Criar conta",
                     style: TextStyle(
-                      color: global.colorTheme["color1"] as Color,
+                      color: global.colorTheme["mainPurple"] as Color,
                       fontWeight: FontWeight.w500,
                       fontSize: 22
                     ),

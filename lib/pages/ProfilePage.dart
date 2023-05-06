@@ -19,8 +19,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-  String name = global.user["obj"]["name"]+" "+global.user["obj"]["lastname"];
+  String name =
+      global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
   String username = global.user["obj"]["username"];
   String localization = global.user["obj"]["localization"];
   String description = global.user["obj"]["description"];
@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: global.colorTheme["color1"] as Color,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
         elevation: 2,
         toolbarHeight: 60,
         title: Text(
@@ -74,45 +74,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.maxFinite,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 80),
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                height: 150,
-                width: double.maxFinite,
-                child: FutureBuilder(
-                  future: getPhotoPerfil(global.user["uid"]),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasData && snapshot.data!["ok"] == true){
+                  margin: const EdgeInsets.only(top: 80),
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  height: 150,
+                  width: double.maxFinite,
+                  child: FutureBuilder(
+                    future: getPhotoPerfil(global.user["uid"]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data!["ok"] == true) {
+                        return CircleAvatar(
+                          backgroundImage: MemoryImage(snapshot.data!["args"]),
+                        );
+                      } else if (snapshot.hasData &&
+                          snapshot.data!["ok"] == false) {
+                        return CircleAvatar(
+                          backgroundColor: global.colorTheme["mainPurple"],
+                          child: Icon(Icons.close,
+                              color: global.colorTheme["color5"]),
+                        );
+                      } else if (snapshot.hasError) {
+                        return CircleAvatar(
+                          backgroundColor: global.colorTheme["mainPurple"],
+                          child: Icon(Icons.person,
+                              color: global.colorTheme["color5"]),
+                        );
+                      }
                       return CircleAvatar(
-                        backgroundImage: MemoryImage(snapshot.data!["args"]),
-                      );
-                    }else if(snapshot.hasData && snapshot.data!["ok"] == false){
-                      return CircleAvatar(
-                        backgroundColor: global.colorTheme["color1"],
-                        child: Icon(
-                          Icons.close,
-                          color: global.colorTheme["color5"]
+                        backgroundColor: global.colorTheme["mainPurple"],
+                        child: CircularProgressIndicator(
+                          color: global.colorTheme["color5"],
                         ),
                       );
-                    }else if(snapshot.hasError){
-                      return CircleAvatar(
-                        backgroundColor: global.colorTheme["color1"],
-                        child: Icon(
-                          Icons.person,
-                          color: global.colorTheme["color5"]
-                        ),
-                      );
-                    }
-                    return CircleAvatar(
-                      backgroundColor: global.colorTheme["color1"],
-                      child: CircularProgressIndicator(
-                        color: global.colorTheme["color5"],
-                      ),
-                    );
-                  }, 
-                )
-              )
+                    },
+                  ))
             ],
           ),
           Padding(
@@ -137,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 14, height: 1.5),
+                  style: const TextStyle(fontSize: 14, height: 1.5),
                 ),
                 const SizedBox(height: 12),
                 Text(

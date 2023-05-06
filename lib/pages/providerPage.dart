@@ -74,8 +74,8 @@ class _ProviderPageState extends State<ProviderPage> {
                 showSelectedLabels: false,
                 selectedIconTheme: const IconThemeData(size: 24),
                 unselectedIconTheme: const IconThemeData(size: 24),
-                selectedItemColor: global.colorTheme["color1"],
-                unselectedItemColor: global.colorTheme["color3"],
+                selectedItemColor: global.colorTheme["mainPurple"],
+                unselectedItemColor: global.colorTheme["color4"],
                 backgroundColor: global.colorTheme["color5"],
                 currentIndex: global.pageIndex,
                 elevation: 0,
@@ -95,7 +95,7 @@ class _ProviderPageState extends State<ProviderPage> {
 
         return Center(
             child: CircularProgressIndicator(
-          color: global.colorTheme["color1"] as Color,
+          color: global.colorTheme["mainPurple"] as Color,
         ));
       },
     );
