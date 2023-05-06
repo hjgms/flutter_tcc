@@ -20,6 +20,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
+  String name = global.user["obj"]["name"]+" "+global.user["obj"]["lastname"];
+  String username = global.user["obj"]["username"];
+  String localization = global.user["obj"]["localization"];
+  String description = global.user["obj"]["description"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
         elevation: 2,
         toolbarHeight: 60,
         title: Text(
-          global.user["obj"]["name"],
+          username,
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w500,
@@ -69,27 +74,44 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.maxFinite,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 40),
+                margin: const EdgeInsets.only(top: 80),
                 decoration: const BoxDecoration(
                   color: Colors.transparent,
                 ),
-                height: 240,
+                height: 150,
                 width: double.maxFinite,
-                // child: FutureBuilder(
-                //   future: getPhotoPerfil(global.user["uid"], 1),
-                //   builder: (context, snapshot) {
-                //     if(snapshot.hasData){
-                //       return CircleAvatar(
-                //         backgroundImage: MemoryImage(snapshot.data!),
-                //       );
-                //     }else if(snapshot.hasError){
-                //       return const CircleAvatar(
-                //         child: Icon(Icons.person),
-                //       );
-                //     }
-                //     return const CircularProgressIndicator();
-                //   }, 
-                // )
+                child: FutureBuilder(
+                  future: getPhotoPerfil(global.user["uid"]),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData && snapshot.data!["ok"] == true){
+                      return CircleAvatar(
+                        backgroundImage: MemoryImage(snapshot.data!["args"]),
+                      );
+                    }else if(snapshot.hasData && snapshot.data!["ok"] == false){
+                      return CircleAvatar(
+                        backgroundColor: global.colorTheme["color1"],
+                        child: Icon(
+                          Icons.close,
+                          color: global.colorTheme["color5"]
+                        ),
+                      );
+                    }else if(snapshot.hasError){
+                      return CircleAvatar(
+                        backgroundColor: global.colorTheme["color1"],
+                        child: Icon(
+                          Icons.person,
+                          color: global.colorTheme["color5"]
+                        ),
+                      );
+                    }
+                    return CircleAvatar(
+                      backgroundColor: global.colorTheme["color1"],
+                      child: CircularProgressIndicator(
+                        color: global.colorTheme["color5"],
+                      ),
+                    );
+                  }, 
+                )
               )
             ],
           ),
@@ -100,11 +122,11 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 const SizedBox(height: 12),
                 Text(
-                  "Junior Alves Vieira Vasconcelos da Silva",
+                  name,
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                const Text("Marília - SP"),
+                Text(localization),
                 const SizedBox(
                   height: 12,
                 ),
@@ -113,12 +135,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  '''Olá! Meu nome é Junior, sou um músico apaixonado e comprometido com a arte de criar música de qualidade. Como músico profissional, tenho experiência em diversos estilos musicais, incluindo rock, pop, jazz, blues e música clássica.
-
-    Ao longo da minha carreira, tive a oportunidade de tocar com vários artistas renomados e participar de diversas gravações de álbuns e trilhas sonoras. Também tenho experiência em dar aulas de música e trabalhar como produtor musical. 
-                  
-    Minha principal habilidade é tocar guitarra, mas também sou competente em outros instrumentos como baixo e teclado. Além disso, tenho conhecimento em produção musical, gravação e mixagem.''',
+                Text(
+                  description,
                   style: TextStyle(fontSize: 14, height: 1.5),
                 ),
                 const SizedBox(height: 12),

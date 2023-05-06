@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
 //configs
@@ -15,31 +13,40 @@ FirebaseFirestore dataBase = FirebaseFirestore.instance;
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 Reference firebaseStorage = FirebaseStorage.instance.ref();
 
+//returns
+Map typedReturn(bool ok,var args){
+  if(!ok){
+    // ignore: avoid_print
+    print(args);
+  }
+  return {
+    "ok": ok,
+    "args": args
+  };
+}
+
 //create account for new user
 Future<Map> createLoginUser( String email, String password) async {
-  await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
-    .then((value){
-      if(value.user!.emailVerified){
-        if(value.user!.uid != ""){
-          return {
-            "ok":true,
-            "args": {
-              "uid": value.user!.uid,
-              "number": value.user!.phoneNumber
-            }
-          };
-        }
+
+  Map resp = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
+  .then((value){
+    if(value.user!.emailVerified){
+      if(value.user!.uid != ""){
+        return {
+          "ok":true,
+          "args": {
+            "uid": value.user!.uid,
+            "number": value.user!.phoneNumber
+          }
+        };
       }
-    }).onError((error, stackTrace){
-      return {
-        "ok":false,
-        "args": error!
-      };
-    });
-  return {
-    "ok":false,
-    "args": {}
-  };
+    }
+    return typedReturn(true, {});
+  }).catchError( (e) {
+    return typedReturn(false, e);
+  });
+  
+  return typedReturn(resp["ok"], resp["args"]);
 }
 
 Future<Map> createUser(String uid) async {
@@ -50,32 +57,20 @@ Future<Map> createUser(String uid) async {
       }
     );
   }catch(e){
-    return {
-      "ok":false,
-      "args": e
-    };
+    return typedReturn(false, e);
   }
 
   try{
     await dataBase.collection("users").doc(uid).get().then((value){
       if(value.exists){
-        return {
-          "ok":true,
-          "args": {}
-        };
+        return typedReturn(true, {});
       }
     });
   }catch(e){
-    return {
-      "ok":false,
-      "args": e
-    };
+    return typedReturn(false, e);
   }
 
-  return {
-    "ok":false,
-    "args": {}
-  };
+  return typedReturn(false, {});
 }
 
 Future<Map> combinationAuthCreate() async {
@@ -88,29 +83,15 @@ Future<Map> combinationAuthCreate() async {
     if(response["ok"]){
       var authPass = await combinationAuth(email,password);
       if(authPass["ok"]){
-        return {
-          "ok":true,
-          "agrs":{}
-        };
+        return typedReturn(true, {});
       }else{
-        return {
-          "ok":false,
-          "args":authPass["args"]
-        };
+        return typedReturn(false, authPass["args"]);
       }
     }else{
-      return {
-        "ok":false,
-        "args":response["args"]
-      };
+      return typedReturn(false, response["args"]);
     }
   }else{
-    return {
-      "ok":false,
-      "agrs":{
-        "auth":userAuth["args"]
-      }
-    };
+    return typedReturn(false, userAuth["args"]);
   }
 }
 
@@ -120,21 +101,13 @@ Future<Map> loginUser(String email, String password) async {
     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
     .then((value){
       global.user["auth"] = true;
-      global.user["uid"] = value.user!.uid != null? value.user!.uid : "";
-      global.user["nameDisplay"] = value.user!.displayName != null? value.user!.displayName : "";
+      global.user["uid"] = value.user!.uid;
+      global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
   }catch(e){
-    print(e);
-    return {
-      "ok":false,
-      "args":e
-    };
+    return typedReturn(false, e);
   }
-  return {
-    "ok":true,
-    "args":{}
-  };
-  
+  return typedReturn(true, {});
 }
 
 Future<Map> getUser(String uid) async {
@@ -146,15 +119,9 @@ Future<Map> getUser(String uid) async {
       global.user["obj"] = value.data();
     });
   }catch(e){
-    return {
-      "ok":false,
-      "args":e
-    };
+    return typedReturn(false, e);
   }
-  return {
-    "ok":true,
-    "args":{}
-  };
+  return typedReturn(true, {});
 }
 
 Future<Map> combinationAuth(String email, String password) async {
@@ -164,21 +131,12 @@ Future<Map> combinationAuth(String email, String password) async {
   if(autentication["ok"]){
     var response = await getUser(global.user["uid"]);
     if(response["ok"]){
-      return {
-        "ok": true,
-        "args":{}
-      };
+      return typedReturn( true, {});
     }else{
-      return {
-        "ok":false,
-        "args": response["args"]
-      };
+      return typedReturn( false, response["args"]);
     }
   }else{
-    return {
-      "ok":false,
-      "args": autentication["args"]
-    };
+    return typedReturn( false, autentication["args"] );
   }
 }
 
@@ -189,76 +147,68 @@ Future signoutUser() async{
 }
 
 //publication
-Future<Map<String,dynamic>> getPublication(String uid) async {
+Future<Map> getPublication(bool add) async {
   return await dataBase.collection("publications")
-  .limit(10)
+  .limit(5)
   .get()
-  .then((value) async {
-    var c = 0;
-    for (var element in value.docs){
-      if(global.publicationsFeed.isNotEmpty){
+  .then( (value) async {
+    Map resp = typedReturn(true, {});
+      
+    for (var c = 0; c <= value.docs.length; c++) {
 
-        if(global.publicationsFeed[c]["uid"] != element.id){
+      var element = value.docs[c];
+      String uid = element.data()["userUid"].toString().trim();
+      var name = "";
+
+      if (global.publicationsFeed[c]["uid"] != element.id) {
+
+        Map namedUser = await dataBase.collection("users")
+        .doc(uid)
+        .get()
+        .then( (value) {
+          name = value.data()?["name"]; 
+          return typedReturn(true, {});
+        })
+        .catchError( (e) {
+          return typedReturn(false, e);
+        });
+
+        if (namedUser["ok"] == false) {
           global.publicationsFeed.add(
             {
               "obj": element.data(),
               "uid": element.id,
-              "nameProvider": ""
+              "nameProvider": name
             }
           );
+        } else {
+          resp = typedReturn(false, namedUser["args"]);
+          break;
         }
-      }else{
-
-        global.publicationsFeed.add(
-          {
-            "obj": element.data(),
-            "uid": element.id,
-            "nameProvider": ""
-          }
-        );
       }
-      
-      c++;
     }
-
-    for (var item in global.publicationsFeed) {
-      await dataBase.collection("users")
-        .doc(item["obj"]["userUid"].toString().trim())
-        .get()
-        .then((value) => item["nameProvider"] = value.data()?["name"] );
-    }
-
-    return {
-      "ok":true,
-      "args":{}
-    };
-  }).catchError((e){
-    print("caindo fora: $e");
-    // ignore: invalid_return_type_for_catch_error
-    return {
-      "ok":false,
-      "args":e
-    };
+    
+    return resp;
+  }).catchError( (e) {
+    return typedReturn(false, e);
   });
 }
 
 //profile
-// Future<Uint8List?> getPhotoPerfil(String uid, int n) async {
-//   try{
-//     final url = "/photoperfil/$uid/photo1.jpg";
-//     final photo = await FirebaseStorage.instance
-//       .ref()
-//       .child(url)
-//       .getData()
-//       .onError((error, stackTrace){
-//         print(error);
-//       });
+Future<Map> getPhotoPerfil(String uid) async {
+  try{
+    String url = "/photoperfil/$uid/photo1.jpg";
+    var photo = await FirebaseStorage.instance
+    .ref()
+    .child(url)
+    .getData();
 
-//     print("url:$url\nimg:$photo");
+    if(photo != null){
+      return typedReturn(true, photo);
+    }
 
-//     return photo;
-//   }on FirebaseException catch (e) {
-//     print("exeption : $e");
-//     return Uint8List(10);
-//   }
-// }
+    return typedReturn(false, "photo is null returned !");
+  }on FirebaseException catch (e) {
+    return typedReturn(false, e);
+  }
+}

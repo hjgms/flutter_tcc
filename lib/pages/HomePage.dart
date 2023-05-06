@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget createPublications(){
     return FutureBuilder(
-      future: getPublication(global.user["uid"]),
+      future: getPublication(true),
       builder: (BuildContext context, AsyncSnapshot snapshot){
         if(snapshot.hasData){
           if(snapshot.data["ok"] == true){
