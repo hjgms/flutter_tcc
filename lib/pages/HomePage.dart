@@ -71,13 +71,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ]
       ),
-      body: createPublications()
+      body: RefreshIndicator(
+        color: global.colorTheme["color1"],
+        onRefresh: () async {
+          setState(() {
+            global.publicationsFeed = [];
+          });
+          getPublication(true);
+        },
+        child: createPublications()
+      ),
     );
   }
 
   Widget createPublications(){
     return FutureBuilder(
-      future: getPublication(true),
+      future: getPublication(false),
       builder: (BuildContext context, AsyncSnapshot snapshot){
         if(snapshot.hasData){
           if(snapshot.data["ok"] == true){

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 //configs
@@ -148,49 +150,58 @@ Future signoutUser() async{
 
 //publication
 Future<Map> getPublication(bool add) async {
+
+  if (global.publicationsFeed.isNotEmpty && add == false) {
+    return typedReturn(true, {});
+  }
+
   return await dataBase.collection("publications")
   .limit(5)
   .get()
   .then( (value) async {
     Map resp = typedReturn(true, {});
-      
-    for (var c = 0; c <= value.docs.length; c++) {
+    var c = 0;
 
-      var element = value.docs[c];
+    for ( var element in value.docs) {
+
       String uid = element.data()["userUid"].toString().trim();
       var name = "";
-
-      if (global.publicationsFeed[c]["uid"] != element.id) {
-
-        Map namedUser = await dataBase.collection("users")
-        .doc(uid)
-        .get()
-        .then( (value) {
-          name = value.data()?["name"]; 
-          return typedReturn(true, {});
-        })
-        .catchError( (e) {
-          return typedReturn(false, e);
-        });
-
-        if (namedUser["ok"] == false) {
-          global.publicationsFeed.add(
-            {
-              "obj": element.data(),
-              "uid": element.id,
-              "nameProvider": name
-            }
-          );
-        } else {
-          resp = typedReturn(false, namedUser["args"]);
-          break;
-        }
+      var exists = global.publicationsFeed.where((publi) => publi["uid"] == element.id);
+      
+      if(exists.isNotEmpty){
+        continue;
       }
+
+      Map namedUser = await dataBase.collection("users")
+      .doc(uid)
+      .get()
+      .then( (value) {
+        name = value.data()?["name"]; 
+        return typedReturn(true, {});
+      })
+      .catchError( (e) {
+        return typedReturn(false, "2 : $e");
+      });
+
+      if (namedUser["ok"] == true) {
+        global.publicationsFeed.add(
+          {
+            "obj": element.data(),
+            "uid": element.id,
+            "nameProvider": name
+          }
+        );
+      } else {
+        resp = typedReturn(false, namedUser["args"]);
+        break;
+      }
+
+      c++;
     }
     
     return resp;
   }).catchError( (e) {
-    return typedReturn(false, e);
+    return typedReturn(false, "1 : $e");
   });
 }
 
@@ -212,3 +223,39 @@ Future<Map> getPhotoPerfil(String uid) async {
     return typedReturn(false, e);
   }
 }
+
+// Future<Map> addChangesPerfil(String uid, Map<String,dynamic> obj) async {
+//   try{
+//     await dataBase.collection("users")
+//     .doc(uid)
+//     .update(obj);
+
+//     return typedReturn(true, {});
+//   }catch(e){
+//     return typedReturn(false, e);
+//   }
+
+//   /* ********
+
+//   exemplo de uso:
+
+//   uid = string // id do usuário que está logado, no caso que fica no global.user["uid"]
+
+//   obj = {
+//     "name":""
+//     "lastname":"",
+//     "description":"com o texto já formatado a quebra de linhas"
+//     "localization":" com a ciade já formatada com padrão:  
+//       'NomeCidadeFormatadoEmCamelCase - EstadoCidadeFormatadoEmUpperCase'  
+//     "
+//   }
+
+//   retorno:
+
+//   Map<String,Dynamic> = {
+//     "ok": true ou false, // teste pra sucesso ou erro, caso erro ele faz print automático
+//     "args": {} ou error // caso sucesso ele só retorna {}, caso erro ele retorna o erro fornecido do catch
+//   }
+
+//   ******** */
+// }
