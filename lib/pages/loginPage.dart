@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //configs
-import 'package:flutter_application_firebase/globals/variables.dart' as global;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //pages
-import 'package:flutter_application_firebase/pages/providerPage.dart';
+import 'package:flutter_application_firebase/pages/ProviderPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

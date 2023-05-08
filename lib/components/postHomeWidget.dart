@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 //global
-import 'package:flutter_application_firebase/globals/variables.dart' as global;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class PostHomeWidget extends StatefulWidget {
   final titlePublication;

@@ -1,9 +1,8 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 //configs
-import 'package:flutter_application_firebase/globals/variables.dart' as global;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
+
+//cache 
+import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
 
 //firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -102,8 +101,7 @@ Future<Map> loginUser(String email, String password) async {
   try{
     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
     .then((value){
-      global.user["auth"] = true;
-      global.user["uid"] = value.user!.uid;
+      cache.setCacheUserAuth(true, value.user!.uid);
       global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
   }catch(e){
@@ -131,7 +129,8 @@ Future<Map> combinationAuth(String email, String password) async {
   var autentication = await loginUser(email, password);
   
   if(autentication["ok"]){
-    var response = await getUser(global.user["uid"]);
+    var _uid = await cache.getCacheStorage("uid");
+    var response = await getUser(_uid);
     if(response["ok"]){
       return typedReturn( true, {});
     }else{
@@ -145,7 +144,7 @@ Future<Map> combinationAuth(String email, String password) async {
 //sign out user
 Future signoutUser() async{
   await firebaseAuth.signOut();
-  global.user["auth"] = false;
+  cache.setCacheUserAuth(false, "");
 }
 
 //publication

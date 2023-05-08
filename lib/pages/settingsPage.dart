@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
  
 //view
-import 'package:flutter_application_firebase/globals/variables.dart' as global;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 import 'package:flutter_application_firebase/pages/loginPage.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
  

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/searchButton.dart';
 
 //configs
-import 'package:flutter_application_firebase/globals/variables.dart' as global;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
