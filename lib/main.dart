@@ -6,6 +6,7 @@ import 'package:flutter_application_firebase/data/firebase/firebase_options.dart
 
 //configs
 import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //pages
 import 'package:flutter_application_firebase/pages/LoginPage.dart';
@@ -40,15 +41,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return testLogin();
+    return FutureBuilder(
+      future: testLogin(),
+      builder: (context, snapshot) {
+        if(snapshot.hasData && snapshot.data == true){
+          return const ProviderPage();
+        }else if(snapshot.hasData && snapshot.data == false){
+          return const LoginPage();
+        }else{
+          return Scaffold(
+            body: Center(
+              child: Container(
+                height: 200,
+                width: 200,
+                color: global.colorTheme["color1"],
+              ),
+            )
+          );
+        }
+      },
+    );
   }
 
   testLogin() async {
-    bool resp = await cache.getCacheStorage("auth");
-    if (resp) {
-      return const ProviderPage();
+    bool resp = await cache.getCacheUserAuth();
+    if (resp == true) {
+      return true;
     } else {
-      return const LoginPage();
+      return false;
     }
     //anterior;
     //global.user["auth"]? const ProviderPage() : const LoginPage()

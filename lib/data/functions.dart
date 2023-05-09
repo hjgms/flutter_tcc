@@ -129,7 +129,7 @@ Future<Map> combinationAuth(String email, String password) async {
   var autentication = await loginUser(email, password);
   
   if(autentication["ok"]){
-    var _uid = await cache.getCacheStorage("uid");
+    var _uid = await cache.getCacheUserUid();
     var response = await getUser(_uid);
     if(response["ok"]){
       return typedReturn( true, {});

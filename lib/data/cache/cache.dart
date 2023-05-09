@@ -11,49 +11,27 @@ Future<SharedPreferences> init() async {
   return await SharedPreferences.getInstance();
 }
 
-
-Future getCacheStorage(String key) async {
+Future getCacheUserUid() async {
   final storage = await init();
-  var memory = storage.getBool(key);
+  var memory = storage.getString("uid");
+  if(memory == null){
+    memory = "";
+  }
   return memory;
 }
 
-Future<bool> setCacheStorage(String key, dynamic value) async {
+Future getCacheUserAuth() async {
   final storage = await init();
-  String result = "sucess";
-  switch ( value ) {
-    case bool:
-      storage.setBool(key, value);
-      break;
-    case String:
-      storage.setString(key, value);
-      break;
-    case int:
-      storage.setInt(key, value);
-      break;
-    case double:
-      storage.setDouble(key, value);
-      break;
-    default:
-      result = 'error';
+  var memory = storage.getBool("auth");
+  if(memory == null){
+    storage.setBool("auth", false);
+    memory = false;
   }
-  return result == "error" ? false : true;
+  return memory;
 }
 
 Future setCacheUserAuth(bool auth, String uid) async{
-  setCacheStorage("auth", auth);
-  setCacheStorage("uid", uid);
-}
-
-Future setUser(Map args) async {  
-  user.model = args['uid'];
-  user.model = args['obj'];
-  String strObj = json.encode(user.model).toString();
-  setCacheStorage("userJson", strObj);
-}
-
-Future getUser() async {
-  var storage = await init();
-  String? obj = storage.getString("userJson");
-  return json.decode(obj!);
+  final storage = await init();
+  storage.setBool("auth", auth);
+  storage.setString("uid", uid);
 }

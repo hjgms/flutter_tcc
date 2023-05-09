@@ -48,6 +48,7 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
               child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: global.colorTheme["color1"],
+                foregroundColor: global.colorTheme["color1"]
                 // backgroundImage: AssetImage(
                 //   "${widget.providerImagePerfil}",
                 // ),
