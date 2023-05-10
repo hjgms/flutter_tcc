@@ -8,6 +8,7 @@ Future<SharedPreferences> init() async {
   return await SharedPreferences.getInstance();
 }
 
+//uid user
 Future getCacheUserUid() async {
   final storage = await init();
   String? memory = storage.getString("uid");
@@ -15,6 +16,13 @@ Future getCacheUserUid() async {
   return memory;
 }
 
+Future<bool> setCacheUserUid(String uid) async {
+  final storage = await init();
+  bool? status = await storage.setString("uid", uid);
+  return status ? true : false;
+}
+
+//auth user
 Future getCacheUserAuth() async {
   final storage = await init();
   var memory = storage.getBool("auth");
@@ -25,7 +33,7 @@ Future getCacheUserAuth() async {
   return memory;
 }
 
-Future setCacheUserAuth(bool auth, String uid) async{
+Future<bool> setCacheUserAuth(bool auth, String uid) async{
   final storage = await init();
   bool? status;
   status = await storage.setBool("auth", auth);
@@ -37,6 +45,14 @@ Future setCacheUserAuth(bool auth, String uid) async{
   return false;
 }
 
+//data user
+Future getCacheUserData() async {
+  final storage = await init();
+  String? value = storage.getString("userData");
+  final resp = json.decode(value!);
+  return resp;
+}
+
 Future<bool> setCacheUserData(String uid, Map data) async {
   final storage = await init();
   final valor = json.encode(data).toString();
@@ -44,9 +60,15 @@ Future<bool> setCacheUserData(String uid, Map data) async {
   return status ? true : false;
 }
 
-Future getCacheUserData() async {
+//photo user
+Future getCacheUserPhoto() async {
   final storage = await init();
-  String? value = storage.getString("userData");
-  final resp = json.decode(value!);
+  String? resp = storage.getString("userPhoto");
   return resp;
+}
+
+Future<bool> setCacheUserPhoto(String photo) async {
+  final storage = await init();
+  bool? status = await storage.setString("userPhoto", photo);
+  return status ? true : false;
 }

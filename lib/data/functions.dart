@@ -100,8 +100,11 @@ Future<Map> combinationAuthCreate() async {
 Future<Map> loginUser(String email, String password) async {
   try{
     await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
-    .then((value){
-      cache.setCacheUserAuth(true, value.user!.uid);
+    .then((value) async {
+      bool resp = await cache.setCacheUserAuth(true, value.user!.uid);
+      if(!resp){
+        // error
+      }
       global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
   }catch(e){
@@ -206,15 +209,25 @@ Future<Map> getPublication(bool add) async {
 
 //profile
 Future<Map> getPhotoPerfil(String uid) async {
+  var photoCache = await cache.getCacheUserPhoto();
+  if(photoCache != null){
+    return typedReturn(true, photoCache);
+  }
   try{
     String url = "/photoperfil/$uid/photo1.jpg";
     var photo = await FirebaseStorage.instance
     .ref()
     .child(url)
     .getData();
+    //.getDownloadURL();
 
     if(photo != null){
       return typedReturn(true, photo);
+      // var resp = cache.setCacheUserPhoto(photo);
+      // if(resp == true){
+      //   //for photo download and save device
+      // }
+      // return typedReturn(true, {});
     }
 
     return typedReturn(false, "photo is null returned !");

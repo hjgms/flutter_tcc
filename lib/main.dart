@@ -11,6 +11,7 @@ import 'package:flutter_application_firebase/global/variables.dart' as global;
 //pages
 import 'package:flutter_application_firebase/pages/LoginPage.dart';
 import 'package:flutter_application_firebase/pages/ProviderPage.dart';
+import 'package:flutter_application_firebase/pages/SignPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  testLogin() async {
+  Future<bool> testLogin() async {
     bool resp = await cache.getCacheUserAuth();
     if (resp == true) {
       return true;
@@ -72,5 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     //anterior;
     //global.user["auth"]? const ProviderPage() : const LoginPage()
+  }
+
+  pageTest() {
+    //para testes fora do ambiente de preodução
+    //no caso em local caso seja nescessario testar uma pagina em expecifico
+    
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) {
+          return const SignPage();
+        },
+      )
+    );
   }
 }
