@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/components/modalSave.dart';
 
 //configs
 import 'package:flutter_application_firebase/global/variables.dart' as global;
@@ -125,48 +126,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Center(
-                                      child: Text(
-                                    "Deseja salvar as alterações?",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xff6A6A6A)),
-                                  )),
-                                  actionsAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  actionsPadding: const EdgeInsets.all(12),
-                                  actions: [
-                                    TextButton(
-                                        style: modalButtonStyle(
-                                            bgColor: Colors.grey.shade300),
-                                        onPressed: () {},
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 24),
-                                          child: Text(
-                                            "Aceitar",
-                                            style: TextStyle(
-                                                color: Colors.grey.shade700),
-                                          ),
-                                        )),
-                                    TextButton(
-                                        style: modalButtonStyle(
-                                            bgColor:
-                                                Colors.deepPurple.shade700),
-                                        onPressed: () {},
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 24),
-                                          child: Text(
-                                            "Aceitar",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        )),
-                                  ],
-                                );
+                                return ModalSave();
                               });
                         },
                         child: Container(
