@@ -20,7 +20,7 @@ class _SearchButtonState extends State<SearchButton> {
         vertical: 5
       ),
       decoration: BoxDecoration(
-        color: global.colorTheme["color2"],
+        color: global.colorTheme["clearMainPurple"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextField(

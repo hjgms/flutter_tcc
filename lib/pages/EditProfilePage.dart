@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_firebase/components/modalSave.dart';
+import 'package:flutter_application_firebase/components/modalDialog.dart';
+import 'package:flutter_application_firebase/components/modalEstilosMusicais.dart';
 
 //configs
 import 'package:flutter_application_firebase/global/variables.dart' as global;
-
 import '../components/styles/marginInput.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -57,6 +57,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool? _fecharPagina;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: global.colorTheme["mainPurple"] as Color,
@@ -126,7 +128,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return ModalSave();
+                                return const ModalEstilosMusicais();
+                                // ModalDialog(
+                                //   titulo: "Deseja Salvar as alterações?",
+                                //   descartar: false,
+                                //   onClose: (bool value) {
+                                //     setState(() {
+                                //       _fecharPagina = value;
+                                //       _fecharPagina == true
+                                //           ? Navigator.of(context)
+                                //               .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
+                                //           : Navigator.of(context)
+                                //               .pop(); // no caso de sair e não salvar
+                                //     });
+                                //   },
+                                // );
                               });
                         },
                         child: Container(
@@ -145,7 +161,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Descrição",
                 style: global.styles.labelText(),
               ),
-              MarginInput(
+              MarginInput( //TODO mudar a cor da borda ou algo do tipo quando for focado
                 child: Container(
                   padding: const EdgeInsetsDirectional.all(14),
                   decoration: BoxDecoration(

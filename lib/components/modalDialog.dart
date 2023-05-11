@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
-class ModalSave extends StatefulWidget {
-  const ModalSave({ Key? key }) : super(key: key);
+class ModalDialog extends StatefulWidget {
+  final Function(bool) onClose;
+  final String titulo;
+  final bool descartar;
+  const ModalDialog({
+    Key? key,
+    required this.titulo,
+    required this.descartar,
+    required this.onClose,
+  }) : super(key: key);
 
   @override
-  _ModalSaveState createState() => _ModalSaveState();
+  _ModalDialogState createState() => _ModalDialogState();
 }
 
-class _ModalSaveState extends State<ModalSave> {
+class _ModalDialogState extends State<ModalDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Center(
+      title: Center(
           child: Text(
-        "Deseja salvar as alterações?",
-        style: TextStyle(
+        widget.titulo,
+        style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: Color(0xff6A6A6A)),
       )),
       actionsAlignment: MainAxisAlignment.spaceBetween,
-      actionsPadding: const EdgeInsets.all(12),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       actions: [
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+            },
             child: Container(
               decoration: BoxDecoration(
                   boxShadow: const [
@@ -43,7 +53,12 @@ class _ModalSaveState extends State<ModalSave> {
               ),
             )),
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+              widget.descartar == true
+                  ? widget.onClose(false)
+                  : widget.onClose(true);
+              Navigator.of(context).pop();
+            },
             child: Container(
               decoration: BoxDecoration(
                   boxShadow: const [

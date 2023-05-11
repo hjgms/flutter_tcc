@@ -18,7 +18,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +33,9 @@ class _SearchPageState extends State<SearchPage> {
                 Text(
                   "Search",
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: global.colorTheme["color5"]
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: global.colorTheme["color5"]),
                 ),
               ],
             ),
@@ -48,9 +46,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: ListView(
-          children: const [
-
-          ],
+          children: const [],
         ),
       ),
     );
