@@ -19,8 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name =
-      global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
+  String name = global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
   String username = global.user["obj"]["username"];
   String localization = global.user["obj"]["localization"];
   String description = global.user["obj"]["description"];
@@ -85,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data!["ok"] == true) {
                         return CircleAvatar(
-                          backgroundImage: MemoryImage(snapshot.data!["args"]),
+                          backgroundImage: NetworkImage(snapshot.data!["args"]),
                         );
                       } else if (snapshot.hasData &&
                           snapshot.data!["ok"] == false) {

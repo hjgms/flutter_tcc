@@ -1,7 +1,7 @@
 //configs
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
-//cache 
+//cache
 import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
 
 //firebase
@@ -15,59 +15,51 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 Reference firebaseStorage = FirebaseStorage.instance.ref();
 
 //returns
-Map typedReturn(bool ok,var args){
-  if(!ok){
+Map typedReturn(bool ok, var args) {
+  if (!ok) {
     // ignore: avoid_print
     print(args);
   }
-  return {
-    "ok": ok,
-    "args": args
-  };
+  return {"ok": ok, "args": args};
 }
 
 //create account for new user
-Future<Map> createLoginUser( String email, String password) async {
-
-  Map resp = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
-  .then((value){
-    if(value.user!.emailVerified){
-      if(value.user!.uid != ""){
+Future<Map> createLoginUser(String email, String password) async {
+  Map resp = await firebaseAuth
+      .createUserWithEmailAndPassword(email: email, password: password)
+      .then((value) {
+    if (value.user!.emailVerified) {
+      if (value.user!.uid != "") {
         return {
-          "ok":true,
-          "args": {
-            "uid": value.user!.uid,
-            "number": value.user!.phoneNumber
-          }
+          "ok": true,
+          "args": {"uid": value.user!.uid, "number": value.user!.phoneNumber}
         };
       }
     }
     return typedReturn(true, {});
-  }).catchError( (e) {
+  }).catchError((e) {
     return typedReturn(false, e);
   });
-  
+
   return typedReturn(resp["ok"], resp["args"]);
 }
 
 Future<Map> createUser(String uid) async {
-  try{
-    await dataBase.collection("users").doc(uid).set(
-      {
-        //values new user
-      }
-    );
-  }catch(e){
+  try {
+    await dataBase.collection("users").doc(uid).set({
+      //values new user
+    });
+  } catch (e) {
     return typedReturn(false, e);
   }
 
-  try{
-    await dataBase.collection("users").doc(uid).get().then((value){
-      if(value.exists){
+  try {
+    await dataBase.collection("users").doc(uid).get().then((value) {
+      if (value.exists) {
         return typedReturn(true, {});
       }
     });
-  }catch(e){
+  } catch (e) {
     return typedReturn(false, e);
   }
 
@@ -77,122 +69,121 @@ Future<Map> createUser(String uid) async {
 Future<Map> combinationAuthCreate() async {
   String email = "";
   String password = "";
-  
-  var userAuth = await createLoginUser(email,password);
-  if(userAuth["ok"] && userAuth["args"]["uid"] != ""){
+
+  var userAuth = await createLoginUser(email, password);
+  if (userAuth["ok"] && userAuth["args"]["uid"] != "") {
     var response = await createUser(userAuth["args"]["uid"]);
-    if(response["ok"]){
-      var authPass = await combinationAuth(email,password);
-      if(authPass["ok"]){
+    if (response["ok"]) {
+      var authPass = await combinationAuth(email, password);
+      if (authPass["ok"]) {
         return typedReturn(true, {});
-      }else{
+      } else {
         return typedReturn(false, authPass["args"]);
       }
-    }else{
+    } else {
       return typedReturn(false, response["args"]);
     }
-  }else{
+  } else {
     return typedReturn(false, userAuth["args"]);
   }
 }
 
 //test for login user
 Future<Map> loginUser(String email, String password) async {
-  try{
-    await firebaseAuth.signInWithEmailAndPassword(email: email, password: password)
-    .then((value) async {
+  try {
+    await firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) async {
       bool resp = await cache.setCacheUserAuth(true, value.user!.uid);
-      if(!resp){
+      if (!resp) {
         // error
       }
       global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
-  }catch(e){
+  } catch (e) {
     return typedReturn(false, e);
   }
   return typedReturn(true, {});
 }
 
 Future<Map> getUser(String uid) async {
-  try{
-    await dataBase.collection("users")
-    .doc(uid)
-    .get()
-    .then((value){
+  try {
+    await dataBase.collection("users").doc(uid).get().then((value) {
       global.user["obj"] = value.data();
     });
-  }catch(e){
+  } catch (e) {
     return typedReturn(false, e);
   }
   return typedReturn(true, {});
 }
 
 Future<Map> combinationAuth(String email, String password) async {
-
   var autentication = await loginUser(email, password);
-  
-  if(autentication["ok"]){
+
+  if (autentication["ok"]) {
     var _uid = await cache.getCacheUserUid();
     var response = await getUser(_uid);
-    if(response["ok"]){
-      return typedReturn( true, {});
-    }else{
-      return typedReturn( false, response["args"]);
+    if (response["ok"]) {
+      return typedReturn(true, {});
+    } else {
+      return typedReturn(false, response["args"]);
     }
-  }else{
-    return typedReturn( false, autentication["args"] );
+  } else {
+    return typedReturn(false, autentication["args"]);
   }
 }
 
 //sign out user
-Future signoutUser() async{
+Future signoutUser() async {
   await firebaseAuth.signOut();
   cache.setCacheUserAuth(false, "");
 }
 
 //publication
 Future<Map> getPublication(bool add) async {
-
   if (global.publicationsFeed.isNotEmpty && add == false) {
     return typedReturn(true, {});
   }
 
-  return await dataBase.collection("publications")
-  .limit(5)
-  .get()
-  .then( (value) async {
+  return await dataBase
+      .collection("publications")
+      .limit(5)
+      .get()
+      .then((value) async {
     Map resp = typedReturn(true, {});
     var c = 0;
 
-    for ( var element in value.docs) {
-
+    for (var element in value.docs) {
       String uid = element.data()["userUid"].toString().trim();
       var name = "";
-      var exists = global.publicationsFeed.where((publi) => publi["uid"] == element.id);
-      
-      if(exists.isNotEmpty){
+      var exists =
+          global.publicationsFeed.where((publi) => publi["uid"] == element.id);
+
+      if (exists.isNotEmpty) {
         continue;
       }
 
-      Map namedUser = await dataBase.collection("users")
-      .doc(uid)
-      .get()
-      .then( (value) {
-        name = value.data()?["name"]; 
+      Map namedUser =
+          await dataBase.collection("users").doc(uid).get().then((value) {
+        name = value.data()?["name"];
         return typedReturn(true, {});
-      })
-      .catchError( (e) {
+      }).catchError((e) {
         return typedReturn(false, "2 : $e");
       });
 
+      var image = await getPhotoPublication(element.id);
+
+      if (image["args"] == null) {
+        image["args"] = "";
+      }
+
       if (namedUser["ok"] == true) {
-        global.publicationsFeed.add(
-          {
-            "obj": element.data(),
-            "uid": element.id,
-            "nameProvider": name
-          }
-        );
+        global.publicationsFeed.add({
+          "obj": element.data(),
+          "uid": element.id,
+          "nameProvider": name,
+          "image": "${image['args']}"
+        });
       } else {
         resp = typedReturn(false, namedUser["args"]);
         break;
@@ -200,9 +191,9 @@ Future<Map> getPublication(bool add) async {
 
       c++;
     }
-    
+
     return resp;
-  }).catchError( (e) {
+  }).catchError((e) {
     return typedReturn(false, "1 : $e");
   });
 }
@@ -210,28 +201,47 @@ Future<Map> getPublication(bool add) async {
 //profile
 Future<Map> getPhotoPerfil(String uid) async {
   var photoCache = await cache.getCacheUserPhoto();
-  if(photoCache != null){
+  if (photoCache != null) {
     return typedReturn(true, photoCache);
   }
-  try{
+  try {
     String url = "/photoperfil/$uid/photo1.jpg";
-    var photo = await FirebaseStorage.instance
-    .ref()
-    .child(url)
-    .getData();
-    //.getDownloadURL();
+    String photo = await FirebaseStorage.instance
+        .ref()
+        .child(url)
+        // .getData();
+        .getDownloadURL();
 
-    if(photo != null){
+    if (photo != "") {
+      // return typedReturn(true, photo);
+      bool resp = await cache.setCacheUserPhoto(photo);
+      if (resp) {
+        //for photo download and save device
+      }
       return typedReturn(true, photo);
-      // var resp = cache.setCacheUserPhoto(photo);
-      // if(resp == true){
-      //   //for photo download and save device
-      // }
-      // return typedReturn(true, {});
     }
 
     return typedReturn(false, "photo is null returned !");
-  }on FirebaseException catch (e) {
+  } on FirebaseException catch (e) {
+    return typedReturn(false, e);
+  }
+}
+
+Future<Map> getPhotoPublication(String uid) async {
+  try {
+    String url = "/publications/$uid/1.jpg";
+    String photo = await FirebaseStorage.instance
+        .ref()
+        .child(url)
+        // .getData();
+        .getDownloadURL();
+
+    if (photo != "") {
+      return typedReturn(true, photo);
+    }
+
+    return typedReturn(false, "photo is null returned !");
+  } on FirebaseException catch (e) {
     return typedReturn(false, e);
   }
 }
@@ -257,8 +267,8 @@ Future<Map> getPhotoPerfil(String uid) async {
 //     "name":""
 //     "lastname":"",
 //     "description":"com o texto já formatado a quebra de linhas"
-//     "localization":" com a ciade já formatada com padrão:  
-//       'NomeCidadeFormatadoEmCamelCase - EstadoCidadeFormatadoEmUpperCase'  
+//     "localization":" com a ciade já formatada com padrão:
+//       'NomeCidadeFormatadoEmCamelCase - EstadoCidadeFormatadoEmUpperCase'
 //     "
 //   }
 

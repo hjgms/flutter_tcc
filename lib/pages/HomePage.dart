@@ -19,77 +19,67 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ScrollController _scroll = ScrollController();
 
-  void mensage(){
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const MessagePage()
-      )
-    );
+  void mensage() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const MessagePage()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: global.colorTheme["mainPurple"] as Color,
-        elevation: 2,
-        toolbarHeight: 60,
-        title: Text(
-          "Feed",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: global.colorTheme["color5"] as Color
+          automaticallyImplyLeading: false,
+          backgroundColor: global.colorTheme["mainPurple"] as Color,
+          elevation: 2,
+          toolbarHeight: 60,
+          title: Text(
+            "Feed",
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: global.colorTheme["color5"] as Color),
           ),
-        ),
-        actions: [
-          // mensages
-          GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const MessagePage(), 
-                )
-              );
-            },
-            child: Container(
-              height: 45,
-              width: 45,
-              padding: const EdgeInsets.symmetric(
-                vertical: 10
-              ),
-              margin: const EdgeInsets.symmetric(
-                horizontal: 5,
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.notifications_outlined,
-                color: global.colorTheme["color5"] as Color,
+          actions: [
+            // mensages
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MessagePage(),
+                ));
+              },
+              child: Container(
+                height: 45,
+                width: 45,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.notifications_outlined,
+                  color: global.colorTheme["color5"] as Color,
+                ),
               ),
             ),
-          ),
-        ]
-      ),
+          ]),
       body: RefreshIndicator(
-        color: global.colorTheme["color1"],
-        onRefresh: () async {
-          setState(() {
-            global.publicationsFeed = [];
-          });
-          getPublication(true);
-        },
-        child: createPublications()
-      ),
+          color: global.colorTheme["mainPurple"],
+          onRefresh: () async {
+            setState(() {
+              global.publicationsFeed = [];
+            });
+            getPublication(true);
+          },
+          child: createPublications()),
     );
   }
 
-  Widget createPublications(){
+  Widget createPublications() {
     return FutureBuilder(
       future: getPublication(false),
-      builder: (BuildContext context, AsyncSnapshot snapshot){
-        if(snapshot.hasData){
-          if(snapshot.data["ok"] == true){
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data["ok"] == true) {
             return ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 30),
               itemCount: global.publicationsFeed.length,
@@ -97,18 +87,18 @@ class _HomePageState extends State<HomePage> {
                 return PostHomeWidget(
                   titlePublication: global.publicationsFeed[index]["obj"]["name"],
                   description: global.publicationsFeed[index]["obj"]["description"],
-                  providerImagePerfil: "",
+                  providerImagePerfil: global.publicationsFeed[index]["image"],
                   providerName: global.publicationsFeed[index]["nameProvider"],
                 );
               },
             );
-          }else if(snapshot.data["ok"] == false){
+          } else if (snapshot.data["ok"] == false) {
             return const Center(
               child: Text("not found publications"),
             );
           }
         }
-        if(snapshot.hasError){
+        if (snapshot.hasError) {
           return const Center(
             child: Text("error"),
           );
