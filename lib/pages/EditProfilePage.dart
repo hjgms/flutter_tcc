@@ -126,24 +126,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       GestureDetector(
                         onTap: () {
                           showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const ModalEstilosMusicais();
-                                // ModalDialog(
-                                //   titulo: "Deseja Salvar as alterações?",
-                                //   descartar: false,
-                                //   onClose: (bool value) {
-                                //     setState(() {
-                                //       _fecharPagina = value;
-                                //       _fecharPagina == true
-                                //           ? Navigator.of(context)
-                                //               .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
-                                //           : Navigator.of(context)
-                                //               .pop(); // no caso de sair e não salvar
-                                //     });
-                                //   },
-                                // );
-                              });
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const ModalEstilosMusicais();
+                              // return ModalDialog(
+                              //   titulo: "Deseja Salvar as alterações?",
+                              //   descartar: false,
+                              //   onClose: (bool value) {
+                              //     setState(() {
+                              //       _fecharPagina = value;
+                              //       _fecharPagina == true
+                              //           ? Navigator.of(context)
+                              //               .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
+                              //           : Navigator.of(context)
+                              //               .pop(); // no caso de sair e não salvar
+                              //     });
+                              //   },
+                              // );
+                            },
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.all(2),
@@ -161,7 +162,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Descrição",
                 style: global.styles.labelText(),
               ),
-              MarginInput( //TODO mudar a cor da borda ou algo do tipo quando for focado
+              MarginInput(
+                //TODO mudar a cor da borda ou algo do tipo quando for focado
                 child: Container(
                   padding: const EdgeInsetsDirectional.all(14),
                   decoration: BoxDecoration(
