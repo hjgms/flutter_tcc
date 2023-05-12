@@ -39,26 +39,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: testLogin(),
       builder: (context, snapshot) {
-        if(snapshot.hasData && snapshot.data == true){
+        if (snapshot.hasData && snapshot.data == true) {
           return const ProviderPage();
-        }else if(snapshot.hasData && snapshot.data == false){
+        } else if (snapshot.hasData && snapshot.data == false) {
           return const LoginPage();
-        }else{
+        } else {
           return Scaffold(
-            body: Center(
-              child: Container(
-                height: 200,
-                width: 200,
-                color: global.colorTheme["color1"],
-              ),
-            )
-          );
+              body: Center(
+            child: Container(
+              height: 200,
+              width: 200,
+              color: global.colorTheme["mainPurple"],
+            ),
+          ));
         }
       },
     );
@@ -78,13 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
   pageTest() {
     //para testes fora do ambiente de preodução
     //no caso em local caso seja nescessario testar uma pagina em expecifico
-    
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) {
-          return const SignPage();
-        },
-      )
-    );
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) {
+        return const SignPage();
+      },
+    ));
   }
 }
