@@ -36,9 +36,13 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async{
               await signoutUser();
               global.pageIndex = 0;
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(context){
-                return const LoginPage();
-              }));
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const LoginPage();
+                  }
+                )
+              );
             },
             child: Container(
               height: 50,

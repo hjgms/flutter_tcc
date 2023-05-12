@@ -84,3 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
     ));
   }
 }
+
+
+/*
+Caso debug no web rodar esse comando:
+
+flutter run -d chrome --web-renderer html
+*/
