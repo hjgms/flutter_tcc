@@ -62,19 +62,19 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ]),
-      body: RefreshIndicator(
-          color: global.colorTheme["mainPurple"],
-          onRefresh: () async {
-            setState(() {
-              global.publicationsFeed = [];
-            });
-            getPublication(true);
-          },
-          child: createPublications()),
+      //body: RefreshIndicator(
+          //color: global.colorTheme["mainPurple"],
+          //onRefresh: () async {
+            //setState(() {
+              //global.publicationsFeed = [];
+            //});
+            //getPublication(true);
+          //},
+          //child: createPublications()),
     );
   }
 
-  Widget createPublications() {
+  /*Widget createPublications() {
     return FutureBuilder(
       future: getPublication(false),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -110,5 +110,5 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }
+  }*/
 }
