@@ -58,7 +58,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     bool? _fecharPagina;
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: global.colorTheme["mainPurple"] as Color,

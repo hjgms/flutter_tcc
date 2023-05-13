@@ -11,6 +11,22 @@ class ModalEstilosMusicais extends StatefulWidget {
 }
 
 class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
+  Container dividerModalEstilosMusicais = Container(
+      // margin: const EdgeInsets.symmetric(vertical: 4),
+      child: const Divider(
+    height: 2,
+    color: Color(0xffD9D9D9),
+  ));
+
+  List<String> estilosMusicais = [
+    "Rock",
+    "Sertanejo",
+    "Blues",
+    "Pop",
+    "Eletrônica"
+  ];
+  List<String> estilosMusicaisSelecionados = [];
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -33,11 +49,14 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Color(0xffAAAAAA),
-                fontSize: 14),
-          )
+                fontSize: 13),
+          ),
+          SizedBox(
+            height: 8,
+          ),
         ],
       ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 0),
       content: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -45,28 +64,34 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             SizedBox(
                 width: double.maxFinite,
                 height: 200,
-                child: ListView(
-                  children: const [
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                    Text("data"),
-                  ],
-                )),
+                child: DefaultTextStyle.merge(
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Color(0xff202020),
+                        fontWeight: FontWeight.w400),
+                    child: ListView(
+                        children: estilosMusicais
+                            .map((lang) => CheckboxListTile(
+                                title: Text(lang),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 16),
+                                dense: false,
+                                activeColor:
+                                    global.colorTheme["mainPurple"] as Color,
+                                // checkboxShape:,
+                                value:
+                                    estilosMusicaisSelecionados.contains(lang),
+                                onChanged: (bool? value) {
+                                  // quando clicado executar o código abaixo
+                                  setState(() {
+                                    if (value!) {
+                                      estilosMusicaisSelecionados.add(lang);
+                                    } else {
+                                      estilosMusicaisSelecionados.remove(lang);
+                                    }
+                                  });
+                                }))
+                            .toList()))),
           ],
         ),
       ),
@@ -133,3 +158,17 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
     );
   }
 }
+
+ // [
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       const Flexible(child: Text("Nome do ")),
+                      //       Flexible(
+                      //         child:
+                      //             Checkbox(value: true, onChanged: (bool) {}),
+                      //       )
+                      //     ],
+                      //   ),
+                        
+                      // ],
