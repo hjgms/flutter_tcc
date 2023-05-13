@@ -1,4 +1,6 @@
 //configs
+import 'dart:convert';
+
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //cache
@@ -121,8 +123,8 @@ Future<Map> combinationAuth(String email, String password) async {
   var autentication = await loginUser(email, password);
 
   if (autentication["ok"]) {
-    var _uid = await cache.getCacheUserUid();
-    var response = await getUser(_uid);
+    var uid = await cache.getCacheUserUid();
+    var response = await getUser(uid);
     if (response["ok"]) {
       return typedReturn(true, {});
     } else {
@@ -146,47 +148,49 @@ Future<Map> getPublication(bool add) async {
   }
 
   return await dataBase
-      .collection("publications")
-      .limit(5)
-      .get()
-      .then((value) async {
+    .collection("publications")
+    .limit(5)
+    .get()
+    .then((value) async {
     Map resp = typedReturn(true, {});
     var c = 0;
 
     for (var element in value.docs) {
       String uid = element.data()["userUid"].toString().trim();
       var name = "";
-      var exists =
-          global.publicationsFeed.where((publi) => publi["uid"] == element.id);
-
-      if (exists.isNotEmpty) {
-        continue;
-      }
-
-      Map namedUser =
-          await dataBase.collection("users").doc(uid).get().then((value) {
-        name = value.data()?["name"];
-        return typedReturn(true, {});
-      }).catchError((e) {
-        return typedReturn(false, "2 : $e");
+      var exists = global.publicationsFeed.forEach((test) { 
+        test["uid"] == element.id
       });
 
-      var image = await getPhotoPublication(element.id);
+      if (exists.isNotEmpty) {
 
-      if (image["args"] == null) {
-        image["args"] = "";
-      }
-
-      if (namedUser["ok"] == true) {
-        global.publicationsFeed.add({
-          "obj": element.data(),
-          "uid": element.id,
-          "nameProvider": name,
-          "image": "${image['args']}"
-        });
       } else {
-        resp = typedReturn(false, namedUser["args"]);
-        break;
+        Map namedUser = await dataBase
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((value) {  
+          name = value.data()?["name"];
+          return typedReturn(true, {});
+        }).catchError((e) {
+          return typedReturn(false, "2 : $e");
+        });
+
+        var image = await getPhotoPublication(element.id);
+        print(image);
+        image["args"] ??= "";
+
+        if (namedUser["ok"] == true) {
+          global.publicationsFeed.add({
+            "obj": element.data(),
+            "uid": element.id,
+            "nameProvider": name,
+            "image": "${image['args']}"
+          });
+        } else {
+          resp = typedReturn(false, namedUser["args"]);
+          break;
+        }
       }
 
       c++;
@@ -207,13 +211,11 @@ Future<Map> getPhotoPerfil(String uid) async {
   try {
     String url = "/photoperfil/$uid/photo1.jpg";
     String photo = await FirebaseStorage.instance
-        .ref()
-        .child(url)
-        // .getData();
-        .getDownloadURL();
+      .ref()
+      .child(url)
+      .getDownloadURL();
 
     if (photo != "") {
-      // return typedReturn(true, photo);
       bool resp = await cache.setCacheUserPhoto(photo);
       if (resp) {
         //for photo download and save device
@@ -231,10 +233,9 @@ Future<Map> getPhotoPublication(String uid) async {
   try {
     String url = "/publications/$uid/1.jpg";
     String photo = await FirebaseStorage.instance
-        .ref()
-        .child(url)
-        // .getData();
-        .getDownloadURL();
+      .ref()
+      .child(url)
+      .getDownloadURL();
 
     if (photo != "") {
       return typedReturn(true, photo);
@@ -242,7 +243,7 @@ Future<Map> getPhotoPublication(String uid) async {
 
     return typedReturn(false, "photo is null returned !");
   } on FirebaseException catch (e) {
-    return typedReturn(false, e);
+    return typedReturn(false, "photo: $e");
   }
 }
 
@@ -280,4 +281,77 @@ Future<Map> getPhotoPublication(String uid) async {
 //   }
 
 //   ******** */
+// }
+
+// Future<String> getNameProviderPublications(String uid) async {
+//   Map namedUser = await dataBase
+//   .collection("users")
+//   .doc(uid)
+//   .get()
+//   .then((value) {
+//     final name = value.data()?["name"] == null ? "" : value.data()?["name"] as String;
+//     return typedReturn(true, name);
+//   }).catchError((e) {
+//     return typedReturn(false, "2 : $e");
+//   });
+//   return namedUser["ok"] ? namedUser["args"] : "";
+// }
+
+// Future<String> getImagePublications({String uid = "", int number = 1}) async {
+//   String url = "/publications/$uid/$number.jpg";
+//   Map imagePublication = await firebaseStorage
+//   .child(url)
+//   .getDownloadURL()
+//   .then((value){
+//     return typedReturn(true, value);
+//   }).catchError((e){
+//     return typedReturn(false, "3 : $e");
+//   });
+//   return imagePublication["ok"] ? imagePublication["args"] : "";
+// }
+
+// Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false}) async {
+//   return await dataBase
+//   .collection("")
+//   .limit(limit)
+//   .get()
+//   .then((value) async {
+//     if (!add) global.publicationsFeed = null;
+
+//     int count = 0;
+//     value.docs.forEach((element) async {
+//       final publi = global.publicationsFeed![count];
+
+//       if (element.id != publi["uid"]) {
+
+//         //get name userProvider
+//         String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
+
+//         // for(var imgNumber=1; imgNumber <= element.data()["images"]; imgNumber++){
+//         //futuramente caso tenha mais imagens
+//         // }
+
+//         //get image publication
+//         String imageProvider = await getImagePublications(uid: element.id, number: 1);
+
+//         global.publicationsFeed!.add(
+//           {
+//             "obj": element.data(),
+//             "uid": element.id,
+//             "nameProvider": nameProvider,
+//             "image": imageProvider
+//           }
+//         );
+//       }
+//       count ++;
+//     });
+
+//     bool resp = await cache.setCacheHomePublications(json.encode(global.publicationsFeed!));
+
+//     if(!resp){}
+
+//     return  typedReturn(true, {});
+//   }).catchError((e) {
+//     return  typedReturn(false, "1 : $e");
+//   });
 // }
