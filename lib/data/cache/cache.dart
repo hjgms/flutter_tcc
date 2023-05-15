@@ -77,11 +77,11 @@ Future<bool> setCacheUserPhoto(String photo) async {
 Future getCacheHomePublications() async {
   final storage = await init();
   String? resp = storage.getString("publiHome");
-  return resp;
+  return json.decode(resp ?? "");
 }
 
-Future<bool> setCacheHomePublications(String publi) async {
+Future<bool> setCacheHomePublications(List publi) async {
   final storage = await init();
-  bool? status = await storage.setString("publiHome", publi);
+  bool? status = await storage.setString("publiHome", json.encode(publi));
   return status ? true : false;
 }

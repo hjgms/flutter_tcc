@@ -142,65 +142,65 @@ Future signoutUser() async {
 }
 
 //publication
-Future<Map> getPublication(bool add) async {
-  if (global.publicationsFeed.isNotEmpty && add == false) {
-    return typedReturn(true, {});
-  }
+// Future<Map> getPublication(bool add) async {
+//   if (global.publicationsFeed!.isNotEmpty && add == false) {
+//     return typedReturn(true, {});
+//   }
 
-  return await dataBase
-    .collection("publications")
-    .limit(5)
-    .get()
-    .then((value) async {
-    Map resp = typedReturn(true, {});
-    var c = 0;
+//   return await dataBase
+//     .collection("publications")
+//     .limit(5)
+//     .get()
+//     .then((value) async {
+//     Map resp = typedReturn(true, {});
+//     var c = 0;
 
-    for (var element in value.docs) {
-      String uid = element.data()["userUid"].toString().trim();
-      var name = "";
-      var exists = global.publicationsFeed.forEach((test) { 
-        test["uid"] == element.id
-      });
+//     for (var element in value.docs) {
+//       String uid = element.data()["userUid"].toString().trim();
+//       var name = "";
+//       var exists = global.publicationsFeed!.forEach((test) { 
+//         test["uid"] == element.id;
+//       });
 
-      if (exists.isNotEmpty) {
+//       if (exists) {
 
-      } else {
-        Map namedUser = await dataBase
-        .collection("users")
-        .doc(uid)
-        .get()
-        .then((value) {  
-          name = value.data()?["name"];
-          return typedReturn(true, {});
-        }).catchError((e) {
-          return typedReturn(false, "2 : $e");
-        });
+//       } else {
+//         Map namedUser = await dataBase
+//         .collection("users")
+//         .doc(uid)
+//         .get()
+//         .then((value) {  
+//           name = value.data()?["name"];
+//           return typedReturn(true, {});
+//         }).catchError((e) {
+//           return typedReturn(false, "2 : $e");
+//         });
 
-        var image = await getPhotoPublication(element.id);
-        print(image);
-        image["args"] ??= "";
+//         var image = await getPhotoPublication(element.id);
+//         print(image);
+//         image["args"] ??= "";
 
-        if (namedUser["ok"] == true) {
-          global.publicationsFeed.add({
-            "obj": element.data(),
-            "uid": element.id,
-            "nameProvider": name,
-            "image": "${image['args']}"
-          });
-        } else {
-          resp = typedReturn(false, namedUser["args"]);
-          break;
-        }
-      }
+//         if (namedUser["ok"] == true) {
+//           global.publicationsFeed.add({
+//             "obj": element.data(),
+//             "uid": element.id,
+//             "nameProvider": name,
+//             "image": "${image['args']}"
+//           });
+//         } else {
+//           resp = typedReturn(false, namedUser["args"]);
+//           break;
+//         }
+//       }
 
-      c++;
-    }
+//       c++;
+//     }
 
-    return resp;
-  }).catchError((e) {
-    return typedReturn(false, "1 : $e");
-  });
-}
+//     return resp;
+//   }).catchError((e) {
+//     return typedReturn(false, "1 : $e");
+//   });
+// }
 
 //profile
 Future<Map> getPhotoPerfil(String uid) async {
@@ -283,75 +283,101 @@ Future<Map> getPhotoPublication(String uid) async {
 //   ******** */
 // }
 
-// Future<String> getNameProviderPublications(String uid) async {
-//   Map namedUser = await dataBase
-//   .collection("users")
-//   .doc(uid)
-//   .get()
-//   .then((value) {
-//     final name = value.data()?["name"] == null ? "" : value.data()?["name"] as String;
-//     return typedReturn(true, name);
-//   }).catchError((e) {
-//     return typedReturn(false, "2 : $e");
-//   });
-//   return namedUser["ok"] ? namedUser["args"] : "";
-// }
+Future<String> getNameProviderPublications(String uid) async {
+  Map namedUser = await dataBase
+  .collection("users")
+  .doc(uid)
+  .get()
+  .then((value) {
+    final name = value.data()?["name"] == null ? "" : value.data()?["name"] as String;
+    return typedReturn(true, name);
+  }).catchError((e) {
+    return typedReturn(false, "2 : $e");
+  });
+  return namedUser["ok"] ? namedUser["args"] : "";
+}
 
-// Future<String> getImagePublications({String uid = "", int number = 1}) async {
-//   String url = "/publications/$uid/$number.jpg";
-//   Map imagePublication = await firebaseStorage
-//   .child(url)
-//   .getDownloadURL()
-//   .then((value){
-//     return typedReturn(true, value);
-//   }).catchError((e){
-//     return typedReturn(false, "3 : $e");
-//   });
-//   return imagePublication["ok"] ? imagePublication["args"] : "";
-// }
+Future<String> getImagePublications({String uid = "", int number = 1}) async {
+  String url = "/publications/$uid/$number.jpg";
+  Map imagePublication = await firebaseStorage
+  .child(url)
+  .getDownloadURL()
+  .then((value){
+    return typedReturn(true, value);
+  }).catchError((e){
+    return typedReturn(false, "3 : $e");
+  });
+  return imagePublication["ok"] ? imagePublication["args"] : "";
+}
 
-// Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false}) async {
-//   return await dataBase
-//   .collection("")
-//   .limit(limit)
-//   .get()
-//   .then((value) async {
-//     if (!add) global.publicationsFeed = null;
+/*        String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
+        String imageProvider = await getImagePublications(uid: element.id, number: 1);*/
 
-//     int count = 0;
-//     value.docs.forEach((element) async {
-//       final publi = global.publicationsFeed![count];
+        /*
+        global.publicationsFeed!.add(
+          {
+            "obj": element.data(),
+            "uid": element.id,
+            "nameProvider": nameProvider,
+            "image": imageProvider
+          }
+        );*/
 
-//       if (element.id != publi["uid"]) {
+Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false}) async {
+  return await dataBase
+  .collection("publications")
+  .limit(limit)
+  .get()
+  .then((value) async {
 
-//         //get name userProvider
-//         String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
+    List cacheList = await cache.getCacheHomePublications();
 
-//         // for(var imgNumber=1; imgNumber <= element.data()["images"]; imgNumber++){
-//         //futuramente caso tenha mais imagens
-//         // }
+    if(cacheList.isNotEmpty){
+      global.publicationsFeed = cacheList;
+      return typedReturn(true, {});
+    }
 
-//         //get image publication
-//         String imageProvider = await getImagePublications(uid: element.id, number: 1);
+    if(add == false){
+      global.publicationsFeed = [];
+    }
 
-//         global.publicationsFeed!.add(
-//           {
-//             "obj": element.data(),
-//             "uid": element.id,
-//             "nameProvider": nameProvider,
-//             "image": imageProvider
-//           }
-//         );
-//       }
-//       count ++;
-//     });
+    for (var i = 0; i < value.docs.length; i++) {
+      var element = value.docs[i];
+    
+      String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
+      String imageProvider = await getImagePublications(uid: element.id, number: 1);
 
-//     bool resp = await cache.setCacheHomePublications(json.encode(global.publicationsFeed!));
+      if(global.publicationsFeed.isNotEmpty){
+        
+        bool notExist = global.publicationsFeed.where((values) => element.id == values["uid"]).isEmpty;
+        
+        if(notExist){
+          global.publicationsFeed.add({
+            "obj": element.data(),
+            "uid": element.id,
+            "nameProvider": nameProvider,
+            "image": imageProvider
+          });    
+        }    
+      }else{
+        global.publicationsFeed.add({
+          "obj": element.data(),
+          "uid": element.id,
+          "nameProvider": nameProvider,
+          "image": imageProvider
+        });    
+      }
+    }
 
-//     if(!resp){}
+    if(write){
+      bool resp = await cache.setCacheHomePublications(global.publicationsFeed);
+      if(!resp){
+        return  typedReturn(false, "4 : not saved");
+      }
+    }
 
-//     return  typedReturn(true, {});
-//   }).catchError((e) {
-//     return  typedReturn(false, "1 : $e");
-//   });
-// }
+    return  typedReturn(true, {});
+  }).catchError((e) {
+    return  typedReturn(false, "1 : $e");
+  });
+}

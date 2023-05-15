@@ -28,55 +28,65 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: global.colorTheme["mainPurple"] as Color,
-          elevation: 2,
-          toolbarHeight: 60,
-          title: Text(
-            "Feed",
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-                color: global.colorTheme["color5"] as Color),
-          ),
-          actions: [
-            // mensages
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MessagePage(),
-                ));
-              },
-              child: Container(
-                height: 45,
-                width: 45,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 5,
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  Icons.notifications_outlined,
-                  color: global.colorTheme["color5"] as Color,
-                ),
+        automaticallyImplyLeading: false,
+        backgroundColor: global.colorTheme["mainPurple"] as Color,
+        elevation: 2,
+        toolbarHeight: 60,
+        title: Text(
+          "Feed",
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: global.colorTheme["color5"] as Color),
+        ),
+        actions: [
+          // mensages
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const MessagePage(),
+              ));
+            },
+            child: Container(
+              height: 45,
+              width: 45,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 5,
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.notifications_outlined,
+                color: global.colorTheme["color5"] as Color,
               ),
             ),
-          ]),
-      //body: RefreshIndicator(
-          //color: global.colorTheme["mainPurple"],
-          //onRefresh: () async {
-            //setState(() {
-              //global.publicationsFeed = [];
-            //});
-            //getPublication(true);
-          //},
-          //child: createPublications()),
+          ),
+        ]
+      ),
+      body: RefreshIndicator(
+        color: global.colorTheme["mainPurple"],
+        onRefresh: () async {
+          setState(() {
+            global.publicationsFeed = [];
+          });
+          getPublicatiosHome(
+            add: false,
+            limit: 5,
+            write: false
+          );
+        },
+        child: createPublications()
+      ),
     );
   }
 
-  /*Widget createPublications() {
+  Widget createPublications() {
     return FutureBuilder(
-      future: getPublication(false),
+      future: getPublicatiosHome(
+        add: true,
+        limit: 5,
+        write: false
+      ),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data["ok"] == true) {
@@ -110,5 +120,5 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
-  }*/
+  }
 }
