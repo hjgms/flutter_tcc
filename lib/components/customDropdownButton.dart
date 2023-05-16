@@ -13,16 +13,17 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-        isExpanded: true,
-        value: widget.dropdownValue,
-        icon: const Icon(Icons.keyboard_arrow_down),
-        items: widget.dropdownItems.map((String item) {
-          return DropdownMenuItem<String>(value: item, child: Text(item));
-        }).toList(),
-        onChanged: (String? newValue) {
-          setState(() {
-            widget.dropdownValue = newValue!;
-          });
+      isExpanded: true,
+      value: widget.dropdownValue,
+      icon: const Icon(Icons.keyboard_arrow_down),
+      items: widget.dropdownItems.map( (String item) {
+        return DropdownMenuItem<String>(value: item, child: Text(item));
+      }).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          widget.dropdownValue = newValue!;
         });
+      }
+    );
   }
 }

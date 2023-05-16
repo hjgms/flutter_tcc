@@ -11,7 +11,7 @@ import 'package:flutter_application_firebase/global/variables.dart' as global;
 //pages
 import 'package:flutter_application_firebase/pages/LoginPage.dart';
 import 'package:flutter_application_firebase/pages/ProviderPage.dart';
-import 'package:flutter_application_firebase/pages/SignPage.dart';
+import 'package:flutter_application_firebase/pages/sign_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

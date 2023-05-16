@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-
-//configs
+//global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class SearchButton extends StatefulWidget {

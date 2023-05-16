@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+//global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class ModalEstilosMusicais extends StatefulWidget {
@@ -7,16 +9,16 @@ class ModalEstilosMusicais extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ModalEstilosMusicaisState createState() => _ModalEstilosMusicaisState();
+  State<ModalEstilosMusicais> createState() => _ModalEstilosMusicaisState();
 }
 
 class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
   Container dividerModalEstilosMusicais = Container(
-      // margin: const EdgeInsets.symmetric(vertical: 4),
-      child: const Divider(
-    height: 2,
-    color: Color(0xffD9D9D9),
-  ));
+    child: const Divider(
+      height: 2,
+      color: Color(0xffD9D9D9),
+    )
+  );
 
   List<String> estilosMusicais = [
     "Rock",
@@ -36,9 +38,10 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             "Estilos musicais ",
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff121212)),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Color(0xff121212)
+          ),
           ),
           SizedBox(
             height: 4,
@@ -47,9 +50,10 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             "Selecione os estilos musicais que você tem conhecimento e sabe tocar.",
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Color(0xffAAAAAA),
-                fontSize: 13),
+              fontWeight: FontWeight.w600,
+              color: Color(0xffAAAAAA),
+              fontSize: 13
+            ),
           ),
           SizedBox(
             height: 8,
@@ -62,36 +66,41 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-                width: double.maxFinite,
-                height: 200,
-                child: DefaultTextStyle.merge(
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff202020),
-                        fontWeight: FontWeight.w400),
-                    child: ListView(
-                        children: estilosMusicais
-                            .map((lang) => CheckboxListTile(
-                                title: Text(lang),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 16),
-                                dense: false,
-                                activeColor:
-                                    global.colorTheme["mainPurple"] as Color,
-                                // checkboxShape:,
-                                value:
-                                    estilosMusicaisSelecionados.contains(lang),
-                                onChanged: (bool? value) {
-                                  // quando clicado executar o código abaixo
-                                  setState(() {
-                                    if (value!) {
-                                      estilosMusicaisSelecionados.add(lang);
-                                    } else {
-                                      estilosMusicaisSelecionados.remove(lang);
-                                    }
-                                  });
-                                }))
-                            .toList()))),
+              width: double.maxFinite,
+              height: 200,
+              child: DefaultTextStyle.merge(
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xff202020),
+                  fontWeight: FontWeight.w400
+                ),
+                child: ListView(
+                  children: estilosMusicais.map( 
+                    (lang) => CheckboxListTile(
+                      title: Text(lang),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 0, 
+                        horizontal: 16
+                      ),
+                      dense: false,
+                      activeColor: global.colorTheme["mainPurple"] as Color,
+                      // checkboxShape:,
+                      value: estilosMusicaisSelecionados.contains(lang),
+                      onChanged: (bool? value) {
+                        // quando clicado executar o código abaixo
+                        setState(() {
+                          if (value!) {
+                            estilosMusicaisSelecionados.add(lang);
+                          } else {
+                            estilosMusicaisSelecionados.remove(lang);
+                          }
+                        });
+                      }
+                    )
+                  ).toList()
+                )
+              )
+            ),
           ],
         ),
       ),
@@ -108,49 +117,61 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(43, 70, 70, 70),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset: Offset(0, 4)),
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: Colors.grey.shade300),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-                    child: Text(
-                      "Cancelar",
-                      style: TextStyle(color: Colors.grey.shade700),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(43, 70, 70, 70),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: Offset(0, 4)
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    color: Colors.grey.shade300
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8, 
+                    horizontal: 30
+                  ),
+                  child: Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      color: Colors.grey.shade700
                     ),
-                  )),
+                  ),
+                )
+              ),
               GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(43, 70, 70, 70),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset: Offset(0, 4)),
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: global.colorTheme["mainPurple"] as Color),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-                    child: const Text(
-                      "Confirmar",
-                      style: TextStyle(color: Colors.white),
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(43, 70, 70, 70),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: Offset(0, 4)
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    color: global.colorTheme["mainPurple"] as Color
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8, 
+                    horizontal: 30
+                  ),
+                  child: const Text(
+                    "Confirmar",
+                    style: TextStyle(
+                      color: Colors.white
                     ),
-                  )),
+                  ),
+                )
+              ),
             ],
           ),
         ),
@@ -159,16 +180,15 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
   }
 }
 
- // [
-                      //   Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       const Flexible(child: Text("Nome do ")),
-                      //       Flexible(
-                      //         child:
-                      //             Checkbox(value: true, onChanged: (bool) {}),
-                      //       )
-                      //     ],
-                      //   ),
-                        
-                      // ],
+  // [
+  //   Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: [
+  //       const Flexible(child: Text("Nome do ")),
+  //       Flexible(
+  //         child:
+  //             Checkbox(value: true, onChanged: (bool) {}),
+  //       )
+  //     ],
+  //   ),
+  // ],

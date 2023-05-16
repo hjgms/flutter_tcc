@@ -1,21 +1,20 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class PostHomeWidget extends StatefulWidget {
-  final titlePublication;
-  final description;
-  final providerName;
-  final providerImagePerfil;
+  final String titlePublication;
+  final String description;
+  final String providerName;
+  final String providerImagePerfil;
 
   const PostHomeWidget({
     super.key, 
-    @required this.titlePublication, 
-    @required this.description, 
-    @required this.providerName,
-    @required this.providerImagePerfil
+    required this.titlePublication, 
+    required this.description, 
+    required this.providerName,
+    required this.providerImagePerfil
   });
 
   @override
@@ -29,7 +28,10 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
     return Container(
       height: 430,
       width: double.maxFinite,
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 15
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
@@ -45,18 +47,18 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
         children: [
           Padding(
             padding: const EdgeInsets.all(10),
-              child: ListTile(
+            child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: global.colorTheme["mainPurple"],
-                foregroundColor: global.colorTheme["mainPurple"]
+                backgroundColor: global.colorTheme["mainPurple"] as Color,
+                foregroundColor: global.colorTheme["mainPurple"] as Color,
                 // backgroundImage: AssetImage(
                 //   "${widget.providerImagePerfil}",
                 // ),
               ),
-              contentPadding: EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.all(0),
               title: Text(
-                "${widget.providerName}",
-                style: TextStyle(
+                widget.providerName,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               )
@@ -78,7 +80,8 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
               children: [
                 Row(
                   children: [
-                    Text("${widget.titlePublication}",
+                    Text(
+                      widget.titlePublication,
                       style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w500
@@ -88,7 +91,8 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
                 ),
                 Row(
                   children: [
-                    Text("${widget.description}",
+                    Text(
+                      widget.description,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500

@@ -17,12 +17,13 @@ class _CustomSwitchState extends State<CustomSwitch> {
       children: [
         Text(widget.title),
         Switch(
-            value: widget.switchValue,
-            onChanged: (bool value) {
-              setState(() {
-                widget.switchValue = value;
-              });
-            }),
+          value: widget.switchValue,
+          onChanged: (bool value) {
+            setState(() {
+              widget.switchValue = value;
+            });
+          }
+        ),
       ],
     );
   }
