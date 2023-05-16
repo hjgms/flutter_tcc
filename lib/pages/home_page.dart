@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //page view
-import 'package:flutter_application_firebase/pages/message_page.dart';
-import 'package:flutter_application_firebase/components/postHomeWidget.dart';
+import 'package:flutter_application_firebase/pages/notification_page.dart';
+import 'package:flutter_application_firebase/components/publication_home.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void mensage() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const MessagePage(
+        builder: (context) => const NotificationPage(
           description: "",
           providerName: ""
         )
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const MessagePage(
+                builder: (context) => const NotificationPage(
                   description: "",
                   providerName: ""
                 ),
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(vertical: 30),
               itemCount: global.publicationsFeed.length,
               itemBuilder: (context, index) {
-                return PostHomeWidget(
+                return PublicationHome(
                   titlePublication: global.publicationsFeed[index]["obj"]["name"],
                   description: global.publicationsFeed[index]["obj"]["description"],
                   providerImagePerfil: global.publicationsFeed[index]["image"],

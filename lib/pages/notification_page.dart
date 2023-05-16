@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
-class MessagePage extends StatefulWidget {
+class NotificationPage extends StatefulWidget {
   final String providerName;
   final String description;
   
-  const MessagePage({
+  const NotificationPage({
     super.key, 
     required this.providerName, 
     required this.description
   });
 
   @override
-  State<MessagePage> createState() => _MessagePageState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _MessagePageState extends State<MessagePage> {
+class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

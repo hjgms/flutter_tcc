@@ -1,6 +1,4 @@
-//configs
-import 'dart:convert';
-
+//global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //cache
