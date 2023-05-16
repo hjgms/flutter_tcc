@@ -9,8 +9,8 @@ import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //pages
-import 'package:flutter_application_firebase/pages/LoginPage.dart';
-import 'package:flutter_application_firebase/pages/ProviderPage.dart';
+import 'package:flutter_application_firebase/pages/login_page.dart';
+import 'package:flutter_application_firebase/pages/provider_page.dart';
 import 'package:flutter_application_firebase/pages/sign_page.dart';
 
 void main() async {

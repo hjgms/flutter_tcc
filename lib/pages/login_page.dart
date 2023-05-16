@@ -7,7 +7,7 @@ import 'package:flutter_application_firebase/data/functions.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //pages
-import 'package:flutter_application_firebase/pages/ProviderPage.dart';
+import 'package:flutter_application_firebase/pages/provider_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
