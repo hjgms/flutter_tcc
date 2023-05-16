@@ -69,9 +69,7 @@ class _PostHomeWidgetState extends State<PostHomeWidget> {
             margin: const EdgeInsets.all(20),
             height: 250,
             width: double.maxFinite,
-            child: const Placeholder(
-              //providerImagePerfil
-            ),
+            // child: Image.network(widget.providerImagePerfil)
           ),
           Padding(
             padding: const EdgeInsets.all(10),

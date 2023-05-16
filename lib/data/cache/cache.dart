@@ -77,7 +77,7 @@ Future<bool> setCacheUserPhoto(String photo) async {
 Future getCacheHomePublications() async {
   final storage = await init();
   String? resp = storage.getString("publiHome");
-  return json.decode(resp ?? "");
+  return json.decode(resp ?? "[]");
 }
 
 Future<bool> setCacheHomePublications(List publi) async {

@@ -141,67 +141,6 @@ Future signoutUser() async {
   cache.setCacheUserAuth(false, "");
 }
 
-//publication
-// Future<Map> getPublication(bool add) async {
-//   if (global.publicationsFeed!.isNotEmpty && add == false) {
-//     return typedReturn(true, {});
-//   }
-
-//   return await dataBase
-//     .collection("publications")
-//     .limit(5)
-//     .get()
-//     .then((value) async {
-//     Map resp = typedReturn(true, {});
-//     var c = 0;
-
-//     for (var element in value.docs) {
-//       String uid = element.data()["userUid"].toString().trim();
-//       var name = "";
-//       var exists = global.publicationsFeed!.forEach((test) { 
-//         test["uid"] == element.id;
-//       });
-
-//       if (exists) {
-
-//       } else {
-//         Map namedUser = await dataBase
-//         .collection("users")
-//         .doc(uid)
-//         .get()
-//         .then((value) {  
-//           name = value.data()?["name"];
-//           return typedReturn(true, {});
-//         }).catchError((e) {
-//           return typedReturn(false, "2 : $e");
-//         });
-
-//         var image = await getPhotoPublication(element.id);
-//         print(image);
-//         image["args"] ??= "";
-
-//         if (namedUser["ok"] == true) {
-//           global.publicationsFeed.add({
-//             "obj": element.data(),
-//             "uid": element.id,
-//             "nameProvider": name,
-//             "image": "${image['args']}"
-//           });
-//         } else {
-//           resp = typedReturn(false, namedUser["args"]);
-//           break;
-//         }
-//       }
-
-//       c++;
-//     }
-
-//     return resp;
-//   }).catchError((e) {
-//     return typedReturn(false, "1 : $e");
-//   });
-// }
-
 //profile
 Future<Map> getPhotoPerfil(String uid) async {
   var photoCache = await cache.getCacheUserPhoto();
@@ -283,6 +222,8 @@ Future<Map> getPhotoPublication(String uid) async {
 //   ******** */
 // }
 
+//publication
+
 Future<String> getNameProviderPublications(String uid) async {
   Map namedUser = await dataBase
   .collection("users")
@@ -298,7 +239,7 @@ Future<String> getNameProviderPublications(String uid) async {
 }
 
 Future<String> getImagePublications({String uid = "", int number = 1}) async {
-  String url = "/publications/$uid/$number.jpg";
+  String url = "/publications/${uid.trim()}/$number.jpg";
   Map imagePublication = await firebaseStorage
   .child(url)
   .getDownloadURL()
@@ -309,19 +250,6 @@ Future<String> getImagePublications({String uid = "", int number = 1}) async {
   });
   return imagePublication["ok"] ? imagePublication["args"] : "";
 }
-
-/*        String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
-        String imageProvider = await getImagePublications(uid: element.id, number: 1);*/
-
-        /*
-        global.publicationsFeed!.add(
-          {
-            "obj": element.data(),
-            "uid": element.id,
-            "nameProvider": nameProvider,
-            "image": imageProvider
-          }
-        );*/
 
 Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false}) async {
   return await dataBase
