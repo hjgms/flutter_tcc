@@ -37,23 +37,28 @@ class _PublicationHomeState extends State<PublicationHome> {
         boxShadow: const [
           BoxShadow(
             blurRadius: 10,
-            color: Colors.black12,
-            spreadRadius: 2
+            color: Color.fromARGB(20, 0, 0, 0),
+            spreadRadius: 1
           )
         ],
-        color: Colors.white60
+        color: Colors.white
       ),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(
+              bottom: 5,
+              left: 10,
+              right: 5,
+              top: 5
+            ),
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: global.colorTheme["mainPurple"] as Color,
                 foregroundColor: global.colorTheme["mainPurple"] as Color,
-                // backgroundImage: AssetImage(
-                //   "${widget.providerImagePerfil}",
-                // ),
+                backgroundImage: AssetImage(
+                  "${widget.providerImagePerfil}",
+                ),
               ),
               contentPadding: const EdgeInsets.all(0),
               title: Text(
@@ -65,13 +70,18 @@ class _PublicationHomeState extends State<PublicationHome> {
             ), 
           ),
           Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20)
+            decoration:  BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.circular(5)
             ),
-            margin: const EdgeInsets.all(20),
             height: 250,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 10
+            ),
             width: double.maxFinite,
-            // child: Image.network(widget.providerImagePerfil)
+            child: Image.network(
+              widget.providerImagePerfil
+            )
           ),
           Padding(
             padding: const EdgeInsets.all(10),

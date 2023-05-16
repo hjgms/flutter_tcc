@@ -237,7 +237,7 @@ Future<String> getNameProviderPublications(String uid) async {
 }
 
 Future<String> getImagePublications({String uid = "", int number = 1}) async {
-  String url = "/publications/${uid.trim()}/$number.jpg";
+  String url = "/publications/$uid/$number.jpg";
   Map imagePublication = await firebaseStorage
   .child(url)
   .getDownloadURL()
@@ -270,7 +270,7 @@ Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = fa
     for (var i = 0; i < value.docs.length; i++) {
       var element = value.docs[i];
     
-      String nameProvider = await getNameProviderPublications(element.data()["userUid"]);
+      String nameProvider = await getNameProviderPublications(element.data()["userUid"].trim());
       String imageProvider = await getImagePublications(uid: element.id, number: 1);
 
       if(global.publicationsFeed.isNotEmpty){
