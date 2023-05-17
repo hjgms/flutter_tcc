@@ -30,9 +30,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-	initState(){
+  void addForList(){
+    if(_scroll.position.pixels == _scroll.position.maxScrollExtent){
+      //chama a função de adicionar mais;
+    }
+  }
+
+  @override
+	void initState(){
 		super.initState();
-		//_scroll.addListenner();
+		_scroll.addListener(() => addForList);
 	}
 
   @override
