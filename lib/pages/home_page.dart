@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _scroll = ScrollController();
+  late final ScrollController _scroll;
 
   void mensage() {
     Navigator.of(context).push(
@@ -29,6 +29,11 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+
+	initState(){
+		super.initState();
+		//_scroll.addListenner();
+	}
 
   @override
   Widget build(BuildContext context) {
