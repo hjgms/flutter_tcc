@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _scroll = ScrollController();
+  late final ScrollController _scroll;
 
   void mensage() {
     Navigator.of(context).push(
@@ -29,6 +29,23 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+
+  void addForList(){
+    if(_scroll.position.pixels == _scroll.position.maxScrollExtent){
+      getPublicatiosHome(
+        add: true,
+        limit: global.publicationsFeed.length + 5,
+        write: true,
+        scrolled: true
+      );
+    }
+  }
+
+  @override
+	void initState(){
+		super.initState();
+		_scroll.addListener(() => addForList);
+	}
 
   @override
   Widget build(BuildContext context) {
