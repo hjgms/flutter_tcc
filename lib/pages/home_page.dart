@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController _scroll = ScrollController();
+  final ScrollController _scroll = ScrollController();
 
   void mensage() {
     Navigator.of(context).push(
