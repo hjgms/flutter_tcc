@@ -32,7 +32,12 @@ class _HomePageState extends State<HomePage> {
 
   void addForList(){
     if(_scroll.position.pixels == _scroll.position.maxScrollExtent){
-      //chama a função de adicionar mais;
+      getPublicatiosHome(
+        add: true,
+        limit: global.publicationsFeed.length + 5,
+        write: true,
+        scrolled: true
+      );
     }
   }
 

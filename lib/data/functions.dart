@@ -249,7 +249,7 @@ Future<String> getImagePublications({String uid = "", int number = 1}) async {
   return imagePublication["ok"] ? imagePublication["args"] : "";
 }
 
-Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false}) async {
+Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false, bool scrolled = false}) async {
   return await dataBase
   .collection("publications")
   .limit(limit)
@@ -258,7 +258,7 @@ Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = fa
 
     List cacheList = await cache.getCacheHomePublications();
 
-    if(cacheList.isNotEmpty){
+    if(cacheList.isNotEmpty && scrolled == false){
       global.publicationsFeed = cacheList;
       return typedReturn(true, {});
     }
