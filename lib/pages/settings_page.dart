@@ -29,27 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontWeight: FontWeight.w500,
                   color: global.colorTheme["color5"]),
             ),
-            actions: [
-              GestureDetector(
-                onTap: () async {
-                  signoutUser();
-                  global.pageIndex = 0;
-                  Navigator.of(context)
-                      .pushReplacement(MaterialPageRoute(builder: (context) {
-                    return const LoginPage();
-                  }));
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.all(10),
-                  child: Icon(
-                    Icons.logout,
-                    color: global.colorTheme["color5"],
-                  ),
-                ),
-              )
-            ]),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: ListView(
@@ -110,19 +90,29 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: Colors.red.shade200,
                       borderRadius: BorderRadius.circular(6)),
                   padding: const EdgeInsetsDirectional.all(12),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Trocar senha",
+                      const Text(
+                        "Sair",
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                             color: Color.fromARGB(255, 68, 6, 6)),
                       ),
-                      Icon(
-                        Icons.logout,
-                        color: Color.fromARGB(255, 68, 6, 6),
+                      GestureDetector(
+                        onTap: () async {
+                          signoutUser();
+                          global.pageIndex = 0;
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(builder: (context) {
+                            return const LoginPage();
+                          }));
+                        },
+                        child: const Icon(
+                          Icons.logout,
+                          color: Color.fromARGB(255, 68, 6, 6),
+                        ),
                       )
                     ],
                   ),
