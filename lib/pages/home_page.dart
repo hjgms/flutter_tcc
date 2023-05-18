@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/components/refresh_error.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //page view
@@ -135,8 +136,17 @@ class _HomePageState extends State<HomePage> {
           }
         }
         if (snapshot.hasError) {
-          return const Center(
-            child: Text("error"),
+          return RefreshError(
+            onTapRefresh: (value){
+              if(value) {
+                getPublicatiosHome(
+                  add: true,
+                  limit: 5,
+                  write: false
+                );
+              }
+            }, 
+            titleError: "Server connection error!"
           );
         }
         return Center(
