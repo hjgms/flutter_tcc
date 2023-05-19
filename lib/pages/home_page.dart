@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final ScrollController _scroll;
+  ScrollController _scroll = ScrollController();
 
   void mensage() {
     Navigator.of(context).push(
@@ -31,8 +31,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void addForList(){
+  addForList(){
     if(_scroll.position.pixels == _scroll.position.maxScrollExtent){
+      print("adsfsad");
       getPublicatiosHome(
         add: true,
         limit: global.publicationsFeed.length + 5,
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
 	void initState(){
 		super.initState();
-		_scroll.addListener(() => addForList);
+    _scroll.addListener(addForList);
 	}
 
   @override
@@ -118,6 +119,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData) {
           if (snapshot.data["ok"] == true) {
             return ListView.builder(
+              controller: _scroll,
               padding: const EdgeInsets.symmetric(vertical: 30),
               itemCount: global.publicationsFeed.length,
               itemBuilder: (context, index) {

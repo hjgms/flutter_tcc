@@ -56,9 +56,9 @@ class _PublicationHomeState extends State<PublicationHome> {
               leading: CircleAvatar(
                 backgroundColor: global.colorTheme["mainPurple"] as Color,
                 foregroundColor: global.colorTheme["mainPurple"] as Color,
-                backgroundImage: AssetImage(
-                  "${widget.providerImagePerfil}",
-                ),
+                // backgroundImage: AssetImage(
+                //   "${widget.providerImagePerfil}",
+                // ),
               ),
               contentPadding: const EdgeInsets.all(0),
               title: Text(
