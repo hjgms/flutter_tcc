@@ -9,6 +9,7 @@ Map user = {"auth": true, "uid": "EvdXTmOnGeNPyIadnIgpplgfR4A2"};
 String storage = 'gs://lithe-strata-348418.appspot.com/';
 
 List publicationsFeed = [];
+List notificationList = [];
 
 Map<String, Color> colorTheme = {
   "mainPurple": const Color.fromARGB(255, 86, 22, 236),

@@ -18,24 +18,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController _scroll = ScrollController();
+  final ScrollController _scroll = ScrollController();
   bool _refresh = false;
 
-  void mensage() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const NotificationPage(
-          description: "",
-          providerName: ""
-        )
-      )
-    );
-  }
-
-  addForList(){
+  void addPublicationsList() {
     if(_scroll.position.pixels == _scroll.position.maxScrollExtent){
       setState(() {
         _refresh = true;
+
         getPublicatiosHome(
           add: true,
           limit: global.publicationsFeed.length + 5,
@@ -54,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
 	void initState(){
 		super.initState();
-    _scroll.addListener(addForList);
+    _scroll.addListener(addPublicationsList);
 	}
 
   @override
@@ -77,10 +67,9 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const NotificationPage(
-                  description: "",
-                  providerName: ""
-                ),
+                builder: (context) => NotificationPage(
+                  notificationList: global.notificationList
+                )
               ));
             },
             child: Container(
@@ -92,8 +81,12 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.center,
               child: Icon(
-                Icons.notifications_outlined,
+                global.notificationList.isNotEmpty ?
+                  Icons.notifications_on_outlined 
+                  : 
+                  Icons.notifications_outlined,
                 color: global.colorTheme["color5"] as Color,
+                size: 24,
               ),
             ),
           ),
@@ -102,17 +95,51 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         color: global.colorTheme["mainPurple"],
         onRefresh: () async {
+          //clear publications
           setState(() {
             global.publicationsFeed = [];
+            clearPublicationsCache();
           });
-          clearPublicationsCache();
-          getPublicatiosHome(
-            add: false,
-            limit: 5,
-            write: false
-          );
+          
+          //get publicatioins
+          getPublicatiosHome(limit: 5);
         },
         child: createPublications()
+      ),
+    );
+  }
+
+  Widget createListPublications(ScrollController scroll, List publi){
+    return ListView.builder(
+      controller: scroll,
+      padding: const EdgeInsets.only(
+        top: 30,
+        bottom: 60,                    
+      ),
+      itemCount: publi.length,
+      itemBuilder: (context, index) {
+        return PublicationHome(
+          titlePublication: publi[index]["obj"]["name"],
+          description: publi[index]["obj"]["description"],
+          providerImagePerfil: publi[index]["image"],
+          providerName: publi[index]["nameProvider"],
+        );
+      },
+    );
+  }
+
+  Widget refreshBottomItem(){
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: SizedBox(
+        height: 50,
+        width: 50,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: _refresh ? CircularProgressIndicator(
+            color: global.colorTheme["mainPurple"] as Color,
+          ) : null, 
+        )
       ),
     );
   }
@@ -121,43 +148,15 @@ class _HomePageState extends State<HomePage> {
     return FutureBuilder(
       future: getPublicatiosHome(
         add: true,
-        limit: 5,
-        write: false
+        limit: 5
       ),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data["ok"] == true) {
             return Stack(
               children: [
-                ListView.builder(
-                  controller: _scroll,
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    bottom: 60,                    
-                  ),
-                  itemCount: global.publicationsFeed.length,
-                  itemBuilder: (context, index) {
-                    return PublicationHome(
-                      titlePublication: global.publicationsFeed[index]["obj"]["name"],
-                      description: global.publicationsFeed[index]["obj"]["description"],
-                      providerImagePerfil: global.publicationsFeed[index]["image"],
-                      providerName: global.publicationsFeed[index]["nameProvider"],
-                    );
-                  },
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: _refresh ? CircularProgressIndicator(
-                        color: global.colorTheme["mainPurple"] as Color,
-                      ) : null, 
-                    )
-                  ),
-                )
+                createListPublications(_scroll, global.publicationsFeed),
+                refreshBottomItem()
               ],
             );
           } else if (snapshot.data["ok"] == false) {
@@ -166,7 +165,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
         }
-        if (snapshot.hasError) {
+        else if (snapshot.hasError) {
           return RefreshError(
             onTapRefresh: (value){
               if(value) {

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/components/notification_item.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 class NotificationPage extends StatefulWidget {
-  final String providerName;
-  final String description;
+  final List notificationList;
   
   const NotificationPage({
-    super.key, 
-    required this.providerName, 
-    required this.description
+    super.key,
+    required this.notificationList
   });
 
   @override
@@ -36,47 +35,24 @@ class _NotificationPageState extends State<NotificationPage> {
         title: const Text("Notifícations"),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          GestureDetector(
-            onTap: (){},
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(20),
-              height: 60,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: CircleAvatar(
-                          backgroundColor: global.colorTheme["mainPurple"],
-                        )
-                      ),
-                      Text(
-                        widget.providerName,
-                        style: const TextStyle(
-                          color: Colors.black26,
-                          fontSize: 22
-                        ),
-                      )
-                    ],
-                  ),
-                  Text(
-                    widget.description,
-                    style: const TextStyle(
-                      color: Colors.black26,
-                      fontSize: 18
-                    ),
-                  )
-                ],
-              )
-            ),
-          )
-        ],
+      body: createListNotifications(widget.notificationList)
+    );
+  }
+
+  Widget createListNotifications(List notif){
+    return ListView.builder(
+      padding: const EdgeInsets.only(
+        top: 30,
+        bottom: 60,                    
       ),
+      itemCount: notif.length,
+      itemBuilder: (context, index) {
+        return NotificationItem(
+          providerName: notif[index]["nameProvider"],
+          description: notif[index]["description"],
+          uid: notif[index]["uidUser"]
+        );
+      },
     );
   }
 }
