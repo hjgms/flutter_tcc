@@ -32,7 +32,7 @@ class _NotificationPageState extends State<NotificationPage> {
             color: global.colorTheme["color5"] as Color
           ),
         ),
-        title: const Text("Notifícations"),
+        title: const Text("Notifications"),
         centerTitle: true,
       ),
       body: createListNotifications(widget.notificationList)

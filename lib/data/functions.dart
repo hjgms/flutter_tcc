@@ -15,8 +15,8 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 Reference firebaseStorage = FirebaseStorage.instance.ref();
 
 //returns
-Map typedReturn(bool ok, var args) {
-  if (!ok) {
+Map typedReturn(bool ok, var args, {bool printDebug = true}) {
+  if (!ok && printDebug) {
     // ignore: avoid_print
     print(args);
   }
@@ -26,8 +26,8 @@ Map typedReturn(bool ok, var args) {
 //create account for new user
 Future<Map> createLoginUser(String email, String password) async {
   Map resp = await firebaseAuth
-      .createUserWithEmailAndPassword(email: email, password: password)
-      .then((value) {
+    .createUserWithEmailAndPassword(email: email, password: password)
+    .then((value) {
     if (value.user!.emailVerified) {
       if (value.user!.uid != "") {
         return {
@@ -101,7 +101,7 @@ Future<Map> loginUser(String email, String password) async {
       global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
   } catch (e) {
-    return typedReturn(false, e);
+    return typedReturn(false, e, printDebug: false);
   }
   return typedReturn(true, {});
 }
@@ -317,4 +317,48 @@ Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = fa
   }).catchError((e) {
     return  typedReturn(false, "1 : $e");
   });
+}
+
+//get outer users
+Future<Map> searchAnouterUsers(String text) async {
+  global.searchUsersList.clear();
+  
+  Map resp = await dataBase
+  .collection("users")
+  .get()
+  .then((value) {
+
+    var users = value.docs.where((element) =>
+      element.data()['name']
+      .toString()
+      .toUpperCase()
+      .contains(text.toUpperCase())
+    );
+
+    if(users.isNotEmpty){
+      
+
+      users.forEach((element) async {
+
+        String imageProvider = "";
+        Map resp = await getPhotoPerfil(element.id);
+        
+        if(resp["ok"]){
+          imageProvider = resp["args"];
+        }
+
+        global.searchUsersList.add({
+          "nameUser": element.data()["name"],
+          "image": imageProvider,
+          "uidUser": element.id
+        });
+      });
+    }
+    
+    return typedReturn(true, {});
+  }).catchError((e) {
+    return typedReturn(false, "1 : $e");
+  });
+
+  return typedReturn(resp["ok"], resp["args"]);
 }

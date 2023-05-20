@@ -1,11 +1,12 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 
-//page components
-// import 'package:flutter_application_firebase/config/palette.dart';
-// import 'package:flutter_application_firebase/components/customDropdownButton.dart';
-// import 'package:flutter_application_firebase/components/customSwitch.dart';
-import 'package:flutter_application_firebase/components/searchButton.dart';
+//components
+import 'package:flutter_application_firebase/components/search_input.dart';
+import 'package:flutter_application_firebase/components/search_item.dart';
+
+//functions
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //configs
 import 'package:flutter_application_firebase/global/variables.dart' as global;
@@ -18,6 +19,36 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  TextEditingController controllerSearch = TextEditingController();
+
+  Future<bool> search(String text, bool busca, {bool limpa = false}) async {
+    if(limpa){
+      setState(() {
+        global.searchUsersList.clear();
+      });
+    }
+    
+    if(!busca){
+      return true;
+    }
+
+    Map resp = await searchAnouterUsers(text);
+  
+    if(resp["ok"]){
+      print(global.searchUsersList);
+      setState(() {
+        global.searchUsersList;
+      });
+    }else{
+      print("not found");
+      setState(() {
+        global.searchUsersList = [];
+      });
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,19 +71,55 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ],
             ),
-            const SearchButton()
+            SearchInput(
+              controller: controllerSearch,
+              searchFunction: (_text) {
+                if(_text.trim() == ""){
+                  search(_text, false, limpa: true);
+                }else{
+                  search(_text, true);
+                }
+              },
+            )
           ],
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 20, 
-          horizontal: 20
+          horizontal: 10
         ),
-        child: ListView(
-          children: const [],
-        ),
+        child: createListSearch()
       ),
+    );
+  }
+
+  Widget createItemSearch(){
+    return ListView.builder(
+      itemCount: global.searchUsersList.length,
+      itemBuilder: (context, index) {
+        return SearchItem(
+          providerName: global.searchUsersList[index]["nameUser"],
+          providerImage: global.searchUsersList[index]["image"],
+          uid: global.searchUsersList[index]["uidUser"]
+        );
+      },
+    );
+  }
+
+  Widget createListSearch(){
+    return FutureBuilder(
+      future: search('', false),
+      builder: (context, snapshot) {
+        if(snapshot.hasData && snapshot.data == true){
+          return createItemSearch();
+        }
+        return Center(
+          child: CircularProgressIndicator(
+            color: global.colorTheme['mainPurple'],
+          ),
+        );
+      }
     );
   }
 }

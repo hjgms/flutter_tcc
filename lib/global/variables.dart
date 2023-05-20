@@ -10,6 +10,7 @@ String storage = 'gs://lithe-strata-348418.appspot.com/';
 
 List publicationsFeed = [];
 List notificationList = [];
+List searchUsersList = [];
 
 Map<String, Color> colorTheme = {
   "mainPurple": const Color.fromARGB(255, 86, 22, 236),
