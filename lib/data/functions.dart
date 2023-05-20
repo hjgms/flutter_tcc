@@ -249,6 +249,10 @@ Future<String> getImagePublications({String uid = "", int number = 1}) async {
   return imagePublication["ok"] ? imagePublication["args"] : "";
 }
 
+Future clearPublicationsCache() async {
+  await cache.setCacheHomePublications([]);
+}
+
 Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false, bool scrolled = false}) async {
   return await dataBase
   .collection("publications")
@@ -270,8 +274,15 @@ Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = fa
     for (var i = 0; i < value.docs.length; i++) {
       var element = value.docs[i];
     
-      String nameProvider = await getNameProviderPublications(element.data()["userUid"].trim());
-      String imageProvider = await getImagePublications(uid: element.id, number: 1);
+      String nameProvider = "";
+      if(element.data()["userUid"].trim() != ""){
+        nameProvider = await getNameProviderPublications(element.data()["userUid"].trim());
+      }
+      
+      String imageProvider = "";
+      if(element.data()["images"] > 0){
+        imageProvider = await getImagePublications(uid: element.id, number: 1);
+      }
 
       if(global.publicationsFeed.isNotEmpty){
         

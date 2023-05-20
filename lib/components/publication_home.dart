@@ -79,9 +79,12 @@ class _PublicationHomeState extends State<PublicationHome> {
               horizontal: 10
             ),
             width: double.maxFinite,
-            child: Image.network(
-              widget.providerImagePerfil
-            )
+            child: widget.providerImagePerfil != "" ?
+              Image.network(
+                widget.providerImagePerfil
+              ) 
+              :
+              const Placeholder()
           ),
           Padding(
             padding: const EdgeInsets.all(10),
