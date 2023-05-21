@@ -35,12 +35,10 @@ class _SearchPageState extends State<SearchPage> {
     Map resp = await searchAnouterUsers(text);
   
     if(resp["ok"]){
-      print(global.searchUsersList);
       setState(() {
         global.searchUsersList;
       });
     }else{
-      print("not found");
       setState(() {
         global.searchUsersList = [];
       });

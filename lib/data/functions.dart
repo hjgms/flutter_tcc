@@ -166,6 +166,8 @@ Future<Map> getPhotoPerfil(String uid) async {
   }
 }
 
+
+
 Future<Map> getPhotoPublication(String uid) async {
   try {
     String url = "/publications/$uid/1.jpg";
@@ -320,13 +322,31 @@ Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = fa
 }
 
 //get outer users
+// Future<Map> getPhotoPerfilSearchUser(String uid) async {
+//   try {
+//     String url = "/photoperfil/$uid/photo1.jpg";
+//     String photo = await FirebaseStorage.instance
+//     .ref()
+//     .child(url)
+//     .getDownloadURL();
+
+//     if (photo != "") {
+//       return typedReturn(true, photo);
+//     }
+
+//     return typedReturn(false, "photo is null returned !");
+//   } on FirebaseException catch (e) {
+//     return typedReturn(false, e);
+//   }
+// }
+
 Future<Map> searchAnouterUsers(String text) async {
   global.searchUsersList.clear();
   
   Map resp = await dataBase
   .collection("users")
   .get()
-  .then((value) {
+  .then((value) async {
 
     var users = value.docs.where((element) =>
       element.data()['name']
@@ -341,11 +361,11 @@ Future<Map> searchAnouterUsers(String text) async {
       users.forEach((element) async {
 
         String imageProvider = "";
-        Map resp = await getPhotoPerfil(element.id);
+        // Map resp = await getPhotoPerfilSearchUser(element.id);
         
-        if(resp["ok"]){
-          imageProvider = resp["args"];
-        }
+        // if(resp["ok"]){
+        //   imageProvider = resp["args"];
+        // }
 
         global.searchUsersList.add({
           "nameUser": element.data()["name"],
