@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 bool logado = false;
 int pageIndex = 0;
@@ -37,6 +38,24 @@ class ClassStyles {
 
   EdgeInsetsDirectional espacamentoInputs() {
     return const EdgeInsetsDirectional.only(top: 6, bottom: 10);
+  }
+
+  InputDecoration inputTextFieldDecoration({String hintText = ""}) {
+    return InputDecoration(
+        focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(
+                width: 2, color: global.colorTheme["mainPurple"] as Color)),
+        enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(width: 1, color: Color(0xff515151))),
+        contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
+        border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6))),
+        hintText: hintText);
+  }
+  TextStyle defaultinputTextStyle() {
+    return const TextStyle(fontSize: 14, color: Color(0xff515151)); 
   }
 }
 

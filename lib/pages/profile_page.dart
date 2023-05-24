@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               alignment: Alignment.center,
               child: Icon(
-                Icons.person,
+                Icons.edit_square,
                 color: global.colorTheme["color5"] as Color,
               ),
             ),

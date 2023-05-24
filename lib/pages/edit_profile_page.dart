@@ -5,6 +5,7 @@ import 'package:flutter_application_firebase/components/modalEstilosMusicais.dar
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //components
+import '../components/modalDialog.dart';
 import '../components/styles/marginInput.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -15,24 +16,6 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextStyle inputTextStyle =
-      const TextStyle(fontSize: 14, color: Color(0xff515151));
-
-  InputDecoration inputTextFieldDecoration({String hintText = ""}) {
-    return InputDecoration(
-        focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(
-                width: 2, color: global.colorTheme["mainPurple"] as Color)),
-        enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(width: 1, color: Color(0xff515151))),
-        contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 14),
-        border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6))),
-        hintText: hintText);
-  }
-
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
@@ -63,14 +46,56 @@ class _EditProfilePageState extends State<EditProfilePage> {
         appBar: AppBar(
           centerTitle: true,
           leading: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ModalDialog(
+                    titulo: "Deseja Descartar as alterações?",
+                    descartar: true,
+                    onClose: (bool value) {
+                      setState(() {
+                        _fecharPagina = value;
+                        _fecharPagina == true
+                            ? Navigator.of(context)
+                                // ignore: todo
+                                .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
+                            : Navigator.of(context)
+                                .pop(); // no caso de sair e não salvar
+                      });
+                    },
+                  );
+                },
+              );
+            },
             child: const Icon(Icons.delete),
           ),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 17),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ModalDialog(
+                        titulo: "Deseja Salvar as alterações?",
+                        descartar: false,
+                        onClose: (bool value) {
+                          setState(() {
+                            _fecharPagina = value;
+                            _fecharPagina == true
+                                ? Navigator.of(context)
+                                    // ignore: todo
+                                    .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
+                                : Navigator.of(context)
+                                    .pop(); // no caso de sair e não salvar
+                          });
+                        },
+                      );
+                    },
+                  );
+                },
                 child: const Icon(Icons.save),
               ),
             )
@@ -91,10 +116,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               MarginInput(
                 child: TextField(
-                  style: inputTextStyle,
+                  style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
                   decoration:
-                      inputTextFieldDecoration(hintText: "Digite seu nome"),
+                      global.styles
+                      .inputTextFieldDecoration(hintText: "Digite seu nome"),
                 ),
               ),
               Text(
@@ -103,10 +129,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               MarginInput(
                 child: TextField(
-                  style: inputTextStyle,
+                  style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
                   decoration:
-                      inputTextFieldDecoration(hintText: "Digite seu email"),
+                      global.styles
+                      .inputTextFieldDecoration(hintText: "Digite seu email"),
                 ),
               ),
               Text(
@@ -115,9 +142,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               MarginInput(
                 child: TextField(
-                  style: inputTextStyle,
+                  style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
-                  decoration: inputTextFieldDecoration(
+                  decoration: global.styles.inputTextFieldDecoration(
                       hintText: "Digite sua localidade"),
                 ),
               ),
@@ -143,20 +170,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             context: context,
                             builder: (BuildContext context) {
                               return const ModalEstilosMusicais();
-                              // return ModalDialog(
-                              //   titulo: "Deseja Salvar as alterações?",
-                              //   descartar: false,
-                              //   onClose: (bool value) {
-                              //     setState(() {
-                              //       _fecharPagina = value;
-                              //       _fecharPagina == true
-                              //           ? Navigator.of(context)
-                              //               .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
-                              //           : Navigator.of(context)
-                              //               .pop(); // no caso de sair e não salvar
-                              //     });
-                              //   },
-                              // );
                             },
                           );
                         },

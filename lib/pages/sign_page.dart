@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/global/variables.dart' as global;
+
+import '../components/styles/marginInput.dart';
 
 class SignPage extends StatefulWidget {
   const SignPage({super.key});
@@ -13,42 +16,120 @@ class _SignPageState extends State<SignPage> {
 
   @override
   Widget build(BuildContext context) {
+    //! está redundante essa função (e a variavel de baixo), já que tbm ela está presente no edit_Profile
+
+    
+
     return Scaffold(
       appBar: AppBar(
-        //backgroundColor: ,
-        leading: const Icon(Icons.arrow_back),
-        title: const Text("Sign app")
-      ),
-      body: ListView(
-        children: [
-          Container(),
-          TextField(
-            controller: controllerInput1,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: ""
+        iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          forceMaterialTransparency: true,
+          leading: const Icon(Icons.arrow_back),
+          centerTitle: true,
+          title: Text(
+            "Sign app",
+            style: TextStyle(
+                fontSize: 20, color: global.colorTheme['clearMainPurple']),
+          )),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: ListView(
+          children: [
+            Text(
+              "Nome completo",
+              style: global.styles.labelText(),
             ),
-          ),
-          TextField(
-            controller: controllerInput2,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: ""
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              
-            },
-            child: Container(
-              height: 40,
-              width: 180,
-              decoration: const BoxDecoration(
-                color: Colors.black
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration:
+                    global.styles.inputTextFieldDecoration(hintText: "Digite seu nome..."),
               ),
             ),
-          )
-        ],
+            Text(
+              "Email",
+              style: global.styles.labelText(),
+            ),
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration: global.styles
+                    .inputTextFieldDecoration(hintText: "email..."),
+              ),
+            ),
+            Text(
+              "Senha (+8 caracteres)",
+              style: global.styles.labelText(),
+            ),
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration:
+                    global.styles
+                    .inputTextFieldDecoration(hintText: "Informe sua senha..."),
+              ),
+            ),
+            Text(
+              "Confirmação da senha",
+              style: global.styles.labelText(),
+            ),
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration: global.styles.inputTextFieldDecoration(
+                    hintText: "Informe sua senha novamente... "),
+              ),
+            ),
+            Text(
+              "Telefone",
+              style: global.styles.labelText(),
+            ),
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration:
+                    global.styles
+                    .inputTextFieldDecoration(hintText: "ex: 99-91234-5678"),
+              ),
+            ),
+            Text(
+              "Endereço (CEP)",
+              style: global.styles.labelText(),
+            ),
+            MarginInput(
+              child: TextField(
+                style: global.styles.defaultinputTextStyle(),
+                cursorColor: global.colorTheme["watergreen"] as Color,
+                decoration:
+                    global.styles
+                    .inputTextFieldDecoration(hintText: "ex: 0000-000"),
+              ),
+            ),
+            MarginInput(
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 45,
+                  width: 180,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: global.colorTheme['mainPurple']),
+                  child: const Center(
+                      child: Text(
+                    'Continuar',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  )),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
