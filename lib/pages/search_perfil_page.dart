@@ -1,65 +1,47 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
 
-//firebase
-import 'package:flutter_application_firebase/data/functions.dart';
-
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
-// pages
-import 'package:flutter_application_firebase/pages/edit_profile_page.dart';
+//functions
+import 'package:flutter_application_firebase/data/functions.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class SearchPerfilPage extends StatefulWidget {
+  final String name;
+  final String username;
+  final String localization;
+  final String description;
+  final String userUid;
+  
+  const SearchPerfilPage({
+    super.key,
+    required this.name,
+    required this.username,
+    required this.localization,
+    required this.description,
+    required this.userUid
+  });
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<SearchPerfilPage> createState() => _SearchPerfilPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  String name = global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
-  String username = global.user["obj"]["username"];
-  String localization = global.user["obj"]["localization"];
-  String description = global.user["obj"]["description"];
+class _SearchPerfilPageState extends State<SearchPerfilPage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         backgroundColor: global.colorTheme["mainPurple"] as Color,
         elevation: 2,
-        toolbarHeight: 60,
-        title: Text(
-          username,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: global.colorTheme["color5"] as Color
-          ),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const EditProfilePage()));
-            },
-            child: Container(
-              height: 45,
-              width: 45,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              margin: const EdgeInsets.symmetric(
-                horizontal: 5,
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.edit_square,
-                color: global.colorTheme["color5"] as Color,
-              ),
-            ),
-          )
-        ],
+        toolbarHeight: 60
       ),
       body: ListView(
         children: [
@@ -80,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 150,
                 width: double.maxFinite,
                 child: FutureBuilder(
-                  future: getPhotoPerfil(global.user["uid"]),
+                  future: getPhotoPerfil(widget.userUid,notSave:false),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!["ok"] == true) {
                       return CircleAvatar(
@@ -105,8 +87,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     }
                     return CircleAvatar(
                       backgroundColor: global.colorTheme["mainPurple"],
-                      child: CircularProgressIndicator(
-                        color: global.colorTheme["color5"],
+                      child: Icon(
+                        Icons.person,
+                        color: global.colorTheme["color5"]
                       ),
                     );
                   },
@@ -124,11 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 const SizedBox(height: 12),
                 Text(
-                  name,
+                  widget.name,
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                Text(localization),
+                Text(widget.localization),
                 const SizedBox(
                   height: 12,
                 ),
@@ -138,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  description,
+                  widget.description,
                   style: const TextStyle(fontSize: 14, height: 1.5),
                 ),
                 const SizedBox(height: 12),
@@ -147,21 +130,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                DefaultTextStyle.merge(
-                  style: global.styles.listaEstilosMusicaisStyle(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text("• Rock"),
-                      Text("• Blues "),
-                      Text("• Sertanejo"),
-                      Text("• Pop"),
-                      Text("• Jazz"),
-                      Text("• Música Clássica")
-                    ],
-                  )
-                ),
-                const SizedBox(height: 12),
                 Text(
                   "Horários Disponíveis (Podem variar)",
                   style: global.styles.titulo(),

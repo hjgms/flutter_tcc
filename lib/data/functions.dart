@@ -140,11 +140,14 @@ Future signoutUser() async {
 }
 
 //profile
-Future<Map> getPhotoPerfil(String uid) async {
-  var photoCache = await cache.getCacheUserPhoto();
-  if (photoCache != null) {
-    return typedReturn(true, photoCache);
+Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
+  if(notSave){
+    var photoCache = await cache.getCacheUserPhoto();
+    if (photoCache != null) {
+      return typedReturn(true, photoCache);
+    }
   }
+
   try {
     String url = "/photoperfil/$uid/photo1.jpg";
     String photo = await FirebaseStorage.instance
@@ -153,9 +156,11 @@ Future<Map> getPhotoPerfil(String uid) async {
       .getDownloadURL();
 
     if (photo != "") {
-      bool resp = await cache.setCacheUserPhoto(photo);
-      if (resp) {
-        //for photo download and save device
+      if(notSave){
+        bool resp = await cache.setCacheUserPhoto(photo);
+        if (resp) {
+          //for photo download and save device
+        }
       }
       return typedReturn(true, photo);
     }
@@ -369,7 +374,8 @@ Future<Map> searchAnouterUsers(String text) async {
 
         global.searchUsersList.add({
           "nameUser": element.data()["name"],
-          "image": imageProvider,
+          "description": element.data()["description"],
+          "lastname": element.data()["lastname"],
           "uidUser": element.id
         });
       });
