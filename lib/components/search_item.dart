@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
+//page
+import 'package:flutter_application_firebase/pages/search_perfil_page.dart';
+
 class SearchItem extends StatefulWidget {
   final String providerName;
-  final String providerImage;
+  final String providerLastName;
+  final String providerDescription;
   final String uid;
   
   const SearchItem({
     super.key,
     required this.providerName,
-    required this.providerImage,
+    required this.providerLastName,
+    required this.providerDescription,
     required this.uid
   });
 
@@ -26,6 +32,19 @@ class _SearchItemState extends State<SearchItem> {
     return GestureDetector(
       onTap: (){
         //navigate for perfil user notification
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return SearchPerfilPage(
+                name: "${widget.providerName} ${widget.providerLastName}",
+                description: widget.providerDescription,
+                userUid: widget.uid,
+                username: "",
+                localization: "",
+              );
+            },
+          )
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -49,7 +68,10 @@ class _SearchItemState extends State<SearchItem> {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: CircleAvatar(
                 backgroundColor: global.colorTheme["mainPurple"],
-                backgroundImage: widget.providerImage != "" ? NetworkImage( widget.providerImage ) : null
+                child: Icon(
+                  Icons.person,
+                  color: global.colorTheme["color5"]
+                ),
               )
             ),
             Text(

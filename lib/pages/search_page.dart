@@ -98,7 +98,8 @@ class _SearchPageState extends State<SearchPage> {
       itemBuilder: (context, index) {
         return SearchItem(
           providerName: global.searchUsersList[index]["nameUser"],
-          providerImage: global.searchUsersList[index]["image"],
+          providerLastName: global.searchUsersList[index]["lastname"],
+          providerDescription: global.searchUsersList[index]["description"],
           uid: global.searchUsersList[index]["uidUser"]
         );
       },
