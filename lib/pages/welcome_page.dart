@@ -28,7 +28,23 @@ class _WelcomePageState extends State<WelcomePage> {
                 width: halfScreenWidth,
                 decoration: BoxDecoration(
                     color: global.colorTheme['mainPurple'],
-                    border: Border.all(color: Colors.black, width: 2),
+                    border: const Border(
+                        left: BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        top: BorderSide(
+                          color: Colors.black,
+                          width: 0,
+                        ),
+                        right: BorderSide(
+                          color: Colors.black,
+                          width: 0,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        )),
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(3000),
                         topRight: Radius.circular(0))),
@@ -36,11 +52,29 @@ class _WelcomePageState extends State<WelcomePage> {
               Container(
                 height: 415,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 3),
+                    border: const Border(
+                        left: BorderSide(
+                          color: Colors.black,
+                          width: 0,
+                        ),
+                        top: BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        right: BorderSide(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: 0,
+                        )),
                     color: global.colorTheme['mainPurple'],
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(0),
-                        topRight: Radius.circular(600))),
+                        topRight: Radius.circular(600),
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0))),
                 width: double.infinity,
               ),
             ],

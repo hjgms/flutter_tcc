@@ -56,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Icon(
                 Icons.edit_square,
                 color: global.colorTheme["color5"] as Color,
+                size: 30,
               ),
             ),
           )
