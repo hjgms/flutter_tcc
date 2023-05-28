@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/components/publicationItem.dart';
+import 'package:flutter_application_firebase/components/publicationItems.dart';
+import 'package:flutter_application_firebase/enum/categorias_post.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
+
+import '../estended_text.dart';
 
 class PublicationHome extends StatefulWidget {
   final String titlePublication;
@@ -68,36 +73,20 @@ class _PublicationHomeState extends State<PublicationHome> {
                   : const Placeholder()),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.description,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    const Divider(color: Colors.black, height: 2,),
-                    const ListTile(title: Text("data"), leading: Icon(Icons.pages),)
-                  ],
-                ),
-                // GestureDetector(
-                //   onTap: (){
-
-                //   },
-                //   child: Container(
-                //     height: 40,
-                //     width: double.maxFinite,
-                //     decoration: BoxDecoration(
-                //       color: Colors.black54,
-                //       borderRadius: BorderRadius.circular(20)
-                //     ),
-                //     child: Text("connect"),
-                //   )
-                // )
-              ],
+            child: ExpandableText(
+              text:
+                  'No horizonte, o sol se põe, pintando o céu com tons dourados. As nuvens flutuam suavemente, como pinceladas de algodão. Um cenário perfeito para contemplar a beleza da natureza.',
+              maxLines: 2,
+              style: const TextStyle(fontSize: 14),
+              trailing: Icon(Icons.arrow_drop_down,
+                  color: global.colorTheme["mainPurple"] as Color),
+              contentBelow: const PublicationItems(
+                contentEstilosMusicais: "ROCK | SETANEJO",
+                contentHorario: "18:00 - 00:00 (6 horas)",
+                contentPagamento: "200",
+                contentLocalizacao:
+                    "Bairro Santa Lurdes - Marília - SP  (10 km de você)",
+              ),
             ),
           )
         ],

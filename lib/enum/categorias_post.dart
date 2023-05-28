@@ -1,0 +1,1 @@
+enum CategoriasPost {estilosMusicais, horario, pagamento, localizacao }
