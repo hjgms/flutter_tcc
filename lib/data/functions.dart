@@ -365,7 +365,7 @@ Future<Map> searchAnouterUsers(String text) async {
 
       users.forEach((element) async {
 
-        String imageProvider = "";
+        // String imageProvider = "";
         // Map resp = await getPhotoPerfilSearchUser(element.id);
         
         // if(resp["ok"]){

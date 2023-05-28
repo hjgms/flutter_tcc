@@ -10,14 +10,16 @@ class ExpandableText extends StatefulWidget {
   final PublicationItems contentBelow;
 
   const ExpandableText({
+    super.key, 
     required this.text,
     required this.maxLines,
     required this.style,
-    this.trailing, required this.contentBelow,
+    this.trailing, 
+    required this.contentBelow,
   });
 
   @override
-  _ExpandableTextState createState() => _ExpandableTextState();
+  State<ExpandableText> createState() => _ExpandableTextState();
 }
 
 class _ExpandableTextState extends State<ExpandableText> {
@@ -36,13 +38,16 @@ class _ExpandableTextState extends State<ExpandableText> {
             style: widget.style,
             maxLines: widget.maxLines,
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.left
           ),
           secondChild: Text(
             widget.text,
             style: widget.style,
+            textAlign: TextAlign.left
           ),
-          crossFadeState:
-              isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          crossFadeState: isExpanded ? 
+            CrossFadeState.showSecond 
+            : CrossFadeState.showFirst,
           duration: const Duration(milliseconds: 50),
         ),
         InkWell(
@@ -51,19 +56,16 @@ class _ExpandableTextState extends State<ExpandableText> {
               isExpanded = !isExpanded;
             });
           },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                isExpanded ? 'Ver menos' : 'Ver mais',
-                style: textTheme.bodyLarge?.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 2),
+            child: Text(
+              isExpanded ? 'Ver menos' : 'Ver mais',
+              style: textTheme.bodyLarge?.copyWith(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
               ),
-              if (widget.trailing != null) widget.trailing!,
-            ],
-          ),
+            ),
+          )
         ),
         Visibility(
           visible: isExpanded,

@@ -4,12 +4,12 @@ import 'package:flutter_application_firebase/components/refresh_error.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //page view
-import 'package:flutter_application_firebase/pages/notification_page.dart';
+// import 'package:flutter_application_firebase/pages/notification_page.dart';
 import 'package:flutter_application_firebase/components/publication_home.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
-import 'package:flutter_application_firebase/pages/sign_page.dart';
+// import 'package:flutter_application_firebase/pages/sign_page.dart';
 import 'package:flutter_application_firebase/pages/welcome_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,10 +55,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["mainPurple"] as Color,
-        elevation: 2,
+        elevation: 0,
         toolbarHeight: 60,
         title: Text(
-          "Feed",
+          "Início",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -86,9 +86,9 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.center,
               child: Icon(
                 global.notificationList.isNotEmpty ?
-                  Icons.notifications_on_outlined 
+                  Icons.notifications_on
                   : 
-                  Icons.notifications_outlined,
+                  Icons.notifications,
                 color: global.colorTheme["color5"] as Color,
                 size: 24,
               ),
@@ -117,7 +117,9 @@ class _HomePageState extends State<HomePage> {
     return ListView.builder(
       controller: scroll,
       padding: const EdgeInsets.only(
-        top: 30,
+        left: 10,
+        right: 10,
+        top: 15,
         bottom: 60,                    
       ),
       itemCount: publi.length,

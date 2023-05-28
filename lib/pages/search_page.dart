@@ -53,7 +53,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["mainPurple"] as Color,
-        elevation: 2,
+        elevation: 0,
         toolbarHeight: 100,
         title: Column(
           children: [

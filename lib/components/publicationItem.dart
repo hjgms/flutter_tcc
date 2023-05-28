@@ -20,10 +20,10 @@ class _PbvlicationItemState extends State<PublicationItem> {
     IconData icone = Icons.square_foot_rounded;
     switch (widget.iconeNome) {
       case CategoriasPost.estilosMusicais:
-        icone = Icons.music_note;
+        icone = Icons.music_note_rounded;
         break;
       case CategoriasPost.horario:
-        icone = Icons.access_time;
+        icone = Icons.access_time_filled;
         break;
       case CategoriasPost.pagamento:
         icone = Icons.attach_money_rounded;

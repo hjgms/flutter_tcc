@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: global.colorTheme["mainPurple"] as Color,
-        elevation: 2,
+        elevation: 0,
         toolbarHeight: 60,
         title: Text(
           username,

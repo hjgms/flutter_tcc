@@ -26,7 +26,7 @@ class _ModalDialogState extends State<ModalDialog> {
         child: Text(
           widget.titulo,
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
             color: Color(0xff6A6A6A)
           ),
@@ -44,14 +44,14 @@ class _ModalDialogState extends State<ModalDialog> {
           },
           child: Container(
             decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromARGB(43, 70, 70, 70),
-                  spreadRadius: 2,
-                  blurRadius: 4,
-                  offset: Offset(0, 4)
-                ),
-              ],
+              // boxShadow: const [
+              //   BoxShadow(
+              //     color: Color.fromARGB(43, 70, 70, 70),
+              //     spreadRadius: 2,
+              //     blurRadius: 4,
+              //     offset: Offset(0, 4)
+              //   ),
+              // ],
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               color: Colors.grey.shade300
             ),
@@ -76,14 +76,14 @@ class _ModalDialogState extends State<ModalDialog> {
           },
           child: Container(
             decoration: BoxDecoration(
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromARGB(43, 70, 70, 70),
-                  spreadRadius: 2,
-                  blurRadius: 4,
-                  offset: Offset(0, 4)
-                ),
-              ],
+              // boxShadow: const [
+              //   BoxShadow(
+              //     color: Color.fromARGB(43, 70, 70, 70),
+              //     spreadRadius: 2,
+              //     blurRadius: 4,
+              //     offset: Offset(0, 4)
+              //   ),
+              // ],
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               color: global.colorTheme["mainPurple"] as Color
             ),
