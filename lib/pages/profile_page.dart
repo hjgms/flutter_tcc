@@ -18,10 +18,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
+  String name =
+      global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
   String username = global.user["obj"]["username"];
   String localization = global.user["obj"]["localization"];
   String description = global.user["obj"]["description"];
+
+final List<String> imageUrls = [
+    'https://example.com/image1.jpg',
+    'https://example.com/image2.jpg',
+    'https://example.com/image3.jpg',
+    // Adicione mais URLs de imagens aqui
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +42,9 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text(
           username,
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
-            color: global.colorTheme["color5"] as Color
-          ),
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: global.colorTheme["color5"] as Color),
         ),
         actions: [
           GestureDetector(
@@ -74,52 +81,45 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.maxFinite,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 80),
-                decoration: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                height: 150,
-                width: double.maxFinite,
-                child: FutureBuilder(
-                  future: getPhotoPerfil(global.user["uid"]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                      return CircleAvatar(
-                        backgroundImage: NetworkImage(snapshot.data!["args"]),
-                      );
-                    } else if (snapshot.hasData && snapshot.data!["ok"] == false) {
+                  margin: const EdgeInsets.only(top: 80),
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  height: 150,
+                  width: double.maxFinite,
+                  child: FutureBuilder(
+                    future: getPhotoPerfil(global.user["uid"]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data!["ok"] == true) {
+                        return CircleAvatar(
+                          backgroundImage: NetworkImage(snapshot.data!["args"]),
+                        );
+                      } else if (snapshot.hasData &&
+                          snapshot.data!["ok"] == false) {
+                        return CircleAvatar(
+                          backgroundColor: global.colorTheme["mainPurple"],
+                          child: Icon(Icons.close,
+                              color: global.colorTheme["color5"]),
+                        );
+                      } else if (snapshot.hasError) {
+                        return CircleAvatar(
+                          backgroundColor: global.colorTheme["mainPurple"],
+                          child: Icon(Icons.person,
+                              color: global.colorTheme["color5"]),
+                        );
+                      }
                       return CircleAvatar(
                         backgroundColor: global.colorTheme["mainPurple"],
-                        child: Icon(
-                          Icons.close,
-                          color: global.colorTheme["color5"]
+                        child: CircularProgressIndicator(
+                          color: global.colorTheme["color5"],
                         ),
                       );
-                    } else if (snapshot.hasError) {
-                      return CircleAvatar(
-                        backgroundColor: global.colorTheme["mainPurple"],
-                        child: Icon(
-                          Icons.person,
-                          color: global.colorTheme["color5"]
-                        ),
-                      );
-                    }
-                    return CircleAvatar(
-                      backgroundColor: global.colorTheme["mainPurple"],
-                      child: CircularProgressIndicator(
-                        color: global.colorTheme["color5"],
-                      ),
-                    );
-                  },
-                )
-              )
+                    },
+                  ))
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16, 
-              vertical: 10
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -149,19 +149,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 4),
                 DefaultTextStyle.merge(
-                  style: global.styles.listaEstilosMusicaisStyle(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text("• Rock"),
-                      Text("• Blues "),
-                      Text("• Sertanejo"),
-                      Text("• Pop"),
-                      Text("• Jazz"),
-                      Text("• Música Clássica")
-                    ],
-                  )
-                ),
+                    style: global.styles.listaEstilosMusicaisStyle(),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("• Rock"),
+                        Text("• Blues "),
+                        Text("• Sertanejo"),
+                        Text("• Pop"),
+                        Text("• Jazz"),
+                        Text("• Música Clássica")
+                      ],
+                    )),
                 const SizedBox(height: 12),
                 Text(
                   "Horários Disponíveis (Podem variar)",
@@ -171,23 +170,32 @@ class _ProfilePageState extends State<ProfilePage> {
                 const Text(
                   "Dias: ",
                   style: TextStyle(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w600, 
-                    height: 1.75
-                  ),
+                      fontSize: 16, fontWeight: FontWeight.w600, height: 1.75),
                 ),
                 const Text(
                   "Horas: ",
                   style: TextStyle(
-                    fontSize: 16, 
-                    fontWeight: FontWeight.w600, 
-                    height: 1.75
-                  ),
+                      fontSize: 16, fontWeight: FontWeight.w600, height: 1.75),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   "Imagens",
                   style: global.styles.titulo(),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Número de colunas desejado
+                    ),
+                    itemCount: imageUrls.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Image.network(imageUrls[index]),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
