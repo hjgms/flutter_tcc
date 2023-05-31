@@ -26,12 +26,15 @@ class _PublicationItemsState extends State<PublicationItems> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(
+          height: 10,
+        ),
         const Divider(
           color: Color(0xff535364),
-          height: 2,
+          height: 3,
         ),
         const SizedBox(
-          height: 8,
+          height: 14,
         ),
         PublicationItem(
             iconeNome: CategoriasPost.estilosMusicais,
@@ -56,7 +59,9 @@ class _PublicationItemsState extends State<PublicationItems> {
         const SizedBox(
           height: 16,
         ),
-        GestureDetector(
+        InkWell(
+          onTap: () => {},
+          
           child: Container(
             decoration: BoxDecoration(
                 color: global.colorTheme["mainPurple"] as Color,

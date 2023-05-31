@@ -125,10 +125,14 @@ class _HomePageState extends State<HomePage> {
       itemCount: publi.length,
       itemBuilder: (context, index) {
         return PublicationHome(
+          enderecotrabaho: publi[index]["obj"]["enderecotrabaho"],
+          horasdetrabalho: publi[index]["obj"]["horasdetrabalho"],
+          valorpagamento: publi[index]["obj"]["valorpagamento"],
           titlePublication: publi[index]["obj"]["name"],
           description: publi[index]["obj"]["description"],
           providerImagePerfil: publi[index]["image"],
           providerName: publi[index]["nameProvider"],
+          estilosMusicais: publi[index]["obj"]["estilosmusicais"],
         );
       },
     );

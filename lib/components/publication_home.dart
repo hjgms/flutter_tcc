@@ -13,14 +13,21 @@ class PublicationHome extends StatefulWidget {
   final String description;
   final String providerName;
   final String providerImagePerfil;
+  final List<dynamic> estilosMusicais;
+  final String? enderecotrabaho;
+  final String? horasdetrabalho;
+  final double? valorpagamento;
 
-  const PublicationHome({
-    super.key,
-    required this.titlePublication,
-    required this.description,
-    required this.providerName,
-    required this.providerImagePerfil
-  });
+  const PublicationHome(
+      {super.key,
+      required this.titlePublication,
+      required this.description,
+      required this.providerName,
+      required this.estilosMusicais,
+      required this.enderecotrabaho,
+      required this.horasdetrabalho,
+      required this.valorpagamento,
+      required this.providerImagePerfil});
 
   @override
   State<PublicationHome> createState() => _PublicationHomeState();
@@ -32,51 +39,45 @@ class _PublicationHomeState extends State<PublicationHome> {
     return Container(
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 10,
-            color: Color.fromARGB(20, 0, 0, 0),
-            spreadRadius: 1
-          )
-        ],
-        color: Colors.white
-      ),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+                blurRadius: 10,
+                color: Color.fromARGB(20, 0, 0, 0),
+                spreadRadius: 1)
+          ],
+          color: Colors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 5, left: 10, right: 5, top: 5),
+            padding:
+                const EdgeInsets.only(bottom: 5, left: 10, right: 5, top: 5),
             child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: global.colorTheme["mainPurple"] as Color,
-                foregroundColor: global.colorTheme["mainPurple"] as Color,
-                // backgroundImage: AssetImage(
-                //   "${widget.providerImagePerfil}",
-                // ),
-              ),
-              contentPadding: const EdgeInsets.all(0),
-              title: Text(
-                widget.providerName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: Colors.black87
-                )
-              )
-            ),
+                leading: CircleAvatar(
+                  backgroundColor: global.colorTheme["mainPurple"] as Color,
+                  foregroundColor: global.colorTheme["mainPurple"] as Color,
+                  // backgroundImage: AssetImage(
+                  //   "${widget.providerImagePerfil}",
+                  // ),
+                ),
+                contentPadding: const EdgeInsets.all(0),
+                title: Text(widget.providerName,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.black87))),
           ),
           Container(
-            color: Colors.black87,
-            height: 250,
-            margin: const EdgeInsets.symmetric(horizontal: 0),
-            width: double.maxFinite,
-            child: widget.providerImagePerfil != ""
-              ? Image.network(widget.providerImagePerfil)
-              : Placeholder(
-                color: global.colorTheme["clearMainPurple"] as Color,
-              )
-          ),
+              color: Colors.black87,
+              height: 250,
+              margin: const EdgeInsets.symmetric(horizontal: 0),
+              width: double.maxFinite,
+              child: widget.providerImagePerfil != ""
+                  ? Image.network(widget.providerImagePerfil)
+                  : Placeholder(
+                      color: global.colorTheme["clearMainPurple"] as Color,
+                    )),
           Padding(
             padding: const EdgeInsets.all(15),
             child: ExpandableText(
@@ -87,7 +88,8 @@ class _PublicationHomeState extends State<PublicationHome> {
                 contentEstilosMusicais: "ROCK | SETANEJO",
                 contentHorario: "18:00 - 00:00 (6 horas)",
                 contentPagamento: "200",
-                contentLocalizacao: "Bairro Santa Lurdes - Marília - SP  (10 km de você)",
+                contentLocalizacao:
+                    "Bairro Santa Lurdes - Marília - SP  (10 km de você)",
               ),
             ),
           )

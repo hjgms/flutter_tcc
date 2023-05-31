@@ -37,13 +37,14 @@ class _PbvlicationItemState extends State<PublicationItem> {
       children: [
         Icon(
           icone,
+          size: 20,
           color: global.colorTheme["clearMainPurple"] as Color,
         ),
         const SizedBox(width: 8.0),
         Flexible(
           child: Text(
             widget.content?? "",
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),
       ],
