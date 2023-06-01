@@ -16,12 +16,12 @@ class _ProfilePageState extends State<ProfilePage> {
   String description =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
-  final List<String> imageUrls = [
-    'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
-    'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
-    'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
-    // Adicione mais URLs de imagens aqui
-  ];
+  // final List<String> imageUrls = [
+  //   'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
+  //   'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
+  //   'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
+  //   // Adicione mais URLs de imagens aqui
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
         toolbarHeight: 60,
         title: Text(
           username,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
             color: Colors.white,
@@ -65,9 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: ListView(
         children: [
-          Expanded(
-            flex: 1,
-            child: Stack(
+          Stack(
               children: [
                 Container(
                   decoration: const BoxDecoration(
@@ -94,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           snapshot.data!["ok"] == false) {
                         return CircleAvatar(
                           backgroundColor: global.colorTheme['mainPurple'],
-                          child: Icon(
+                          child: const Icon(
                             Icons.close,
                             color: Colors.white,
                           ),
@@ -102,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       } else if (snapshot.hasError) {
                         return CircleAvatar(
                           backgroundColor: global.colorTheme['mainPurple'],
-                          child: Icon(
+                          child: const Icon(
                             Icons.person,
                             color: Colors.white,
                           ),
@@ -110,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       }
                       return CircleAvatar(
                         backgroundColor: global.colorTheme['mainPurple'],
-                        child: CircularProgressIndicator(
+                        child: const CircularProgressIndicator(
                           color: Colors.white,
                         ),
                       );
@@ -119,7 +117,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
@@ -205,21 +202,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                GridView.builder(
+                // ListView.builder(
                   
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: imageUrls.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: const EdgeInsets.all(8.0),
-                      child: Image.network(imageUrls[index]),
-                    );
-                  },
-                ),
+                //   // shrinkWrap: true,
+                //   // physics: const NeverScrollableScrollPhysics(),
+                //   // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //   //   crossAxisCount: 2,
+                //   // ),
+                //   itemCount: imageUrls.length,
+                //   itemBuilder: (BuildContext context, int index) {
+                //     return Container(
+                //       margin: const EdgeInsets.all(8.0),
+                //       child: Image.network(imageUrls[index]),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

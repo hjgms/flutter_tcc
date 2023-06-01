@@ -162,12 +162,13 @@ Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
           //for photo download and save device
         }
       }
+      print(photo);
       return typedReturn(true, photo);
     }
 
     return typedReturn(false, "photo is null returned !");
   } on FirebaseException catch (e) {
-    return typedReturn(false, e);
+    return typedReturn(false, "topawdwd: $e");
   }
 }
 

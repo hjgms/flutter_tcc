@@ -13,7 +13,7 @@ class PublicationHome extends StatefulWidget {
   final String description;
   final String providerName;
   final String providerImagePerfil;
-  final List<dynamic> estilosMusicais;
+  final List? estilosMusicais;
   final String? enderecotrabaho;
   final String? horasdetrabalho;
   final double? valorpagamento;
