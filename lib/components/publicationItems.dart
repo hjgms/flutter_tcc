@@ -11,10 +11,10 @@ class PublicationItems extends StatefulWidget {
       required this.contentHorario,
       required this.contentPagamento,
       required this.contentLocalizacao});
-  final String contentEstilosMusicais;
-  final String contentHorario;
-  final String contentPagamento;
-  final String contentLocalizacao;
+  final List? contentEstilosMusicais;
+  final String? contentHorario;
+  final double? contentPagamento;
+  final String? contentLocalizacao;
 
   @override
   State<PublicationItems> createState() => _PublicationItemsState();
@@ -82,5 +82,3 @@ class _PublicationItemsState extends State<PublicationItems> {
     );
   }
 }
-// "18:00 - 00:00 (6 horas)"
-// Bairro Santa Lurdes - Marília - SP  (10 km de você)

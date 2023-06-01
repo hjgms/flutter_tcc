@@ -9,6 +9,7 @@ import 'package:flutter_application_firebase/components/publication_home.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
+import 'package:flutter_application_firebase/pages/sign_page.dart';
 // import 'package:flutter_application_firebase/pages/sign_page.dart';
 import 'package:flutter_application_firebase/pages/welcome_page.dart';
 
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const WelcomePage()));
+                    builder: (context) => const SignPage()));
               // Navigator.of(context).push(MaterialPageRoute(
               //   builder: (context) => NotificationPage(
               //     notificationList: global.notificationList
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (context, index) {
         return PublicationHome(
           //adicionados posteriormente
-          enderecotrabaho: publi[index]["obj"]["enderecotrabaho"],
+          enderecotrabaho: publi[index]["obj"]["enderecotrabalho"],
           horasdetrabalho: publi[index]["obj"]["horasdetrabalho"],
           valorpagamento: publi[index]["obj"]["valorpagamento"],
           estilosMusicais: publi[index]["obj"]["estilosmusicais"],

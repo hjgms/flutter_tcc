@@ -7,7 +7,7 @@ import 'package:flutter_application_firebase/global/variables.dart' as global;
 class PublicationItem extends StatefulWidget {
 
   final CategoriasPost? iconeNome;
-  final String? content;
+  final dynamic content;
   const PublicationItem({super.key, this.iconeNome, this.content});
 
   @override
@@ -43,7 +43,7 @@ class _PbvlicationItemState extends State<PublicationItem> {
         const SizedBox(width: 8.0),
         Flexible(
           child: Text(
-            widget.content?? "",
+            widget.content.toString(),
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),

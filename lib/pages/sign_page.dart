@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 import '../components/styles/marginInput.dart';
@@ -93,9 +94,13 @@ class _SignPageState extends State<SignPage> {
               child: TextField(
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
+                maxLength: 11,
+                
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration:
                     global.styles
-                    .inputTextFieldDecoration(hintText: "ex: 99-91234-5678"),
+                    .inputTextFieldDecoration(hintText: "ex: 99-91234-5678 [sem o tracejado]"),
               ),
             ),
             Text(
@@ -104,11 +109,14 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                maxLength: 7,        
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration:
                     global.styles
-                    .inputTextFieldDecoration(hintText: "ex: 0000-000"),
+                    .inputTextFieldDecoration(hintText: "ex: 0000-000 [sem o tracejado]"),
               ),
             ),
             MarginInput(

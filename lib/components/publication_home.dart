@@ -84,12 +84,11 @@ class _PublicationHomeState extends State<PublicationHome> {
               text: widget.description,
               maxLines: 2,
               style: const TextStyle(fontSize: 14),
-              contentBelow: const PublicationItems(
-                contentEstilosMusicais: "ROCK | SETANEJO",
-                contentHorario: "18:00 - 00:00 (6 horas)",
-                contentPagamento: "200",
-                contentLocalizacao:
-                    "Bairro Santa Lurdes - Marília - SP  (10 km de você)",
+              contentBelow: PublicationItems(
+                contentEstilosMusicais: widget.estilosMusicais,
+                contentHorario: widget.horasdetrabalho,
+                contentPagamento: widget.valorpagamento,
+                contentLocalizacao: widget.enderecotrabaho,
               ),
             ),
           )

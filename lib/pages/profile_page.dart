@@ -15,6 +15,14 @@ class _ProfilePageState extends State<ProfilePage> {
   String localization = "City, Country";
   String description =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+  List<String> estilosMusicais = [
+    "Rock",
+    "Blues",
+    "Sertanejo",
+    "Pop",
+    "Jazz",
+    "Música Clássica"
+  ];
 
   // final List<String> imageUrls = [
   //   'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
@@ -66,57 +74,57 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         children: [
           Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black12,
-                  ),
-                  height: 190,
-                  width: double.infinity,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black12,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 80),
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  height: 150,
-                  width: double.infinity,
-                  child: FutureBuilder(
-                    future: getPhotoPerfil(global.user["uid"]),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                        return CircleAvatar(
-                          backgroundImage: NetworkImage(snapshot.data!["args"]),
-                        );
-                      } else if (snapshot.hasData &&
-                          snapshot.data!["ok"] == false) {
-                        return CircleAvatar(
-                          backgroundColor: global.colorTheme['mainPurple'],
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return CircleAvatar(
-                          backgroundColor: global.colorTheme['mainPurple'],
-                          child: const Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
-                        );
-                      }
+                height: 190,
+                width: double.infinity,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 80),
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                height: 150,
+                width: double.infinity,
+                child: FutureBuilder(
+                  future: getPhotoPerfil(global.user["uid"]),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data!["ok"] == true) {
+                      return CircleAvatar(
+                        backgroundImage: NetworkImage(snapshot.data!["args"]),
+                      );
+                    } else if (snapshot.hasData &&
+                        snapshot.data!["ok"] == false) {
                       return CircleAvatar(
                         backgroundColor: global.colorTheme['mainPurple'],
-                        child: const CircularProgressIndicator(
+                        child: const Icon(
+                          Icons.close,
                           color: Colors.white,
                         ),
                       );
-                    },
-                  ),
+                    } else if (snapshot.hasError) {
+                      return CircleAvatar(
+                        backgroundColor: global.colorTheme['mainPurple'],
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                      );
+                    }
+                    return CircleAvatar(
+                      backgroundColor: global.colorTheme['mainPurple'],
+                      child: const CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
@@ -156,16 +164,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 4),
                 DefaultTextStyle.merge(
                   style: const TextStyle(fontSize: 14, height: 1.5),
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("• Rock"),
-                      Text("• Blues "),
-                      Text("• Sertanejo"),
-                      Text("• Pop"),
-                      Text("• Jazz"),
-                      Text("• Música Clássica"),
-                    ],
+                    children: estilosMusicais
+                        .map((item) => Text(
+                              '• $item',
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -203,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 12),
                 // ListView.builder(
-                  
+
                 //   // shrinkWrap: true,
                 //   // physics: const NeverScrollableScrollPhysics(),
                 //   // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -225,8 +233,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
 
 // Função de exemplo para obter foto de perfil
 Future<Map<String, dynamic>> getPhotoPerfil(String userId) async {
