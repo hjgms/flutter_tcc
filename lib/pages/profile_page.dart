@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 import 'package:flutter_application_firebase/pages/edit_profile_page.dart';
 
+//firebase
+import 'package:flutter_application_firebase/data/functions.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -10,11 +13,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = "John Doe";
-  String username = "johndoe";
-  String localization = "City, Country";
-  String description =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+  String name = global.user["obj"]["name"] +""+ global.user["obj"]["lastname"];
+  String username = global.user["obj"]["username"];
+  String localization = global.user["obj"]["localization"];
+  String description = global.user["obj"]["description"];
   List<String> estilosMusicais = [
     "Rock",
     "Blues",
@@ -63,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.symmetric(horizontal: 5),
               alignment: Alignment.center,
               child: const Icon(
-                Icons.edit_square,
+                Icons.edit_note,
                 color: Colors.white,
                 size: 30,
               ),
@@ -231,23 +233,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
-  }
-}
-
-// Função de exemplo para obter foto de perfil
-Future<Map<String, dynamic>> getPhotoPerfil(String userId) async {
-  try {
-    await Future.delayed(const Duration(seconds: 1));
-
-    return {
-      "ok": true,
-      "args": "https://example.com/profile_image.jpg",
-    };
-  } catch (e) {
-    // Em caso de erro, retorne um mapa indicando que a operação falhou
-    return {
-      "ok": false,
-      "error": e.toString(),
-    };
   }
 }

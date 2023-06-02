@@ -77,7 +77,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 14,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                    signoutUser();
+                    global.pageIndex = 0;
+                    Navigator.of(context)
+                        .pushReplacement(MaterialPageRoute(builder: (context) {
+                      return const LoginPage();
+                    }));
+                  },
                 child: Container(
                   decoration: BoxDecoration(
                       boxShadow: const [
@@ -90,34 +97,24 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: Colors.red.shade200,
                       borderRadius: BorderRadius.circular(6)),
                   padding: const EdgeInsetsDirectional.all(12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Sair",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 68, 6, 6)),
+                  child:  const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                           Text(
+                            "Sair",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 68, 6, 6)),
+                          ),
+                           Icon(
+                            Icons.logout,
+                            color: Color.fromARGB(255, 68, 6, 6),
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          signoutUser();
-                          global.pageIndex = 0;
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(builder: (context) {
-                            return const LoginPage();
-                          }));
-                        },
-                        child: const Icon(
-                          Icons.logout,
-                          color: Color.fromARGB(255, 68, 6, 6),
-                        ),
-                      )
-                    ],
-                  ),
+                  )
                 ),
-              )
             ],
           ),
         ));

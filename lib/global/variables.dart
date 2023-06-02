@@ -3,9 +3,9 @@ import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 bool logado = false;
 int pageIndex = 0;
-// Map user = {"auth": false, "uid": ""};
+Map user = {"auth": false, "uid":""};
 // descomentar para uso sem login, e comentar o a cima
-Map user = {"auth": true, "uid": "EvdXTmOnGeNPyIadnIgpplgfR4A2"}; 
+// Map user = {"auth": true, "uid": "EvdXTmOnGeNPyIadnIgpplgfR4A2"};
 
 String storage = 'gs://lithe-strata-348418.appspot.com/';
 
@@ -32,8 +32,7 @@ class ClassStyles {
   }
 
   TextStyle labelText() {
-    return const TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w600);
+    return const TextStyle(fontSize: 16, fontWeight: FontWeight.w600);
   }
 
   EdgeInsetsDirectional espacamentoInputs() {
@@ -54,8 +53,9 @@ class ClassStyles {
             borderRadius: BorderRadius.all(Radius.circular(6))),
         hintText: hintText);
   }
+
   TextStyle defaultinputTextStyle() {
-    return const TextStyle(fontSize: 14, color: Color(0xff515151)); 
+    return const TextStyle(fontSize: 14, color: Color(0xff515151));
   }
 }
 

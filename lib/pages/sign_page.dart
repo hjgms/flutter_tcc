@@ -19,14 +19,18 @@ class _SignPageState extends State<SignPage> {
   Widget build(BuildContext context) {
     //! está redundante essa função (e a variavel de baixo), já que tbm ela está presente no edit_Profile
 
-    
-
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.transparent,
           forceMaterialTransparency: true,
-          leading: const Icon(Icons.arrow_back),
+          toolbarHeight: 120,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child:  Icon(Icons.arrow_back, color: global.colorTheme['clearMainPurple'],),
+          ),
           centerTitle: true,
           title: Text(
             "Sign app",
@@ -34,7 +38,7 @@ class _SignPageState extends State<SignPage> {
                 fontSize: 20, color: global.colorTheme['clearMainPurple']),
           )),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: ListView(
           children: [
             Text(
@@ -45,8 +49,8 @@ class _SignPageState extends State<SignPage> {
               child: TextField(
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
-                decoration:
-                    global.styles.inputTextFieldDecoration(hintText: "Digite seu nome..."),
+                decoration: global.styles
+                    .inputTextFieldDecoration(hintText: "Digite seu nome..."),
               ),
             ),
             Text(
@@ -69,8 +73,7 @@ class _SignPageState extends State<SignPage> {
               child: TextField(
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
-                decoration:
-                    global.styles
+                decoration: global.styles
                     .inputTextFieldDecoration(hintText: "Informe sua senha..."),
               ),
             ),
@@ -95,12 +98,10 @@ class _SignPageState extends State<SignPage> {
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 maxLength: 11,
-                
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration:
-                    global.styles
-                    .inputTextFieldDecoration(hintText: "ex: 99-91234-5678 [sem o tracejado]"),
+                decoration: global.styles.inputTextFieldDecoration(
+                    hintText: "ex: 99-91234-5678 [sem o tracejado]"),
               ),
             ),
             Text(
@@ -109,14 +110,13 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
-                maxLength: 7,        
+                maxLength: 7,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration:
-                    global.styles
-                    .inputTextFieldDecoration(hintText: "ex: 0000-000 [sem o tracejado]"),
+                decoration: global.styles.inputTextFieldDecoration(
+                    hintText: "ex: 0000-000 [sem o tracejado]"),
               ),
             ),
             MarginInput(

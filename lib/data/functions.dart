@@ -26,8 +26,8 @@ Map typedReturn(bool ok, var args, {bool printDebug = true}) {
 //create account for new user
 Future<Map> createLoginUser(String email, String password) async {
   Map resp = await firebaseAuth
-    .createUserWithEmailAndPassword(email: email, password: password)
-    .then((value) {
+      .createUserWithEmailAndPassword(email: email, password: password)
+      .then((value) {
     if (value.user!.emailVerified) {
       if (value.user!.uid != "") {
         return {
@@ -89,19 +89,27 @@ Future<Map> combinationAuthCreate() async {
 }
 
 //test for login user
+Future getUid() async {
+  var resp = await cache.getCacheUserUid();
+  if (resp != "" || resp != null) {
+    return await getUser(resp);
+  }
+  return typedReturn(false, {});
+}
+
 Future<Map> loginUser(String email, String password) async {
   try {
     await firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      bool resp = await cache.setCacheUserAuth(true, value.user!.uid);
-      if (!resp) {
+      bool resp =
+          await cache.setCacheUserAuth(true, value.user!.uid.toString());
+      if (resp == false) {
         // error
       }
-      global.user["nameDisplay"] = value.user!.displayName ?? "";
     });
   } catch (e) {
-    return typedReturn(false, e, printDebug: false);
+    return typedReturn(false, "1: $e");
   }
   return typedReturn(true, {});
 }
@@ -141,46 +149,45 @@ Future signoutUser() async {
 
 //profile
 Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
-  if(notSave){
+  if (notSave) {
     var photoCache = await cache.getCacheUserPhoto();
     if (photoCache != null) {
+      print("wdwdw");
       return typedReturn(true, photoCache);
     }
   }
 
   try {
     String url = "/photoperfil/$uid/photo1.jpg";
-    String photo = await FirebaseStorage.instance
-      .ref()
-      .child(url)
-      .getDownloadURL();
+    String photo =
+        await FirebaseStorage.instance.ref().child(url).getDownloadURL();
 
     if (photo != "") {
-      if(notSave){
+      print("wdwdw");
+      if (notSave) {
         bool resp = await cache.setCacheUserPhoto(photo);
         if (resp) {
           //for photo download and save device
+          print("jojoj");
+        } else {
+          print("wdwdwd");
         }
       }
-      print(photo);
+
       return typedReturn(true, photo);
     }
-
+    print("wdwdw");
     return typedReturn(false, "photo is null returned !");
   } on FirebaseException catch (e) {
     return typedReturn(false, "topawdwd: $e");
   }
 }
 
-
-
 Future<Map> getPhotoPublication(String uid) async {
   try {
     String url = "/publications/$uid/1.jpg";
-    String photo = await FirebaseStorage.instance
-      .ref()
-      .child(url)
-      .getDownloadURL();
+    String photo =
+        await FirebaseStorage.instance.ref().child(url).getDownloadURL();
 
     if (photo != "") {
       return typedReturn(true, photo);
@@ -192,51 +199,13 @@ Future<Map> getPhotoPublication(String uid) async {
   }
 }
 
-// Future<Map> addChangesPerfil(String uid, Map<String,dynamic> obj) async {
-//   try{
-//     await dataBase.collection("users")
-//     .doc(uid)
-//     .update(obj);
-
-//     return typedReturn(true, {});
-//   }catch(e){
-//     return typedReturn(false, e);
-//   }
-
-//   /* ********
-
-//   exemplo de uso:
-
-//   uid = string // id do usuário que está logado, no caso que fica no global.user["uid"]
-
-//   obj = {
-//     "name":""
-//     "lastname":"",
-//     "description":"com o texto já formatado a quebra de linhas"
-//     "localization":" com a ciade já formatada com padrão:
-//       'NomeCidadeFormatadoEmCamelCase - EstadoCidadeFormatadoEmUpperCase'
-//     "
-//   }
-
-//   retorno:
-
-//   Map<String,Dynamic> = {
-//     "ok": true ou false, // teste pra sucesso ou erro, caso erro ele faz print automático
-//     "args": {} ou error // caso sucesso ele só retorna {}, caso erro ele retorna o erro fornecido do catch
-//   }
-
-//   ******** */
-// }
-
 //publication
 
 Future<String> getNameProviderPublications(String uid) async {
-  Map namedUser = await dataBase
-  .collection("users")
-  .doc(uid)
-  .get()
-  .then((value) {
-    final name = value.data()?["name"] == null ? "" : value.data()?["name"] as String;
+  Map namedUser =
+      await dataBase.collection("users").doc(uid).get().then((value) {
+    final name =
+        value.data()?["name"] == null ? "" : value.data()?["name"] as String;
     return typedReturn(true, name);
   }).catchError((e) {
     return typedReturn(false, "2 : $e");
@@ -246,12 +215,10 @@ Future<String> getNameProviderPublications(String uid) async {
 
 Future<String> getImagePublications({String uid = "", int number = 1}) async {
   String url = "/publications/$uid/$number.jpg";
-  Map imagePublication = await firebaseStorage
-  .child(url)
-  .getDownloadURL()
-  .then((value){
+  Map imagePublication =
+      await firebaseStorage.child(url).getDownloadURL().then((value) {
     return typedReturn(true, value);
-  }).catchError((e){
+  }).catchError((e) {
     return typedReturn(false, "3 : $e");
   });
   return imagePublication["ok"] ? imagePublication["args"] : "";
@@ -261,114 +228,92 @@ Future clearPublicationsCache() async {
   await cache.setCacheHomePublications([]);
 }
 
-Future<Map> getPublicatiosHome({int limit = 0, bool add = false, bool write = false, bool scrolled = false}) async {
+Future<Map> getPublicatiosHome(
+    {int limit = 0,
+    bool add = false,
+    bool write = false,
+    bool scrolled = false}) async {
   return await dataBase
-  .collection("publications")
-  .limit(limit)
-  .get()
-  .then((value) async {
-
+      .collection("publications")
+      .limit(limit)
+      .get()
+      .then((value) async {
     List cacheList = await cache.getCacheHomePublications();
 
-    if(cacheList.isNotEmpty && scrolled == false){
+    if (cacheList.isNotEmpty && scrolled == false) {
       global.publicationsFeed = cacheList;
       return typedReturn(true, {});
     }
 
-    if(add == false){
+    if (add == false) {
       global.publicationsFeed = [];
     }
 
     for (var i = 0; i < value.docs.length; i++) {
       var element = value.docs[i];
-    
+
       String nameProvider = "";
-      if(element.data()["userUid"].trim() != ""){
-        nameProvider = await getNameProviderPublications(element.data()["userUid"].trim());
+      if (element.data()["userUid"].trim() != "") {
+        nameProvider =
+            await getNameProviderPublications(element.data()["userUid"].trim());
       }
-      
+
       String imageProvider = "";
-      if(element.data()["images"] > 0){
+      if (element.data()["images"] > 0) {
         imageProvider = await getImagePublications(uid: element.id, number: 1);
       }
 
-      if(global.publicationsFeed.isNotEmpty){
-        
-        bool notExist = global.publicationsFeed.where((values) => element.id == values["uid"]).isEmpty;
-        
-        if(notExist){
+      if (global.publicationsFeed.isNotEmpty) {
+        bool notExist = global.publicationsFeed
+            .where((values) => element.id == values["uid"])
+            .isEmpty;
+
+        if (notExist) {
           global.publicationsFeed.add({
             "obj": element.data(),
             "uid": element.id,
             "nameProvider": nameProvider,
             "image": imageProvider
-          });    
-        }    
-      }else{
+          });
+        }
+      } else {
         global.publicationsFeed.add({
           "obj": element.data(),
           "uid": element.id,
           "nameProvider": nameProvider,
           "image": imageProvider
-        });    
+        });
       }
     }
 
-    if(write){
+    if (write) {
       bool resp = await cache.setCacheHomePublications(global.publicationsFeed);
-      if(!resp){
-        return  typedReturn(false, "4 : not saved");
+      if (!resp) {
+        return typedReturn(false, "4 : not saved");
       }
     }
 
-    return  typedReturn(true, {});
+    return typedReturn(true, {});
   }).catchError((e) {
-    return  typedReturn(false, "1 : $e");
+    return typedReturn(false, "1 : $e");
   });
 }
 
-//get outer users
-// Future<Map> getPhotoPerfilSearchUser(String uid) async {
-//   try {
-//     String url = "/photoperfil/$uid/photo1.jpg";
-//     String photo = await FirebaseStorage.instance
-//     .ref()
-//     .child(url)
-//     .getDownloadURL();
-
-//     if (photo != "") {
-//       return typedReturn(true, photo);
-//     }
-
-//     return typedReturn(false, "photo is null returned !");
-//   } on FirebaseException catch (e) {
-//     return typedReturn(false, e);
-//   }
-// }
-
 Future<Map> searchAnouterUsers(String text) async {
   global.searchUsersList.clear();
-  
-  Map resp = await dataBase
-  .collection("users")
-  .get()
-  .then((value) async {
 
-    var users = value.docs.where((element) =>
-      element.data()['name']
-      .toString()
-      .toUpperCase()
-      .contains(text.toUpperCase())
-    );
+  Map resp = await dataBase.collection("users").get().then((value) async {
+    var users = value.docs.where((element) => element
+        .data()['name']
+        .toString()
+        .toUpperCase()
+        .contains(text.toUpperCase()));
 
-    if(users.isNotEmpty){
-      
-
+    if (users.isNotEmpty) {
       users.forEach((element) async {
-
         // String imageProvider = "";
         // Map resp = await getPhotoPerfilSearchUser(element.id);
-        
+
         // if(resp["ok"]){
         //   imageProvider = resp["args"];
         // }
@@ -381,7 +326,7 @@ Future<Map> searchAnouterUsers(String text) async {
         });
       });
     }
-    
+
     return typedReturn(true, {});
   }).catchError((e) {
     return typedReturn(false, "1 : $e");

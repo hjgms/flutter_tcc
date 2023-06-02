@@ -1,4 +1,3 @@
-
 //preferences
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +32,7 @@ Future getCacheUserAuth() async {
   return memory;
 }
 
-Future<bool> setCacheUserAuth(bool auth, String uid) async{
+Future<bool> setCacheUserAuth(bool auth, String uid) async {
   final storage = await init();
   bool? status;
   status = await storage.setBool("auth", auth);

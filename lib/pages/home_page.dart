@@ -13,6 +13,8 @@ import 'package:flutter_application_firebase/pages/sign_page.dart';
 // import 'package:flutter_application_firebase/pages/sign_page.dart';
 import 'package:flutter_application_firebase/pages/welcome_page.dart';
 
+import 'notification_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -70,12 +72,10 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SignPage()));
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => NotificationPage(
-              //     notificationList: global.notificationList
-              //   )
-              // ));
+                builder: (context) => NotificationPage(
+                  notificationList: global.notificationList
+                )
+              ));
             },
             child: Container(
               height: 45,

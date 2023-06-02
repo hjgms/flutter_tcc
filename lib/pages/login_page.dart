@@ -8,6 +8,7 @@ import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //pages
 import 'package:flutter_application_firebase/pages/provider_page.dart';
+import 'package:flutter_application_firebase/pages/sign_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -38,7 +39,10 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 
-  createUser() {}
+  createUser() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignPage()));
+  }
 
   //login test
   login() async {
@@ -54,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
     String textresult = resul["args"].toString();
 
     if (resul["ok"]) {
+      
       jumpProviderPage();
     } else if (textresult.contains("[firebase_auth/invalid-email]")) {
       setState(() {
@@ -96,28 +101,28 @@ class _LoginPageState extends State<LoginPage> {
                   errorText: emailError,
                   hintText: "Email",
                   enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.black54, 
                       width: 1
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: global.colorTheme["clearMainPurple"] as Color,
                       width: 2
                     )
                   ),
                   focusedErrorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.red, 
                       width: 2
                     )
                   ),
                   errorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.red, 
                       width: 2
@@ -140,28 +145,28 @@ class _LoginPageState extends State<LoginPage> {
                   errorText: passwordError,
                   hintText: "Password",
                   enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.black54, 
                       width: 1
                     )
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: global.colorTheme["clearMainPurple"] as Color,
                       width: 2
                     )
                   ),
                   focusedErrorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.red, 
                       width: 2
                     )
                   ),
                   errorBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
                     borderSide: BorderSide(
                       color: Colors.red, 
                       width: 2
@@ -196,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: global.colorTheme["mainPurple"] as Color,
-                    borderRadius: const BorderRadius.all(Radius.circular(20))
+                    borderRadius: const BorderRadius.all(Radius.circular(18))
                   ),
                   child: const Text(
                     "Entrar",
@@ -219,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: global.colorTheme["color5"] as Color,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                     border: Border.all(
                       color: global.colorTheme["mainPurple"] as Color,
                       width: 2
