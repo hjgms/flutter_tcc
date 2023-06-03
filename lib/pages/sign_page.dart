@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 import '../components/styles/marginInput.dart';
@@ -12,8 +13,13 @@ class SignPage extends StatefulWidget {
 }
 
 class _SignPageState extends State<SignPage> {
-  TextEditingController controllerInput1 = TextEditingController();
-  TextEditingController controllerInput2 = TextEditingController();
+  TextEditingController controllerNome = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerSenha = TextEditingController();
+  TextEditingController controllerSenhaRepetida = TextEditingController();
+  TextEditingController controllerTelefone = TextEditingController();
+  TextEditingController controllerCep = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +53,8 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                maxLength: 64,
+                controller: controllerNome,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 decoration: global.styles
@@ -59,6 +67,8 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                controller: controllerEmail,
+                maxLength: 64,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 decoration: global.styles
@@ -71,6 +81,9 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                obscureText: true,
+                maxLength: 64,
+                controller: controllerSenha,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 decoration: global.styles
@@ -83,6 +96,9 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                controller: controllerSenhaRepetida,
+                obscureText: true,
+                maxLength: 64,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 decoration: global.styles.inputTextFieldDecoration(
@@ -95,6 +111,7 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                controller: controllerTelefone,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
                 maxLength: 11,
@@ -110,6 +127,7 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: TextField(
+                controller: controllerCep,
                 maxLength: 7,
                 style: global.styles.defaultinputTextStyle(),
                 cursorColor: global.colorTheme["watergreen"] as Color,
@@ -121,7 +139,17 @@ class _SignPageState extends State<SignPage> {
             ),
             MarginInput(
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  combinationAuthCreate(
+                    {
+                      "nome": controllerNome.text,
+                      "senha": controllerSenha,
+                      "email": controllerEmail.text,
+                      "telefone": controllerTelefone.text,
+                      "cep": controllerCep.text,
+                    }
+                    );
+                },
                 child: Container(
                   height: 45,
                   width: 180,

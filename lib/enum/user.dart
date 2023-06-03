@@ -1,0 +1,1 @@
+enum User {nome, email, cep, telefone, senha }

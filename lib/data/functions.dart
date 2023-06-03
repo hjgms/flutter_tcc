@@ -44,11 +44,9 @@ Future<Map> createLoginUser(String email, String password) async {
   return typedReturn(resp["ok"], resp["args"]);
 }
 
-Future<Map> createUser(String uid) async {
+Future<Map> createUser(String uid,Map<String,dynamic> obj) async {
   try {
-    await dataBase.collection("users").doc(uid).set({
-      //values new user
-    });
+    await dataBase.collection("users").doc(uid).set(obj);
   } catch (e) {
     return typedReturn(false, e);
   }
@@ -66,13 +64,15 @@ Future<Map> createUser(String uid) async {
   return typedReturn(false, {});
 }
 
-Future<Map> combinationAuthCreate() async {
+Future<Map> combinationAuthCreate(Map dadosUser) async {
   String email = "";
   String password = "";
 
   var userAuth = await createLoginUser(email, password);
   if (userAuth["ok"] && userAuth["args"]["uid"] != "") {
-    var response = await createUser(userAuth["args"]["uid"]);
+    var response = await createUser(userAuth["args"]["uid"], {
+
+    });
     if (response["ok"]) {
       var authPass = await combinationAuth(email, password);
       if (authPass["ok"]) {
