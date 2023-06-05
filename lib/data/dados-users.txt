@@ -14,3 +14,40 @@ Nome artístico:
 E-mail:
 Telefone:
 Endereço:
+
+
+serCredential(
+    additionalUserInfo: AdditionalUserInfo(isNewUser: true, profile: {}, 
+    providerId: password, username: null),
+    credential: null, 
+    user: User(
+        displayName: null, email: dsfdsfs@gmail.com,
+        emailVerified: false, isAnonymous: false, metadata: UserMetadata(creationTime: 2023-06-04 20:01:15.000Z, lastSignInTime: 2023-06-04 20:01:15.000Z), phoneNumber: null, photoURL: null,
+        providerData, [UserInfo(displayName: null, email: dsfdsfs@gmail.com, phoneNumber: null, photoURL: null,
+        providerId: password, uid: dsfdsfs@gmail.com)], 
+        refreshToken:
+        APZUo0RWeW3Y5syEKUR5fATxwqV30uKp6fYC1UeVLR1xNvY6kjmCvdo1VH_9hD-sTBB-U4CYC04u6n3L2M_KdzE7ygyePE1GEI7rGrg
+        0KYLY7f096-WxiIffJDtlEF2SYw6VSLYTjycQqrqCneLXEVfW6ssCXiibcUgr6EFhzHFpzK_mk2h4h0t0aTdeR3Kqt-gUXIGahY93aN
+        oGOpLglMJcW1ulCYK2Bw,
+        tenantId: null, 
+        uid: P2UIqWdf6IORINVk5rWpEu2RfR03
+    )
+)
+
+
+User(
+    displayName: null,
+    email: kkkkk@gmail.com,
+    emailVerified: false,
+    isAnonymous: false,
+    metadata:
+        UserMetadata(creationTime: 2023-06-04 20:25:14.000Z, lastSignInTime: 2023-06-04 20:25:14.000Z),
+    phoneNumber: null, photoURL: null, providerData, [UserInfo(
+        displayName: null, email: kkkkk@gmail.com,
+        phoneNumber: null, photoURL: null, providerId: password, uid: kkkkk@gmail.com)], 
+    refreshToken:APZUo0TcCH89obD73Nr_ixXFodIgNczVch290khdv3LBRaKsj6M27lYhXRwuj9omSRtUeIL1XDR0jxMS77Eq2m5EdUPFPwwmm0-llJc
+    WonxEK3sPVNeJSBVlqixPhURLStdR9NvtBlpKo83iDkfuXsSyXWW1uricGhxbxTntbuxM2sh4qjBhmiDOKV4EHD79IzRfjLdOP6cHPr
+    maD1sz-vZXYU4bEoy5dg,
+    tenantId: null,
+    uid: vXMG4kd0kYXFvXY5z2ZQ6MxUBtv1
+)

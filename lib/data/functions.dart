@@ -1,4 +1,5 @@
 //global
+import 'package:flutter_application_firebase/enum/dadosUser.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 //cache
@@ -28,13 +29,18 @@ Future<Map> createLoginUser(String email, String password) async {
   Map resp = await firebaseAuth
       .createUserWithEmailAndPassword(email: email, password: password)
       .then((value) {
-    if (value.user!.emailVerified) {
+    if (value.user!.emailVerified == false) {
       if (value.user!.uid != "") {
         return {
           "ok": true,
-          "args": {"uid": value.user!.uid, "number": value.user!.phoneNumber}
+          "args": {
+            "uid": value.user?.uid,
+          } //  "number": value.user!.phoneNumber
         };
       }
+    } else {
+      print("email verified retornando falso");
+      // no caso, por enquanto como teste: aqui é caso retorne TRUE!!!!!!!!!!! pq n ta retornando nunca true
     }
     return typedReturn(true, {});
   }).catchError((e) {
@@ -44,7 +50,7 @@ Future<Map> createLoginUser(String email, String password) async {
   return typedReturn(resp["ok"], resp["args"]);
 }
 
-Future<Map> createUser(String uid,Map<String,dynamic> obj) async {
+Future<Map> createUser(String uid, Map<String, dynamic> obj) async {
   try {
     await dataBase.collection("users").doc(uid).set(obj);
   } catch (e) {
@@ -64,15 +70,14 @@ Future<Map> createUser(String uid,Map<String,dynamic> obj) async {
   return typedReturn(false, {});
 }
 
-Future<Map> combinationAuthCreate(Map dadosUser) async {
-  String email = "";
-  String password = "";
+combinationAuthCreate(DadosUser dadosUser) async {
+  String email = dadosUser.email;
+  String password = dadosUser.senha;
 
   var userAuth = await createLoginUser(email, password);
   if (userAuth["ok"] && userAuth["args"]["uid"] != "") {
-    var response = await createUser(userAuth["args"]["uid"], {
-
-    });
+    var response = await createUser(
+        userAuth["args"]["uid"], dadosUser.toMap());
     if (response["ok"]) {
       var authPass = await combinationAuth(email, password);
       if (authPass["ok"]) {

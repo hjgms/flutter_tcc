@@ -4,6 +4,8 @@ import 'package:flutter_application_firebase/data/functions.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
 import '../components/styles/marginInput.dart';
+import '../enum/dadosUser.dart';
+import '../utils/funcoesTratativa.dart';
 
 class SignPage extends StatefulWidget {
   const SignPage({super.key});
@@ -20,11 +22,10 @@ class _SignPageState extends State<SignPage> {
   TextEditingController controllerTelefone = TextEditingController();
   TextEditingController controllerCep = TextEditingController();
 
+  DadosUser dadosUser = DadosUser();
 
   @override
   Widget build(BuildContext context) {
-    //! está redundante essa função (e a variavel de baixo), já que tbm ela está presente no edit_Profile
-
     return Scaffold(
       appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
@@ -35,7 +36,10 @@ class _SignPageState extends State<SignPage> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child:  Icon(Icons.arrow_back, color: global.colorTheme['clearMainPurple'],),
+            child: Icon(
+              Icons.arrow_back,
+              color: global.colorTheme['clearMainPurple'],
+            ),
           ),
           centerTitle: true,
           title: Text(
@@ -76,7 +80,7 @@ class _SignPageState extends State<SignPage> {
               ),
             ),
             Text(
-              "Senha (+8 caracteres)",
+              "Senha (+6 caracteres)",
               style: global.styles.labelText(),
             ),
             MarginInput(
@@ -140,15 +144,23 @@ class _SignPageState extends State<SignPage> {
             MarginInput(
               child: GestureDetector(
                 onTap: () {
-                  combinationAuthCreate(
-                    {
-                      "nome": controllerNome.text,
-                      "senha": controllerSenha,
-                      "email": controllerEmail.text,
-                      "telefone": controllerTelefone.text,
-                      "cep": controllerCep.text,
-                    }
-                    );
+                  dadosUser.nome = controllerNome.text.trim();
+                  dadosUser.senha = controllerSenha.text;
+                  dadosUser.email = controllerEmail.text.trim();
+                  dadosUser.cep = controllerCep.text.trim();
+                  dadosUser.telefone = controllerTelefone.text.trim();
+
+                  // verificacao de email ta retornando true.
+                  // TODO: Mostrar caso a senha já esteja em uso
+                  // TODO: salvar a senha com hash (está vísivel por agora)
+                  String? primeiroErro = realizarValidacoes(
+                      dadosUser, controllerSenhaRepetida.text);
+                  if (primeiroErro != null) {
+                    exibirSnackbar(context, primeiroErro);
+                  } else {
+                    combinationAuthCreate(dadosUser);
+                    // Entrar na página inicial
+                  }
                 },
                 child: Container(
                   height: 45,
