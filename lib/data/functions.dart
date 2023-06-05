@@ -339,3 +339,24 @@ Future<Map> searchAnouterUsers(String text) async {
 
   return typedReturn(resp["ok"], resp["args"]);
 }
+
+Future<Map> getNotification(String uid) async{
+  var uidUser = await cache.getCacheUserUid();
+  if(uidUser == "" || uidUser == null){
+    return typedReturn(false, []);
+  }
+  Map notify = await dataBase
+  .collection("notification")
+  .where("userUid", isEqualTo: uidUser.toString().trim())
+  .get()
+  .then((data) async {
+    if(data.docs.length > 0){
+      return typedReturn(true, data.docs);
+    }
+    return typedReturn(false, []);
+  }).catchError((err){
+    return typedReturn(false, err);
+  });
+  
+  return typedReturn(notify["ok"],notify["args"]);
+}

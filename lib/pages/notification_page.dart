@@ -40,6 +40,18 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   Widget createListNotifications(List notif){
+
+    if(notif.isEmpty){
+      return const Center(
+        child: Text(
+          "Nenhuma notificação",
+          style: TextStyle(
+            color: Colors.black87
+          ),  
+        ),
+      );
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.only(
         top: 30,
@@ -48,9 +60,9 @@ class _NotificationPageState extends State<NotificationPage> {
       itemCount: notif.length,
       itemBuilder: (context, index) {
         return NotificationItem(
-          providerName: notif[index]["nameProvider"],
+          providerName: notif[index]["providerName"],
           description: notif[index]["description"],
-          uid: notif[index]["uidUser"]
+          uid: notif[index]["userUid"]
         );
       },
     );

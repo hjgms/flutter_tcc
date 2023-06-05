@@ -9,9 +9,7 @@ import 'package:flutter_application_firebase/components/publication_home.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
-import 'package:flutter_application_firebase/pages/sign_page.dart';
 // import 'package:flutter_application_firebase/pages/sign_page.dart';
-import 'package:flutter_application_firebase/pages/welcome_page.dart';
 
 import 'notification_page.dart';
 
@@ -70,12 +68,8 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NotificationPage(
-                  notificationList: global.notificationList
-                )
-              ));
+            onTap: () async {
+              loadNotificationPage();
             },
             child: Container(
               height: 45,
@@ -199,6 +193,55 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
+    );
+  }
+
+  // Future loadNotificationPage() async {
+  //   return FutureBuilder(
+  //     future: getNotification(global.user["uid"]),
+  //     builder: (context, snapshot) {
+  //       if(snapshot.hasData && snapshot.data!["ok"] == true){
+  //         Navigator.of(context).push(
+  //           MaterialPageRoute(
+  //             builder: (context) => NotificationPage(
+  //               notificationList: snapshot.data!["args"]
+  //             )
+  //           )
+  //         );
+  //       }else if(snapshot.hasData && snapshot.data!["ok"] == false){
+  //         Navigator.of(context).push(
+  //           MaterialPageRoute(
+  //             builder: (context) => const NotificationPage(
+  //               notificationList: []
+  //             )
+  //           )
+  //         );
+  //       }
+  //       return CircularProgressIndicator(
+  //         color: global.colorTheme["mainPurple"]
+  //       );
+  //     },
+  //   );
+  // }
+
+  Future loadNotificationPage() async {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FutureBuilder(
+          future: getNotification(global.user["uid"]),
+          builder: (context, snapshot) {
+            if(snapshot.hasData && snapshot.data!["ok"] == true){
+              return NotificationPage(
+                notificationList: snapshot.data!["args"]
+              );
+            }else{
+              return const NotificationPage(
+                notificationList: []
+              );
+            }
+          },
+        )
+      )
     );
   }
 }
