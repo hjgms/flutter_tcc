@@ -76,8 +76,7 @@ combinationAuthCreate(DadosUser dadosUser) async {
 
   var userAuth = await createLoginUser(email, password);
   if (userAuth["ok"] && userAuth["args"]["uid"] != "") {
-    var response = await createUser(
-        userAuth["args"]["uid"], dadosUser.toMap());
+    var response = await createUser(userAuth["args"]["uid"], dadosUser.toMap());
     if (response["ok"]) {
       var authPass = await combinationAuth(email, password);
       if (authPass["ok"]) {
@@ -336,6 +335,18 @@ Future<Map> searchAnouterUsers(String text) async {
   }).catchError((e) {
     return typedReturn(false, "1 : $e");
   });
-
   return typedReturn(resp["ok"], resp["args"]);
+}
+
+// estilos musicais
+
+Future<List<dynamic>> getEstilosMusicais() async {
+  final estilosMusicais = await dataBase.collection("musicStyles").get();
+  List<dynamic> list = [];
+  estilosMusicais.docs.forEach((doc) {
+    if (doc.exists) {
+      list.add(doc.data());
+    }
+  });
+  return list;
 }

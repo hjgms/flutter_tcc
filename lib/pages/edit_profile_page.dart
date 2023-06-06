@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/modalEstilosMusicais.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
@@ -16,6 +18,21 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  Future<List> estilosMusicais = getEstilosMusicais();
+
+  TextEditingController controllerNome = TextEditingController(
+      text: global.user["obj"]["name"] ??
+          "" + "" + global.user["obj"]["lastname"] ??
+          "");
+  TextEditingController controllerEmail =
+      TextEditingController(text: global.user["obj"]["email"] ?? "");
+  TextEditingController controllerTelefone =
+      TextEditingController(text: global.user["obj"]["telefone"]);
+  TextEditingController controllerCep =
+      TextEditingController(text: global.user["obj"]["cep"] ?? "");
+  TextEditingController controllerDescription =
+      TextEditingController(text: global.user["obj"]["description"] ?? "");
+
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
@@ -116,10 +133,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               MarginInput(
                 child: TextField(
+                  controller: controllerNome,
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
-                  decoration:
-                      global.styles
+                  decoration: global.styles
                       .inputTextFieldDecoration(hintText: "Digite seu nome"),
                 ),
               ),
@@ -131,21 +148,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: TextField(
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
-                  decoration:
-                      global.styles
+                  controller: controllerEmail,
+                  decoration: global.styles
                       .inputTextFieldDecoration(hintText: "Digite seu email"),
                 ),
               ),
               Text(
-                "Localidade",
+                "Telefone",
                 style: global.styles.labelText(),
               ),
               MarginInput(
                 child: TextField(
+                  controller: controllerTelefone,
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
                   decoration: global.styles.inputTextFieldDecoration(
-                      hintText: "Digite sua localidade"),
+                      hintText: "Digite seu telefone"),
+                ),
+              ),
+              Text(
+                "Cep",
+                style: global.styles.labelText(),
+              ),
+              MarginInput(
+                child: TextField(
+                  controller: controllerCep,
+                  style: global.styles.defaultinputTextStyle(),
+                  cursorColor: global.colorTheme["watergreen"] as Color,
+                  decoration: global.styles
+                      .inputTextFieldDecoration(hintText: "Digite seu cep"),
                 ),
               ),
               Text(
@@ -209,16 +240,41 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       color: Color.fromARGB(255, 51, 51, 51),
                       height: 1.5,
                     ),
-                    controller: TextEditingController(
-                      text:
-                          'Texto grande aqui...\n\ndasda\n\nsdas\n\nsaddasd\n\nsadas\n\n\nsadasdadas\nsada',
-                    ),
+                    controller: controllerDescription,
                   ),
                 ),
               ),
               Text(
                 "Fotos",
                 style: global.styles.labelText(),
+              ),
+              FutureBuilder<List<dynamic>>(
+                future: getEstilosMusicais(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<dynamic>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Erro: ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    List<dynamic> data = snapshot.data ?? [];
+                    return Container(
+                      // Especificar um tamanho para o container
+                      height: 200, // Defina um valor adequado aqui
+                      child: ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(data[index]['nome']),
+                            // Outros campos do documento podem ser acessados usando data[index]['nomeDoCampo']
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return Text('Sem dados disponíveis.');
+                  }
+                },
               ),
             ],
           ),

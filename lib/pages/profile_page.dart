@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = global.user["obj"]["name"] +""+ global.user["obj"]["lastname"];
+  String name = global.user["obj"]["name"] +" "+ global.user["obj"]["lastname"];
   String username = global.user["obj"]["username"];
   String localization = global.user["obj"]["localization"];
   String description = global.user["obj"]["description"];

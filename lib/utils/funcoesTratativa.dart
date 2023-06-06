@@ -26,12 +26,8 @@ bool verificarProvedorEmailValido(String email) {
 }
 
 bool verificarEmailValido(String email) {
-  if (verificarFormatoEmail(email)) {
-    if (verificarProvedorEmailValido(email)) {
-      return true;
-    } else {
-      return false;
-    }
+  if (verificarFormatoEmail(email) && verificarProvedorEmailValido(email)) {
+    return true;
   } else {
     return false;
   }
@@ -61,7 +57,7 @@ String? realizarValidacoes(DadosUser dadosUser, String senhaRepetida) {
   if (dadosUser.nome.isEmpty) {
     return 'O nome não pode ser vazio.';
   }
-  if (verificarFormatoEmail(dadosUser.email) != true) {
+  if (verificarEmailValido(dadosUser.email) != true) {
     return 'O email não tem um formato válido.';
   }
   if (!verificarComplexidadeSenha(dadosUser.senha) ||
