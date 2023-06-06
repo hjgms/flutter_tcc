@@ -375,14 +375,13 @@ Future<Map> getMusicStylesCombination() async {
   if(uidUser == "" || uidUser == null){
     return typedReturn(false, []);
   }
-  print("wdad");
+  
   Map resp = await dataBase
   .collection("users")
   .doc(uidUser.toString().trim())
   .get()
   .then((value){
     List data = value.data()!["musicStyles"];
-    print(data);
     return typedReturn(true, data);
   }).catchError((e){
     return typedReturn(false, []);
@@ -390,14 +389,14 @@ Future<Map> getMusicStylesCombination() async {
 
   if(resp["args"].isNotEmpty){
     for (var i = 0; i < musics["args"].length; i++) {
-      if(musics[i]["uid"].toString().trim() ==  resp["args"][i]["uid"]){
-        musics[i]["selected"] = true;
+      if(musics["args"][i]["uid"].toString().trim() ==  resp["args"][i]["uid"]){
+        musics["args"][i]["selected"] = true;
       }
     }
   }
-  
-  if(musics.isNotEmpty){
-    return typedReturn(true, musics);
+
+  if(musics["args"].isNotEmpty){
+    return typedReturn(true, musics["args"]);
   }
 
   return typedReturn(false, []);
