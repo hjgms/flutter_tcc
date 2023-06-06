@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  color: Colors.black12,
+                  color: Color.fromARGB(31, 0, 61, 117),
                 ),
                 height: 190,
                 width: double.infinity,
