@@ -14,13 +14,10 @@ class ModalEstilosMusicais extends StatefulWidget {
 }
 
 class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
-  Container dividerModalEstilosMusicais = Container(
-      child: const Divider(
+  Divider dividerModalEstilosMusicais = const Divider(
     height: 2,
     color: Color(0xffD9D9D9),
-  ));
-
-  Future<List<dynamic>> estilosMusicais = getEstilosMusicais();
+  );
 
   List<String> estilosMusicaisSelecionados = ["Rock", "Funk", "Sertanejo"];
 
@@ -59,65 +56,77 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-  width: double.maxFinite,
-  height: 200,
-  child: DefaultTextStyle.merge(
-    style: const TextStyle(
-      fontSize: 16,
-      color: Color(0xff202020),
-      fontWeight: FontWeight.w400,
-    ),
-    child: FutureBuilder<List<dynamic>>(
-      future: estilosMusicais,
-      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Erro: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          List<dynamic> data = snapshot.data ?? [];
-          return ListView(
-            children: data
-                .map((estiloMusical) => Theme(
-                      data: Theme.of(context).copyWith(
-                        checkboxTheme: CheckboxThemeData(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              4.0,
+              width: double.maxFinite,
+              height: 200,
+              child: DefaultTextStyle.merge(
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xff202020),
+                  fontWeight: FontWeight.w400,
+                ),
+                child: FutureBuilder<Map<dynamic, dynamic>>(
+                  future: getMusicStylesCombination(),
+                  builder: (BuildContext context, AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
+                    if (snapshot.hasData && snapshot.data!["ok"] == true) {
+                      print(snapshot.data);
+                      return ListView.builder(
+                        itemCount: snapshot.data!["args"].length,
+                        itemBuilder: (context, index) {
+                          Map estiloMusical = snapshot.data!["args"][index];
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              checkboxTheme: CheckboxThemeData(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    4.0,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            child: CheckboxListTile(
+                              title: Text(estiloMusical["obj"]["name"]),
+                              value: estilosMusicaisSelecionados.contains(estiloMusical["obj"]["name"]),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value!) {
+                                    estilosMusicaisSelecionados.add(estiloMusical["obj"]["name"]);
+                                  } else {
+                                    estilosMusicaisSelecionados.remove(estiloMusical["obj"]["name"]);
+                                  }
+                                });
+                              },
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0, 
+                                horizontal: 16
+                              ),
+                              dense: false,
+                              activeColor: global.colorTheme["mainPurple"] as Color,
+                              selectedTileColor: Colors.grey.shade500,
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasData && snapshot.data!["ok"] == false) {
+                      return const Center(
+                        child: Text("ocorreu algum problema")
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Erro: ${snapshot.error} ${snapshot.data}');
+                    } 
+
+                    return Center(
+                      child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator(
+                          color: global.colorTheme["mainPurple"],
                         ),
                       ),
-                      child: CheckboxListTile(
-                        title: Text(estiloMusical["name"]),
-                        value:
-                            estilosMusicaisSelecionados.contains(estiloMusical["name"]),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            if (value!) {
-                              estilosMusicaisSelecionados.add(estiloMusical["name"]);
-                            } else {
-                              estilosMusicaisSelecionados.remove(estiloMusical["name"]);
-                            }
-                          });
-                        },
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 16),
-                        dense: false,
-                        activeColor:
-                            global.colorTheme["mainPurple"] as Color,
-                        selectedTileColor: Colors.grey.shade500,
-                      ),
-                    ))
-                .toList(),
-          );
-        } else {
-          return Text('Sem dados disponíveis.');
-        }
-      },
-    ),
-  ),
-),
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -134,49 +143,57 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(43, 70, 70, 70),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset: Offset(0, 4)),
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: Colors.grey.shade300),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-                    child: Text(
-                      "Cancelar",
-                      style: TextStyle(color: Colors.grey.shade700),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(43, 70, 70, 70),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: Offset(0, 4)
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    color: Colors.grey.shade300
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8, 
+                    horizontal: 30
+                  ),
+                  child: Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      color: Colors.grey.shade700
                     ),
-                  )),
+                  ),
+                )
+              ),
               GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(43, 70, 70, 70),
-                              spreadRadius: 2,
-                              blurRadius: 4,
-                              offset: Offset(0, 4)),
-                        ],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: global.colorTheme["mainPurple"] as Color),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-                    child: const Text(
-                      "Confirmar",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(43, 70, 70, 70),
+                        spreadRadius: 2,
+                        blurRadius: 4,
+                        offset: Offset(0, 4)
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    color: global.colorTheme["mainPurple"] as Color
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+                  child: const Text(
+                    "Confirmar",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ),
             ],
           ),
         ),

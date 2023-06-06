@@ -339,17 +339,71 @@ Future<Map> searchAnouterUsers(String text) async {
 }
 
 // estilos musicais
+Future<Map> getMusicStyles() async {
+  Map resp = await dataBase
+  .collection("musicStyles")
+  .get()
+  .then((value){
+    List<dynamic> list = [];
 
-Future<List<dynamic>> getEstilosMusicais() async {
-  final estilosMusicais = await dataBase.collection("musicStyles").get();
-  List<dynamic> list = [];
-  estilosMusicais.docs.forEach((doc) {
-    if (doc.exists) {
-      list.add(doc.data());
+    if(value.docs.isNotEmpty){
+
+      for (var element in value.docs) {
+        list.add({
+          "uid":element.id,
+          "obj":element.data(),
+          "selected":false
+        });
+      }
+
+      return typedReturn(true, list);
     }
+
+    return typedReturn(false, []); 
   });
-  return list;
+
+  return typedReturn(resp["ok"], resp["args"]);
 }
+
+Future<Map> getMusicStylesCombination() async {
+  Map musics = await getMusicStyles();
+  if(musics["ok"] == false){
+    return typedReturn(false, []);
+  }
+
+  var uidUser = await cache.getCacheUserUid();
+  if(uidUser == "" || uidUser == null){
+    return typedReturn(false, []);
+  }
+  print("wdad");
+  Map resp = await dataBase
+  .collection("users")
+  .doc(uidUser.toString().trim())
+  .get()
+  .then((value){
+    List data = value.data()!["musicStyles"];
+    print(data);
+    return typedReturn(true, data);
+  }).catchError((e){
+    return typedReturn(false, []);
+  });
+
+  if(resp["args"].isNotEmpty){
+    for (var i = 0; i < musics["args"].length; i++) {
+      if(musics[i]["uid"].toString().trim() ==  resp["args"][i]["uid"]){
+        musics[i]["selected"] = true;
+      }
+    }
+  }
+  
+  if(musics.isNotEmpty){
+    return typedReturn(true, musics);
+  }
+
+  return typedReturn(false, []);
+}
+
+//notification
 Future<Map> getNotification(String uid) async{
   var uidUser = await cache.getCacheUserUid();
   if(uidUser == "" || uidUser == null){
@@ -360,7 +414,7 @@ Future<Map> getNotification(String uid) async{
   .where("userUid", isEqualTo: uidUser.toString().trim())
   .get()
   .then((data) async {
-    if(data.docs.length > 0){
+    if(data.docs.isNotEmpty){
       return typedReturn(true, data.docs);
     }
     return typedReturn(false, []);
