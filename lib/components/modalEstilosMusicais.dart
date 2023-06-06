@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
@@ -19,20 +20,15 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
     color: Color(0xffD9D9D9),
   ));
 
-  List<String> estilosMusicais = [
-    "Rock",
-    "Sertanejo",
-    "Blues",
-    "Pop",
-    "Eletrônica"
-  ];
-  List<String> estilosMusicaisSelecionados = [];
+  Future<List<dynamic>> estilosMusicais = getEstilosMusicais();
+
+  List<String> estilosMusicaisSelecionados = ["Rock", "Funk", "Sertanejo"];
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Column(
-        children: const [
+      title: const Column(
+        children: [
           Text(
             "Estilos musicais ",
             textAlign: TextAlign.center,
@@ -63,50 +59,65 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-                width: double.maxFinite,
-                height: 200,
-                child: DefaultTextStyle.merge(
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xff202020),
-                        fontWeight: FontWeight.w400),
-                    child: ListView(
-                        children: estilosMusicais
-                            .map((estiloMusical) => Theme(
-                                  data: Theme.of(context).copyWith(
-                                    checkboxTheme: CheckboxThemeData(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            4.0), // Defina o valor de arredondamento desejado
-                                      ),
-                                    ),
-                                  ),
-                                  child: CheckboxListTile(
-                                    title: Text(estiloMusical),
-                                    value: estilosMusicaisSelecionados
-                                        .contains(estiloMusical),
-                                    onChanged: (bool? value) {
-                                      // quando clicado executar o código abaixo
-                                      setState(() {
-                                        if (value!) {
-                                          estilosMusicaisSelecionados
-                                              .add(estiloMusical);
-                                        } else {
-                                          estilosMusicaisSelecionados
-                                              .remove(estiloMusical);
-                                        }
-                                      });
-                                    },
-                                    
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 16),
-                                    dense: false,
-                                    activeColor: global.colorTheme["mainPurple"]
-                                        as Color,
-                                    selectedTileColor: Colors.grey.shade500,
-                                  ),
-                                ))
-                            .toList()))),
+  width: double.maxFinite,
+  height: 200,
+  child: DefaultTextStyle.merge(
+    style: const TextStyle(
+      fontSize: 16,
+      color: Color(0xff202020),
+      fontWeight: FontWeight.w400,
+    ),
+    child: FutureBuilder<List<dynamic>>(
+      future: estilosMusicais,
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Erro: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          List<dynamic> data = snapshot.data ?? [];
+          return ListView(
+            children: data
+                .map((estiloMusical) => Theme(
+                      data: Theme.of(context).copyWith(
+                        checkboxTheme: CheckboxThemeData(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              4.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: CheckboxListTile(
+                        title: Text(estiloMusical["name"]),
+                        value:
+                            estilosMusicaisSelecionados.contains(estiloMusical["name"]),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            if (value!) {
+                              estilosMusicaisSelecionados.add(estiloMusical["name"]);
+                            } else {
+                              estilosMusicaisSelecionados.remove(estiloMusical["name"]);
+                            }
+                          });
+                        },
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 16),
+                        dense: false,
+                        activeColor:
+                            global.colorTheme["mainPurple"] as Color,
+                        selectedTileColor: Colors.grey.shade500,
+                      ),
+                    ))
+                .toList(),
+          );
+        } else {
+          return Text('Sem dados disponíveis.');
+        }
+      },
+    ),
+  ),
+),
           ],
         ),
       ),
@@ -186,3 +197,33 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
   //     ],
   //   ),
   // ],
+
+
+  // FutureBuilder<List<dynamic>>(
+  //               future: getEstilosMusicais(),
+  //               builder: (BuildContext context,
+  //                   AsyncSnapshot<List<dynamic>> snapshot) {
+  //                 if (snapshot.connectionState == ConnectionState.waiting) {
+  //                   return CircularProgressIndicator();
+  //                 } else if (snapshot.hasError) {
+  //                   return Text('Erro: ${snapshot.error}');
+  //                 } else if (snapshot.hasData) {
+  //                   List<dynamic> data = snapshot.data ?? [];
+  //                   return Container(
+  //                     // Especificar um tamanho para o container
+  //                     height: 200, // Defina um valor adequado aqui
+  //                     child: ListView.builder(
+  //                       itemCount: data.length,
+  //                       itemBuilder: (BuildContext context, int index) {
+  //                         return ListTile(
+  //                           title: Text(data[index]['name']),
+  //                           // Outros campos do documento podem ser acessados usando data[index]['nomeDoCampo']
+  //                         );
+  //                       },
+  //                     ),
+  //                   );
+  //                 } else {
+  //                   return Text('Sem dados disponíveis.');
+  //                 }
+  //               },
+  //             ),

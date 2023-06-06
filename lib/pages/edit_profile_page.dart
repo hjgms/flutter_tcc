@@ -33,6 +33,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController controllerDescription =
       TextEditingController(text: global.user["obj"]["description"] ?? "");
 
+  String nivelSelecionado = "";
+
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
@@ -59,6 +61,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     bool? _fecharPagina;
+    List niveis = ["Noturno", "Diurno", "Matutino"];
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -217,6 +220,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ]),
               ),
               Text(
+                "Horários Disponíveis",
+                style: global.styles.labelText(),
+              ),
+              Column(
+                  children: niveis
+                      .map((nivel) => RadioListTile(
+                          dense: true,
+                          title: Text(nivel),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                          value: nivel.toString(),
+                          selected: nivelSelecionado == nivel,
+                          groupValue: nivelSelecionado,
+                          activeColor: global.colorTheme["watergreen"] as Color,
+                          fillColor: MaterialStatePropertyAll(
+                              global.colorTheme["mainPurple"] as Color),
+                          onChanged: (value) {
+                            setState(() {
+                              nivelSelecionado = value.toString();
+                            });
+                          }))
+                      .toList()),
+              Text(
                 "Descrição",
                 style: global.styles.labelText(),
               ),
@@ -247,34 +272,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Text(
                 "Fotos",
                 style: global.styles.labelText(),
-              ),
-              FutureBuilder<List<dynamic>>(
-                future: getEstilosMusicais(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<dynamic>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Erro: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    List<dynamic> data = snapshot.data ?? [];
-                    return Container(
-                      // Especificar um tamanho para o container
-                      height: 200, // Defina um valor adequado aqui
-                      child: ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(data[index]['nome']),
-                            // Outros campos do documento podem ser acessados usando data[index]['nomeDoCampo']
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Text('Sem dados disponíveis.');
-                  }
-                },
               ),
             ],
           ),
