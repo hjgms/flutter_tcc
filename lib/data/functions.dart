@@ -350,23 +350,33 @@ Future<List<dynamic>> getEstilosMusicais() async {
   });
   return list;
 }
-Future<Map> getNotification(String uid) async{
+
+Future<Map> getNotification(String uid) async {
   var uidUser = await cache.getCacheUserUid();
-  if(uidUser == "" || uidUser == null){
+  if (uidUser == "" || uidUser == null) {
     return typedReturn(false, []);
   }
   Map notify = await dataBase
-  .collection("notification")
-  .where("userUid", isEqualTo: uidUser.toString().trim())
-  .get()
-  .then((data) async {
-    if(data.docs.length > 0){
+      .collection("notification")
+      .where("userUid", isEqualTo: uidUser.toString().trim())
+      .get()
+      .then((data) async {
+    if (data.docs.length > 0) {
       return typedReturn(true, data.docs);
     }
     return typedReturn(false, []);
-  }).catchError((err){
+  }).catchError((err) {
     return typedReturn(false, err);
   });
-  
-  return typedReturn(notify["ok"],notify["args"]);
+
+  return typedReturn(notify["ok"], notify["args"]);
 }
+
+saveEditingProfile(
+    {required String nome,
+    required String email,
+    required String telefone,
+    required String cep,
+    required List<String> estilosMusicais,
+    required List<String> horariosDisponiveis,
+    required String descricao}) {}

@@ -13,10 +13,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = global.user["obj"]["name"] +" "+ global.user["obj"]["lastname"];
+  String name =
+      global.user["obj"]["name"] + " " + global.user["obj"]["lastname"];
   String username = global.user["obj"]["username"];
   String localization = global.user["obj"]["localization"];
   String description = global.user["obj"]["description"];
+  List? freeHours = global.user["obj"]["freeHours"] ?? [""];
+
   List<String> estilosMusicais = [
     "Rock",
     "Blues",
@@ -187,21 +190,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  "Dias: ",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    height: 1.75,
-                  ),
-                ),
-                const Text(
-                  "Horas: ",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    height: 1.75,
-                  ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: freeHours!.length,
+                  itemBuilder: (context, index) {
+                    return Text(
+                      '• ${freeHours![index]}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 12),
                 const Text(

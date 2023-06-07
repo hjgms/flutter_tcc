@@ -33,8 +33,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController controllerDescription =
       TextEditingController(text: global.user["obj"]["description"] ?? "");
 
-  String nivelSelecionado = "";
-
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
@@ -58,10 +56,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: MaterialStateProperty.all(bgColor));
   }
 
+  List<String> horariosEscolhidos = [];
+  List<String> horarios = ["Noturno", "Diurno", "Matutino"];
   @override
   Widget build(BuildContext context) {
     bool? _fecharPagina;
-    List niveis = ["Noturno", "Diurno", "Matutino"];
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -76,12 +75,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     onClose: (bool value) {
                       setState(() {
                         _fecharPagina = value;
-                        _fecharPagina == true
-                            ? Navigator.of(context)
-                                // ignore: todo
-                                .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
-                            : Navigator.of(context)
-                                .pop(); // no caso de sair e não salvar
+                        if (_fecharPagina == true) {
+                          print("Salvando");
+                          saveEditingProfile(
+                              nome: controllerNome.text,
+                              email: controllerEmail.text,
+                              cep: controllerCep.text,
+                              descricao: controllerDescription.text,
+                              estilosMusicais: [""],
+                              horariosDisponiveis: horariosEscolhidos,
+                              telefone: controllerTelefone.text);
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).pop();
+                        }
                       });
                     },
                   );
@@ -223,30 +230,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Horários Disponíveis",
                 style: global.styles.labelText(),
               ),
-              Column(
-                  children: niveis
-                      .map((nivel) => RadioListTile(
-                          dense: true,
-                          title: Text(nivel),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                          value: nivel.toString(),
-                          selected: nivelSelecionado == nivel,
-                          groupValue: nivelSelecionado,
-                          activeColor: global.colorTheme["watergreen"] as Color,
-                          fillColor: MaterialStatePropertyAll(
-                              global.colorTheme["mainPurple"] as Color),
-                          onChanged: (value) {
-                            setState(() {
-                              nivelSelecionado = value.toString();
-                            });
-                          }))
-                      .toList()),
+              MarginInput(
+                child: ListView.builder(
+                  itemCount: horarios.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return CheckboxListTile(
+                      title: Text(horarios[index]),
+                      activeColor: global.colorTheme["watergreen"] as Color,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                      value: horariosEscolhidos.contains(horarios[index]),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value!) {
+                            horariosEscolhidos.add(horarios[index]);
+                          } else {
+                            horariosEscolhidos.remove(horarios[index]);
+                          }
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
               Text(
                 "Descrição",
                 style: global.styles.labelText(),
               ),
               MarginInput(
-                //TODO mudar a cor da borda ou algo do tipo quando for focado
+                // TODO mudar a cor da borda ou algo do tipo quando for focado
                 child: Container(
                   padding: const EdgeInsetsDirectional.all(14),
                   decoration: BoxDecoration(

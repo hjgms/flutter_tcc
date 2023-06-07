@@ -44,7 +44,7 @@ class ClassStyles {
         focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(
-                width: 2, color: global.colorTheme["mainPurple"] as Color)),
+                width: 2, color: global.colorTheme["watergreen"] as Color)),
         enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(width: 1, color: Color(0xff515151))),
