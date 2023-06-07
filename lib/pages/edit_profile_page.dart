@@ -18,42 +18,53 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  Future<List> estilosMusicais = getEstilosMusicais();
 
   TextEditingController controllerNome = TextEditingController(
-      text: global.user["obj"]["name"] ??
-          "" + "" + global.user["obj"]["lastname"] ??
-          "");
-  TextEditingController controllerEmail =
-      TextEditingController(text: global.user["obj"]["email"] ?? "");
-  TextEditingController controllerTelefone =
-      TextEditingController(text: global.user["obj"]["telefone"]);
-  TextEditingController controllerCep =
-      TextEditingController(text: global.user["obj"]["cep"] ?? "");
-  TextEditingController controllerDescription =
-      TextEditingController(text: global.user["obj"]["description"] ?? "");
+    text: (global.user["obj"]["name"] ?? "") 
+    + (global.user["obj"]["lastname"] ?? "")
+  );
+  TextEditingController controllerEmail = TextEditingController(
+    text: global.user["obj"]["email"] ?? ""
+  );
+  TextEditingController controllerTelefone = TextEditingController(
+    text: global.user["obj"]["telefone"]
+  );
+  TextEditingController controllerCep = TextEditingController(
+    text: global.user["obj"]["cep"] ?? ""
+  );
+  TextEditingController controllerDescription = TextEditingController(
+    text: global.user["obj"]["description"] ?? ""
+  );
 
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-          color: Color.fromARGB(255, 201, 201, 201)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6)
+        ),
+        color: Color.fromARGB(255, 201, 201, 201)
+      ),
       child: Text(
         name,
         style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
-            color: Color(0xff515151)),
+          fontSize: 14,
+          fontWeight: FontWeight.w300,
+          color: Color(0xff515151)
+        ),
       ),
     );
   }
 
   ButtonStyle modalButtonStyle({Color bgColor = Colors.white}) {
     return ButtonStyle(
-        shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)))),
-        backgroundColor: MaterialStateProperty.all(bgColor));
+      shape: MaterialStateProperty.all(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))
+        )
+      ),
+      backgroundColor: MaterialStateProperty.all(bgColor)
+    );
   }
 
   List<String> horariosEscolhidos = [];
@@ -204,7 +215,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       estiloMusicalSelected("Blues"),
                       estiloMusicalSelected("Pop"),
                       estiloMusicalSelected("Jazz"),
-                      estiloMusicalSelected("Música Clássica"),
+                      // estiloMusicalSelected("Música Clássica"),
                       GestureDetector(
                         onTap: () {
                           showDialog(
