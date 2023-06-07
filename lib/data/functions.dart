@@ -1,4 +1,6 @@
 //global
+import 'dart:js_interop';
+
 import 'package:flutter_application_firebase/enum/dadosUser.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
@@ -380,10 +382,17 @@ Future<Map> getMusicStylesCombination() async {
   });
 
   if (resp["args"].isNotEmpty) {
-    for (var i = 0; i < musics["args"].length; i++) {
-      if (musics["args"][i]["uid"].toString().trim() ==
-          resp["args"][i]["uid"]) {
-        musics["args"][i]["selected"] = true;
+
+    Iterable trueed;
+    for (var i = 0; i < resp["args"].length; i++) {
+      
+      trueed = (musics["args"] as List).where((element) => element["uid"] == resp["args"][i]["uid"]);
+      if(trueed.isNotEmpty){
+        for (var item in (musics["args"] as List)) {
+          if(item["uid"] == trueed.single["uid"]){
+            item["selected"] = true;
+          }
+        }
       }
     }
   }

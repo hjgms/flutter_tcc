@@ -68,9 +68,8 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                   future: getMusicStylesCombination(),
                   builder: (BuildContext context, AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
                     if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                      print(snapshot.data);
                       return ListView.builder(
-                        itemCount: snapshot.data!["args"].length,
+                        itemCount: (snapshot.data!["args"] as List).length,
                         itemBuilder: (context, index) {
                           Map estiloMusical = snapshot.data!["args"][index];
                           return Theme(
@@ -85,13 +84,13 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                             ),
                             child: CheckboxListTile(
                               title: Text(estiloMusical["obj"]["name"]),
-                              value: estilosMusicaisSelecionados.contains(estiloMusical["obj"]["name"]),
+                              value: estiloMusical["selected"],
                               onChanged: (bool? value) {
                                 setState(() {
                                   if (value!) {
-                                    estilosMusicaisSelecionados.add(estiloMusical["obj"]["name"]);
+                                    estiloMusical["selected"] = true;
                                   } else {
-                                    estilosMusicaisSelecionados.remove(estiloMusical["obj"]["name"]);
+                                    estiloMusical["selected"] = false;
                                   }
                                 });
                               },
@@ -111,7 +110,7 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                         child: Text("ocorreu algum problema")
                       );
                     } else if (snapshot.hasError) {
-                      return Text('Erro: ${snapshot.error} ${snapshot.data}');
+                      return Text('Erro: ${snapshot.error}');
                     } 
 
                     return Center(

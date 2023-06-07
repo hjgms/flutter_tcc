@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/modalEstilosMusicais.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
@@ -194,36 +193,50 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
               MarginInput(
                 child: Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    runAlignment: WrapAlignment.center,
-                    children: [
-                      estiloMusicalSelected("Rock"),
-                      estiloMusicalSelected("Sertanejo"),
-                      estiloMusicalSelected("Blues"),
-                      estiloMusicalSelected("Pop"),
-                      estiloMusicalSelected("Jazz"),
-                      // estiloMusicalSelected("Música Clássica"),
-                      GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const ModalEstilosMusicais();
-                            },
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
-                              color: global.colorTheme["watergreen"] as Color),
-                          child:
-                              const Icon(Icons.add, color: Color(0xffffffff)),
+                  spacing: 12,
+                  runSpacing: 12,
+                  runAlignment: WrapAlignment.center,
+                  children: FutureBuilder(
+                    future: getMusicStylesCombination(),
+                    builder: (context, snapshot) {
+                      List<Widget> items = [];
+                      if(snapshot.hasData && snapshot.data!["ok"] == true){
+                        
+                        for (var item in snapshot.data!["args"]) {
+                          if(item["selected"] == true){
+                            items.add(estiloMusicalSelected(item["name"]));
+                          }
+                        }
+                      }else if(snapshot.hasData && snapshot.data!["ok"] == false){
+
+                      }
+
+                      items.add(
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const ModalEstilosMusicais();
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(6)),
+                                color: global.colorTheme["watergreen"] as Color),
+                            child:
+                                const Icon(Icons.add, color: Color(0xffffffff)),
+                          ),
                         ),
-                      ),
-                    ]),
+                      );
+
+                      return [Container(),Container()];
+                    }, 
+                  ) as List<Widget>
+                ),
               ),
               Text(
                 "Horários Disponíveis",
