@@ -340,26 +340,18 @@ Future<Map> searchAnouterUsers(String text) async {
 
 // estilos musicais
 Future<Map> getMusicStyles() async {
-  Map resp = await dataBase
-  .collection("musicStyles")
-  .get()
-  .then((value){
+  Map resp = await dataBase.collection("musicStyles").get().then((value) {
     List<dynamic> list = [];
 
-    if(value.docs.isNotEmpty){
-
+    if (value.docs.isNotEmpty) {
       for (var element in value.docs) {
-        list.add({
-          "uid":element.id,
-          "obj":element.data(),
-          "selected":false
-        });
+        list.add({"uid": element.id, "obj": element.data(), "selected": false});
       }
 
       return typedReturn(true, list);
     }
 
-    return typedReturn(false, []); 
+    return typedReturn(false, []);
   });
 
   return typedReturn(resp["ok"], resp["args"]);
@@ -367,35 +359,36 @@ Future<Map> getMusicStyles() async {
 
 Future<Map> getMusicStylesCombination() async {
   Map musics = await getMusicStyles();
-  if(musics["ok"] == false){
+  if (musics["ok"] == false) {
     return typedReturn(false, []);
   }
 
   var uidUser = await cache.getCacheUserUid();
-  if(uidUser == "" || uidUser == null){
+  if (uidUser == "" || uidUser == null) {
     return typedReturn(false, []);
   }
-  
+
   Map resp = await dataBase
-  .collection("users")
-  .doc(uidUser.toString().trim())
-  .get()
-  .then((value){
+      .collection("users")
+      .doc(uidUser.toString().trim())
+      .get()
+      .then((value) {
     List data = value.data()!["musicStyles"];
     return typedReturn(true, data);
-  }).catchError((e){
+  }).catchError((e) {
     return typedReturn(false, []);
   });
 
-  if(resp["args"].isNotEmpty){
+  if (resp["args"].isNotEmpty) {
     for (var i = 0; i < musics["args"].length; i++) {
-      if(musics["args"][i]["uid"].toString().trim() ==  resp["args"][i]["uid"]){
+      if (musics["args"][i]["uid"].toString().trim() ==
+          resp["args"][i]["uid"]) {
         musics["args"][i]["selected"] = true;
       }
     }
   }
 
-  if(musics["args"].isNotEmpty){
+  if (musics["args"].isNotEmpty) {
     return typedReturn(true, musics["args"]);
   }
 
@@ -403,17 +396,17 @@ Future<Map> getMusicStylesCombination() async {
 }
 
 //notification
-Future<Map> getNotification(String uid) async{
+Future<Map> getNotification(String uid) async {
   var uidUser = await cache.getCacheUserUid();
   if (uidUser == "" || uidUser == null) {
     return typedReturn(false, []);
   }
   Map notify = await dataBase
-  .collection("notification")
-  .where("userUid", isEqualTo: uidUser.toString().trim())
-  .get()
-  .then((data) async {
-    if(data.docs.isNotEmpty){
+      .collection("notification")
+      .where("userUid", isEqualTo: uidUser.toString().trim())
+      .get()
+      .then((data) async {
+    if (data.docs.isNotEmpty) {
       return typedReturn(true, data.docs);
     }
     return typedReturn(false, []);
@@ -424,11 +417,17 @@ Future<Map> getNotification(String uid) async{
   return typedReturn(notify["ok"], notify["args"]);
 }
 
-saveEditingProfile(
-    {required String nome,
-    required String email,
-    required String telefone,
-    required String cep,
-    required List<String> estilosMusicais,
-    required List<String> horariosDisponiveis,
-    required String descricao}) {}
+saveEditingProfile({
+  required String documentoId,
+  required Map<String, dynamic> novosDados,
+}) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(documentoId)
+        .update(novosDados);
+    print('Dados atualizados com sucesso!');
+  } catch (e) {
+    print('Erro ao atualizar os dados: $e');
+  }
+}

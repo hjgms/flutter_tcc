@@ -18,53 +18,39 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-
   TextEditingController controllerNome = TextEditingController(
-    text: (global.user["obj"]["name"] ?? "") 
-    + (global.user["obj"]["lastname"] ?? "")
-  );
-  TextEditingController controllerEmail = TextEditingController(
-    text: global.user["obj"]["email"] ?? ""
-  );
-  TextEditingController controllerTelefone = TextEditingController(
-    text: global.user["obj"]["telefone"]
-  );
-  TextEditingController controllerCep = TextEditingController(
-    text: global.user["obj"]["cep"] ?? ""
-  );
-  TextEditingController controllerDescription = TextEditingController(
-    text: global.user["obj"]["description"] ?? ""
-  );
+      text: (global.user["obj"]["name"] ?? "") +
+          (global.user["obj"]["lastname"] ?? ""));
+  TextEditingController controllerEmail =
+      TextEditingController(text: global.user["uid"].toString());
+  TextEditingController controllerTelefone =
+      TextEditingController(text: global.user["obj"]["telefone"]);
+  TextEditingController controllerCep =
+      TextEditingController(text: global.user["obj"]["cep"] ?? "");
+  TextEditingController controllerDescription =
+      TextEditingController(text: global.user["obj"]["description"] ?? "");
 
   Container estiloMusicalSelected(String name) {
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(6)
-        ),
-        color: Color.fromARGB(255, 201, 201, 201)
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+          color: Color.fromARGB(255, 201, 201, 201)),
       child: Text(
         name,
         style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w300,
-          color: Color(0xff515151)
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: Color(0xff515151)),
       ),
     );
   }
 
   ButtonStyle modalButtonStyle({Color bgColor = Colors.white}) {
     return ButtonStyle(
-      shape: MaterialStateProperty.all(
-        const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        )
-      ),
-      backgroundColor: MaterialStateProperty.all(bgColor)
-    );
+        shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)))),
+        backgroundColor: MaterialStateProperty.all(bgColor));
   }
 
   List<String> horariosEscolhidos = [];
@@ -87,16 +73,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       setState(() {
                         _fecharPagina = value;
                         if (_fecharPagina == true) {
-                          print("Salvando");
-                          saveEditingProfile(
-                              nome: controllerNome.text,
-                              email: controllerEmail.text,
-                              cep: controllerCep.text,
-                              descricao: controllerDescription.text,
-                              estilosMusicais: [""],
-                              horariosDisponiveis: horariosEscolhidos,
-                              telefone: controllerTelefone.text);
-                          Navigator.of(context).pop();
+                          saveEditingProfile(documentoId: "", novosDados: {
+                            "name": controllerNome.text,
+                            "email": controllerEmail.text,
+                            "cep": controllerCep.text,
+                            "description": controllerDescription.text,
+                            // "musicStyles": [""],
+                            "freeHours": horariosEscolhidos,
+                            "telefone": controllerTelefone.text
+                          });
+                          Future.delayed(const Duration(milliseconds: 250), () {
+                            Navigator.of(context).pop();
+                          });
                         } else {
                           Navigator.of(context).pop();
                         }
