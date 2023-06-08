@@ -95,7 +95,7 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                                   }
                                 });
                               },
-                              contentPadding: const EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric( 
                                 vertical: 0, 
                                 horizontal: 16
                               ),

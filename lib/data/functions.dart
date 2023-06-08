@@ -423,7 +423,7 @@ saveEditingProfile({
 }) async {
   try {
     await FirebaseFirestore.instance
-        .collection('Users')
+        .collection('users')
         .doc(documentoId)
         .update(novosDados);
     print('Dados atualizados com sucesso!');

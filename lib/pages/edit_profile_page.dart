@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_firebase/components/modalEstilosMusicais.dart';
+import 'package:flutter_application_firebase/data/cache/cache.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
+import 'package:flutter_application_firebase/pages/home_page.dart';
+import 'package:flutter_application_firebase/pages/profile_page.dart';
+import 'package:flutter_application_firebase/pages/provider_page.dart';
 
 //components
 import '../components/modalDialog.dart';
@@ -18,17 +23,31 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController controllerNome = TextEditingController(
-      text: (global.user["obj"]["name"] ?? "") +
-          (global.user["obj"]["lastname"] ?? ""));
-  TextEditingController controllerEmail =
-      TextEditingController(text: global.user["uid"].toString());
+  String userId = "";
+  @override
+  void initState() {
+    super.initState();
+    buscarValorAssincronamente();
+  }
+
+  Future<void> buscarValorAssincronamente() async {
+    String valor = await getCacheUserUid();
+    setState(() {
+      userId = valor;
+    });
+  }
+
+  TextEditingController controllerNome =
+      TextEditingController(text: (global.user["obj"]["name"] ?? "") ?? "");
+  TextEditingController controllerSobrenome =
+      TextEditingController(text: (global.user["obj"]["lastname"] ?? ""));
   TextEditingController controllerTelefone =
       TextEditingController(text: global.user["obj"]["telefone"]);
   TextEditingController controllerCep =
       TextEditingController(text: global.user["obj"]["cep"] ?? "");
   TextEditingController controllerDescription =
       TextEditingController(text: global.user["obj"]["description"] ?? "");
+  List estilosMusicaisSelecionados = global.user["obj"]["musicStyles"] ?? [];
 
   Container estiloMusicalSelected(String name) {
     return Container(
@@ -70,25 +89,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     titulo: "Deseja Descartar as alterações?",
                     descartar: true,
                     onClose: (bool value) {
-                      setState(() {
-                        _fecharPagina = value;
-                        if (_fecharPagina == true) {
-                          saveEditingProfile(documentoId: "", novosDados: {
-                            "name": controllerNome.text,
-                            "email": controllerEmail.text,
-                            "cep": controllerCep.text,
-                            "description": controllerDescription.text,
-                            // "musicStyles": [""],
-                            "freeHours": horariosEscolhidos,
-                            "telefone": controllerTelefone.text
-                          });
-                          Future.delayed(const Duration(milliseconds: 250), () {
-                            Navigator.of(context).pop();
-                          });
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      });
+                      _fecharPagina = value;
+                      _fecharPagina == true
+                          ? Navigator.of(context)
+                              // ignore: todo
+                              .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
+                          : Navigator.of(context)
+                              .pop(); // no caso de sair e não salvar
                     },
                   );
                 },
@@ -110,12 +117,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         onClose: (bool value) {
                           setState(() {
                             _fecharPagina = value;
-                            _fecharPagina == true
-                                ? Navigator.of(context)
-                                    // ignore: todo
-                                    .pop() // TODO no caso de sair e salvar (necessário criar uma função posteriormente)
-                                : Navigator.of(context)
-                                    .pop(); // no caso de sair e não salvar
+                            if (_fecharPagina == true) {
+                              saveEditingProfile(
+                                documentoId: userId,
+                                novosDados: {
+                                  "name": controllerNome.text,
+                                  "lastname": controllerSobrenome.text,
+                                  "cep": controllerCep.text,
+                                  "description": controllerDescription.text,
+                                  "freeHours": horariosEscolhidos,
+                                  "telefone": controllerTelefone.text,
+                                },
+                              ).then((_) {
+                                Navigator.of(context).pop();
+                              });
+                            }
                           });
                         },
                       );
@@ -143,6 +159,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               MarginInput(
                 child: TextField(
                   controller: controllerNome,
+                  maxLength: 32,
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
                   decoration: global.styles
@@ -150,16 +167,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               Text(
-                "Email",
+                "Sobrenome",
                 style: global.styles.labelText(),
               ),
               MarginInput(
                 child: TextField(
+                  controller: controllerSobrenome,
+                  maxLength: 64,
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
-                  controller: controllerEmail,
-                  decoration: global.styles
-                      .inputTextFieldDecoration(hintText: "Digite seu email"),
+                  decoration: global.styles.inputTextFieldDecoration(
+                      hintText: "Digite seu sobrenome"),
                 ),
               ),
               Text(
@@ -169,6 +187,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               MarginInput(
                 child: TextField(
                   controller: controllerTelefone,
+                  maxLength: 11,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   style: global.styles.defaultinputTextStyle(),
                   cursorColor: global.colorTheme["watergreen"] as Color,
                   decoration: global.styles.inputTextFieldDecoration(
@@ -182,10 +203,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
               MarginInput(
                 child: TextField(
                   controller: controllerCep,
+                  maxLength: 7,
                   style: global.styles.defaultinputTextStyle(),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   cursorColor: global.colorTheme["watergreen"] as Color,
-                  decoration: global.styles
-                      .inputTextFieldDecoration(hintText: "Digite seu cep"),
+                  decoration: global.styles.inputTextFieldDecoration(
+                      hintText: "ex: 0000-000 [sem o tracejado]"),
                 ),
               ),
               Text(
