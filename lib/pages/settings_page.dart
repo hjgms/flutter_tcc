@@ -57,22 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 14,
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(6)),
-                  padding: const EdgeInsetsDirectional.all(12),
-                  child: const Text(
-                    "Trocar senha",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-                  ),
-                ),
-              ),
+
               const SizedBox(
                 height: 14,
               ),

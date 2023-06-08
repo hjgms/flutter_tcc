@@ -46,7 +46,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       TextEditingController(text: global.user["obj"]["cep"] ?? "");
   TextEditingController controllerDescription =
       TextEditingController(text: global.user["obj"]["description"] ?? "");
-  List estilosMusicaisSelecionados = global.user["obj"]["musicStyles"] ?? [];
+
+  List horariosEscolhidos = global.user["obj"]["freeHours"] ?? [];
 
   Container estiloMusicalSelected(String name) {
     return Container(
@@ -71,7 +72,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: MaterialStateProperty.all(bgColor));
   }
 
-  List<String> horariosEscolhidos = [];
   List<String> horarios = ["Noturno", "Diurno", "Matutino"];
   @override
   Widget build(BuildContext context) {
@@ -211,57 +211,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               Text(
-                "Estilos musicais",
-                style: global.styles.labelText(),
-              ),
-              MarginInput(
-                child: Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  runAlignment: WrapAlignment.center,
-                  children: FutureBuilder(
-                    future: getMusicStylesCombination(),
-                    builder: (context, snapshot) {
-                      List<Widget> items = [];
-                      if(snapshot.hasData && snapshot.data!["ok"] == true){
-                        
-                        for (var item in snapshot.data!["args"]) {
-                          if(item["selected"] == true){
-                            items.add(estiloMusicalSelected(item["name"]));
-                          }
-                        }
-                      }else if(snapshot.hasData && snapshot.data!["ok"] == false){
-
-                      }
-
-                      items.add(
-                        GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const ModalEstilosMusicais();
-                              },
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(6)),
-                                color: global.colorTheme["watergreen"] as Color),
-                            child:
-                                const Icon(Icons.add, color: Color(0xffffffff)),
-                          ),
-                        ),
-                      );
-
-                      return [Container(),Container()];
-                    }, 
-                  ) as List<Widget>
-                ),
-              ),
-              Text(
                 "Horários Disponíveis",
                 style: global.styles.labelText(),
               ),
@@ -288,6 +237,63 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                 ),
               ),
+              Text(
+                "Estilos musicais",
+                style: global.styles.labelText(),
+              ),
+              MarginInput(
+                child: Builder(
+                  builder: (BuildContext context) {
+                    return FutureBuilder(
+                      future: getMusicStylesCombination(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data!["ok"] == true) {
+                          List<Widget> items = [];
+                          for (var item in snapshot.data!["args"]) {
+                            if (item["selected"] == true) {
+                              items.add(estiloMusicalSelected(item["name"]));
+                            }
+                          }
+
+                          items.add(
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const ModalEstilosMusicais();
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(6)),
+                                  color:
+                                      global.colorTheme["watergreen"] as Color,
+                                ),
+                                child: const Icon(Icons.add,
+                                    color: Color(0xffffffff)),
+                              ),
+                            ),
+                          );
+
+                          return Wrap(
+                            spacing: 12,
+                            runSpacing: 12,
+                            runAlignment: WrapAlignment.center,
+                            children: items,
+                          );
+                        } else {
+                          return Container(); // Return an empty container as a fallback
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+              
               Text(
                 "Descrição",
                 style: global.styles.labelText(),
