@@ -241,58 +241,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Estilos musicais",
                 style: global.styles.labelText(),
               ),
-              MarginInput(
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return FutureBuilder(
-                      future: getMusicStylesCombination(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                          List<Widget> items = [];
-                          for (var item in snapshot.data!["args"]) {
-                            if (item["selected"] == true) {
-                              items.add(estiloMusicalSelected(item["name"]));
-                            }
-                          }
 
-                          items.add(
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const ModalEstilosMusicais();
-                                  },
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(6)),
-                                  color:
-                                      global.colorTheme["watergreen"] as Color,
-                                ),
-                                child: const Icon(Icons.add,
-                                    color: Color(0xffffffff)),
-                              ),
-                            ),
-                          );
-
-                          return Wrap(
-                            spacing: 12,
-                            runSpacing: 12,
-                            runAlignment: WrapAlignment.center,
-                            children: items,
-                          );
-                        } else {
-                          return Container(); // Return an empty container as a fallback
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
+              createMusicStyles(),
               
               Text(
                 "Descrição",
@@ -330,4 +280,53 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ));
   }
+
+  Widget createMusicStyles() {
+    return FutureBuilder(
+      future: getMusicStylesCombination(),
+      builder: (context, snapshot) {
+        List<Widget> items = [];
+
+        if (snapshot.hasData && snapshot.data!["ok"] == true) {
+          for (var item in snapshot.data!["args"]) {
+            if (item["selected"] == true) {
+              items.add(estiloMusicalSelected(item["name"]));
+            }
+          }
+        }
+        
+        items.add(
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ModalEstilosMusicais();
+                },
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(6)),
+                color:
+                    global.colorTheme["watergreen"] as Color,
+              ),
+              child: const Icon(Icons.add,
+                  color: Color(0xffffffff)),
+            ),
+          ),
+        );
+        
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return items[index];
+          }
+        );
+      },
+    );
+  }
+
 }
