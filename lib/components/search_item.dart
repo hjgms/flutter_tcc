@@ -12,73 +12,64 @@ class SearchItem extends StatefulWidget {
   final String providerLastName;
   final String providerDescription;
   final String uid;
-  
-  const SearchItem({
-    super.key,
-    required this.providerName,
-    required this.providerLastName,
-    required this.providerDescription,
-    required this.uid
-  });
+
+  const SearchItem(
+      {super.key,
+      required this.providerName,
+      required this.providerLastName,
+      required this.providerDescription,
+      required this.uid,
+});
 
   @override
   State<SearchItem> createState() => _SearchItemState();
 }
 
 class _SearchItemState extends State<SearchItem> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         //navigate for perfil user notification
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return SearchPerfilPage(
-                name: "${widget.providerName} ${widget.providerLastName}",
-                description: widget.providerDescription,
-                userUid: widget.uid,
-                username: "",
-                localization: "",
-              );
-            },
-          )
-        );
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return SearchPerfilPage(
+              name: "${widget.providerName} ${widget.providerLastName}",
+              description: widget.providerDescription,
+              userUid: widget.uid,
+              // estilosMusicais: widget.providerEstilosMusicais,
+              username: "",
+              localization: "",
+            );
+          },
+        ));
       },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
           boxShadow: const [
             BoxShadow(
-              blurRadius: 10,
-              color: Color.fromARGB(20, 0, 0, 0),
-              spreadRadius: 1
-            )
+                blurRadius: 3,
+                color: Color.fromARGB(20, 0, 0, 0),
+                spreadRadius: 1)
           ],
         ),
-        margin: const EdgeInsets.symmetric(vertical: 2.5),
-        padding: const EdgeInsets.all(5),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         width: double.maxFinite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: CircleAvatar(
-                backgroundColor: global.colorTheme["mainPurple"],
-                child: Icon(
-                  Icons.person,
-                  color: global.colorTheme["color5"]
-                ),
-              )
+            CircleAvatar(
+              backgroundColor: global.colorTheme["mainPurple"],
+              child: Icon(Icons.person, color: global.colorTheme["color5"]),
             ),
-            Text(
-              widget.providerName,
-              style: const TextStyle(
-                color: Colors.black26,
-                fontSize: 22
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                widget.providerName,
+                style: const TextStyle(color: Colors.black26, fontSize: 20),
               ),
             )
           ],

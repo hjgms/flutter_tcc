@@ -359,17 +359,23 @@ Future<Map> getMusicStyles() async {
   return typedReturn(resp["ok"], resp["args"]);
 }
 
-Future<Map> getMusicStylesCombination() async {
+Future<Map> getMusicStylesCombination({String? idUsuario = ""}) async {
   Map musics = await getMusicStyles();
   if (musics["ok"] == false) {
     return typedReturn(false, []);
   }
 
-  var uidUser = await cache.getCacheUserUid();
-  if (uidUser == "" || uidUser == null) {
-    return typedReturn(false, []);
-  }
+ var uidUser; // Declarar a variável uidUser aqui
 
+  if (idUsuario == "") {
+    uidUser = await cache.getCacheUserUid();
+    if (uidUser == "" || uidUser == null) {
+      return typedReturn(false, []);
+    }
+  } else {
+    uidUser = idUsuario;
+  }
+  
   Map resp = await dataBase
       .collection("users")
       .doc(uidUser.toString().trim())
@@ -435,8 +441,8 @@ saveEditingProfile({
         .collection('users')
         .doc(documentoId)
         .update(novosDados);
-    print('Dados atualizados com sucesso!');
   } catch (e) {
     print('Erro ao atualizar os dados: $e');
   }
 }
+

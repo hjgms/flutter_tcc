@@ -22,23 +22,23 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController controllerSearch = TextEditingController();
 
   Future<bool> search(String text, bool busca, {bool limpa = false}) async {
-    if(limpa){
+    if (limpa) {
       setState(() {
         global.searchUsersList.clear();
       });
     }
-    
-    if(!busca){
+
+    if (!busca) {
       return true;
     }
 
     Map resp = await searchAnouterUsers(text);
-  
-    if(resp["ok"]){
+
+    if (resp["ok"]) {
       setState(() {
         global.searchUsersList;
       });
-    }else{
+    } else {
       setState(() {
         global.searchUsersList = [];
       });
@@ -62,19 +62,18 @@ class _SearchPageState extends State<SearchPage> {
                 Text(
                   "Search",
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: global.colorTheme["color5"]
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: global.colorTheme["color5"]),
                 ),
               ],
             ),
             SearchInput(
               controller: controllerSearch,
               searchFunction: (_text) {
-                if(_text.trim() == ""){
+                if (_text.trim() == "") {
                   search(_text, false, limpa: true);
-                }else{
+                } else {
                   search(_text, true);
                 }
               },
@@ -83,16 +82,12 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20, 
-          horizontal: 10
-        ),
-        child: createListSearch()
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          child: createListSearch()),
     );
   }
 
-  Widget createItemSearch(){
+  Widget createItemSearch() {
     return ListView.builder(
       itemCount: global.searchUsersList.length,
       itemBuilder: (context, index) {
@@ -100,25 +95,24 @@ class _SearchPageState extends State<SearchPage> {
           providerName: global.searchUsersList[index]["nameUser"],
           providerLastName: global.searchUsersList[index]["lastname"],
           providerDescription: global.searchUsersList[index]["description"],
-          uid: global.searchUsersList[index]["uidUser"]
+          uid: global.searchUsersList[index]["uidUser"],
         );
       },
     );
   }
 
-  Widget createListSearch(){
+  Widget createListSearch() {
     return FutureBuilder(
-      future: search('', false),
-      builder: (context, snapshot) {
-        if(snapshot.hasData && snapshot.data == true){
-          return createItemSearch();
-        }
-        return Center(
-          child: CircularProgressIndicator(
-            color: global.colorTheme['mainPurple'],
-          ),
-        );
-      }
-    );
+        future: search('', false),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data == true) {
+            return createItemSearch();
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: global.colorTheme['mainPurple'],
+            ),
+          );
+        });
   }
 }

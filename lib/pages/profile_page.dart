@@ -20,14 +20,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String description = global.user["obj"]["description"];
   List? freeHours = global.user["obj"]["freeHours"] ?? [""];
 
-  List<String> estilosMusicais = [
-    "Rock",
-    "Blues",
-    "Sertanejo",
-    "Pop",
-    "Jazz",
-    "Música Clássica"
-  ];
+  Future<Map> obterEstilosMusicais() async {
+    Map valores =
+        await getMusicStylesCombination(); // Simulação de operação assíncrona
+    return valores;
+  }
 
   // final List<String> imageUrls = [
   //   'https://i0.wp.com/canalparaviolinistas.com/wp-content/uploads/2020/05/music-teacher-e1590257849931.jpg?fit=370%2C370&ssl=1',
@@ -167,20 +164,33 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                DefaultTextStyle.merge(
-                  style: const TextStyle(fontSize: 14, height: 1.5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: estilosMusicais
-                        .map((item) => Text(
-                              '• $item',
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ))
-                        .toList(),
-                  ),
+                FutureBuilder<Map>(
+                  future: obterEstilosMusicais(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Carregando...');
+                    } else if (snapshot.hasError) {
+                      return Text('Erro: ${snapshot.error}');
+                    } else {
+                      final valores = snapshot.data;
+                      final textWidgets = <Widget>[];
+
+                      for (var valor in valores!["args"]!) {
+                        if (valor["selected"] == true) {
+                          final name = valor["obj"]["name"];
+                          textWidgets.add(Text(
+                            '• $name',
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ));
+                        }
+                      }
+                      return Column(crossAxisAlignment: CrossAxisAlignment.start,children: textWidgets,);
+                    }
+                  },
                 ),
+                // Text(estilosMusicais.toString()),
                 const SizedBox(height: 12),
                 const Text(
                   "Horários Disponíveis (Podem variar)",
