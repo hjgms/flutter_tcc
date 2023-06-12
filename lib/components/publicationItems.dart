@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/publicationItem.dart';
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
+import 'package:flutter_application_firebase/pages/trabalho_detalhes.dart';
 import '../enum/categorias_post.dart';
 
 class PublicationItems extends StatefulWidget {
@@ -60,8 +61,13 @@ class _PublicationItemsState extends State<PublicationItems> {
           height: 16,
         ),
         InkWell(
-          onTap: () => {},
-          
+          onTap: () => {
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const TrabalhoDetalhes(),
+                ),
+              )
+          },
           child: Container(
             decoration: BoxDecoration(
                 color: global.colorTheme["mainPurple"] as Color,

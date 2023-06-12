@@ -96,6 +96,7 @@ class _SearchPageState extends State<SearchPage> {
           providerLastName: global.searchUsersList[index]["lastname"],
           providerDescription: global.searchUsersList[index]["description"],
           uid: global.searchUsersList[index]["uidUser"],
+          // localization: global.searchUsersList[index]["localization"],
         );
       },
     );

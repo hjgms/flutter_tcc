@@ -10,7 +10,7 @@ import 'package:flutter_application_firebase/data/functions.dart';
 class SearchPerfilPage extends StatefulWidget {
   final String name;
   final String username;
-  final String localization;
+  // final String localization;
   final String description;
   final String userUid;
 
@@ -18,7 +18,7 @@ class SearchPerfilPage extends StatefulWidget {
     super.key,
     required this.name,
     required this.username,
-    required this.localization,
+    // required this.localization,
     required this.description,
     required this.userUid,
   });
@@ -40,7 +40,7 @@ class _SearchPerfilPageState extends State<SearchPerfilPage> {
         .doc(widget.userUid.toString().trim())
         .get()
         .then((value) {
-      List data = value.data()!["musicStyles"];
+      List data = value.data()!["freeHours"];
       return typedReturn(true, data);
     }).catchError((e) {
       return typedReturn(false, []);
@@ -120,7 +120,7 @@ class _SearchPerfilPageState extends State<SearchPerfilPage> {
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                Text(widget.localization),
+                // Text(widget.localization),
                 const SizedBox(
                   height: 12,
                 ),
@@ -173,35 +173,37 @@ class _SearchPerfilPageState extends State<SearchPerfilPage> {
                   style: global.styles.titulo(),
                 ),
                 const SizedBox(height: 4),
-                // FutureBuilder<Map>(
-                //   future: obterFreeHours(),
-                //   builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
-                //     if (snapshot.connectionState == ConnectionState.waiting) {
-                //       return const CircularProgressIndicator(); // Exibindo um indicador de carregamento enquanto os dados estão sendo buscados
-                //     }
+                FutureBuilder<Map>(
+                  future: obterFreeHours(),
+                  builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.hasError) {
+                      return const Text('Erro ao obter os dados');
+                    }
+                    if (snapshot.hasData) {
+                      Map valores = snapshot.data!;
+                      List freeHours = valores['args'];
+                      final freeHoursWidgets = <Widget>[];
 
-                //     if (snapshot.hasError) {
-                //       return const Text(
-                //           'Erro ao obter os dados'); // Exibindo uma mensagem de erro, se ocorrer algum problema
-                //     }
+                      for (String hour in freeHours) {
+                        freeHoursWidgets.add(Text(
+                          "• $hour",
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ));
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: freeHoursWidgets,
+                      );
+                    }
+                    return const Text('Sem dados disponíveis');
+                  },
+                ),
 
-                //     if (snapshot.hasData) {
-                //       Map valores = snapshot.data!;
-                //       List musicStyles = valores['args'];
-
-                //       return ListView.builder(
-                //         itemCount: musicStyles.length,
-                //         itemBuilder: (BuildContext context, int index) {
-                //           String musicStyle = musicStyles[index]['musicStyle'];
-
-                //           return Text(musicStyle);
-                //         },
-                //       );
-                //     }
-
-                //     return Container(); // Retorna um container vazio caso não haja dados
-                //   },
-                // ),
                 const SizedBox(height: 12),
                 Text(
                   "Imagens",

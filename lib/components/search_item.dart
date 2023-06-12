@@ -39,7 +39,7 @@ class _SearchItemState extends State<SearchItem> {
               userUid: widget.uid,
               // estilosMusicais: widget.providerEstilosMusicais,
               username: "",
-              localization: "",
+              // localization: widget.localization,
             );
           },
         ));
