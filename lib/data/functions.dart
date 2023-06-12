@@ -1,6 +1,6 @@
-//global
-import 'dart:js_interop';
+import 'package:flutter/material.dart';
 
+//global
 import 'package:flutter_application_firebase/enum/dadosUser.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 
@@ -11,6 +11,8 @@ import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import 'package:flutter_application_firebase/components/modalEstilosMusicais.dart';
 
 //instances firebase
 FirebaseFirestore dataBase = FirebaseFirestore.instance;
@@ -365,7 +367,7 @@ Future<Map> getMusicStylesCombination({String? idUsuario = ""}) async {
     return typedReturn(false, []);
   }
 
- var uidUser; // Declarar a variável uidUser aqui
+  String? uidUser; // Declarar a variável uidUser aqui
 
   if (idUsuario == "") {
     uidUser = await cache.getCacheUserUid();

@@ -64,66 +64,43 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                   color: Color(0xff202020),
                   fontWeight: FontWeight.w400,
                 ),
-                child: FutureBuilder<Map<dynamic, dynamic>>(
-                  future: getMusicStylesCombination(),
-                  builder: (BuildContext context, AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
-                    if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                      return ListView.builder(
-                        itemCount: (snapshot.data!["args"] as List).length,
-                        itemBuilder: (context, index) {
-                          Map estiloMusical = snapshot.data!["args"][index];
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              checkboxTheme: CheckboxThemeData(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    4.0,
-                                  ),
-                                ),
-                              ),
+                child: ListView.builder(
+                  itemCount: global.musicStylesList.length,
+                  itemBuilder: (context, index) {
+                    Map estiloMusical = global.musicStylesList[index];
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        checkboxTheme: CheckboxThemeData(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              4.0,
                             ),
-                            child: CheckboxListTile(
-                              title: Text(estiloMusical["obj"]["name"]),
-                              value: estiloMusical["selected"],
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  if (value!) {
-                                    estiloMusical["selected"] = true;
-                                  } else {
-                                    estiloMusical["selected"] = false;
-                                  }
-                                });
-                              },
-                              contentPadding: const EdgeInsets.symmetric( 
-                                vertical: 0, 
-                                horizontal: 16
-                              ),
-                              dense: false,
-                              activeColor: global.colorTheme["mainPurple"] as Color,
-                              selectedTileColor: Colors.grey.shade500,
-                            ),
-                          );
-                        },
-                      );
-                    } else if (snapshot.hasData && snapshot.data!["ok"] == false) {
-                      return const Center(
-                        child: Text("ocorreu algum problema")
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('Erro: ${snapshot.error}');
-                    } 
-
-                    return Center(
-                      child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator(
-                          color: global.colorTheme["mainPurple"],
+                          ),
                         ),
+                      ),
+                      child: CheckboxListTile(
+                        title: Text(estiloMusical["obj"]["name"]),
+                        value: estiloMusical["selected"],
+                        onChanged: (bool? value) {
+                          setState(() {
+                            if (value!) {
+                              estiloMusical["selected"] = true;
+                            } else {
+                              estiloMusical["selected"] = false;
+                            }
+                          });
+                        },
+                        contentPadding: const EdgeInsets.symmetric( 
+                          vertical: 0, 
+                          horizontal: 16
+                        ),
+                        dense: false,
+                        activeColor: global.colorTheme["mainPurple"] as Color,
+                        selectedTileColor: Colors.grey.shade500,
                       ),
                     );
                   },
-                ),
+                )
               ),
             ),
           ],
@@ -171,7 +148,10 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
                 )
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  //save function code
+                  Navigator.of(context).pop();
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: const [
