@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> {
           valorpagamento: publi[index]["obj"]["valorpagamento"],
           estilosMusicais: publi[index]["obj"]["estilosmusicais"],
           //padrão
+          uidUser: publi[index]["obj"]["userUid"],
           titlePublication: publi[index]["obj"]["name"],
           description: publi[index]["obj"]["description"],
           providerImagePerfil: publi[index]["image"],
@@ -195,34 +196,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
-  // Future loadNotificationPage() async {
-  //   return FutureBuilder(
-  //     future: getNotification(global.user["uid"]),
-  //     builder: (context, snapshot) {
-  //       if(snapshot.hasData && snapshot.data!["ok"] == true){
-  //         Navigator.of(context).push(
-  //           MaterialPageRoute(
-  //             builder: (context) => NotificationPage(
-  //               notificationList: snapshot.data!["args"]
-  //             )
-  //           )
-  //         );
-  //       }else if(snapshot.hasData && snapshot.data!["ok"] == false){
-  //         Navigator.of(context).push(
-  //           MaterialPageRoute(
-  //             builder: (context) => const NotificationPage(
-  //               notificationList: []
-  //             )
-  //           )
-  //         );
-  //       }
-  //       return CircularProgressIndicator(
-  //         color: global.colorTheme["mainPurple"]
-  //       );
-  //     },
-  //   );
-  // }
 
   Future loadNotificationPage() async {
     Navigator.of(context).push(

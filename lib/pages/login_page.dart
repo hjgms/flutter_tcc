@@ -75,7 +75,12 @@ class _LoginPageState extends State<LoginPage> {
         emailError = "";
         passwordError = "Limite de tentativas excedido, Por favor tente novamente mais tarde!";
       });
-    } else if (textresult.contains("[firebase_auth/user-not-found]")) {
+    } else if(textresult.contains("[firebase_auth/unknown]")){
+      setState(() {
+        emailError = "";
+        passwordError = "Email ou senhas incorretas";
+      });
+    }else if (textresult.contains("[firebase_auth/user-not-found]")) {
       setState(() {
         emailError = "Usúario não existente!";
         emailController.clear();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/publicationItem.dart';
+import 'package:flutter_application_firebase/data/functions.dart';
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
 import 'package:flutter_application_firebase/pages/trabalho_detalhes.dart';
@@ -11,7 +12,9 @@ class PublicationItems extends StatefulWidget {
       required this.contentEstilosMusicais,
       required this.contentHorario,
       required this.contentPagamento,
-      required this.contentLocalizacao});
+      required this.contentLocalizacao,
+      required this.uidUser});
+  final String? uidUser;
   final List? contentEstilosMusicais;
   final String? contentHorario;
   final double? contentPagamento;
@@ -22,6 +25,8 @@ class PublicationItems extends StatefulWidget {
 }
 
 class _PublicationItemsState extends State<PublicationItems> {
+  TextEditingController inputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,30 +66,126 @@ class _PublicationItemsState extends State<PublicationItems> {
           height: 16,
         ),
         InkWell(
-          onTap: () => {
-            Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TrabalhoDetalhes(),
-                ),
-              )
+          onTap: (){
+            showModal();
+            // Navigator.of(context).push(
+            //     MaterialPageRoute(
+            //       builder: (context) => const TrabalhoDetalhes(),
+            //     ),
+            //   )
           },
           child: Container(
             decoration: BoxDecoration(
-                color: global.colorTheme["mainPurple"] as Color,
-                borderRadius: BorderRadius.circular(10)),
+              color: global.colorTheme["mainPurple"] as Color,
+              borderRadius: BorderRadius.circular(10)
+            ),
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: const Center(
-                child: Text(
-              "Ver detalhes",
-              style: TextStyle(
+              child: Text(
+                "Quero ser contratado",
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xffECECEC)),
-            )),
+                  color: Color(0xffECECEC)
+                ),
+              )
+            ),
           ),
         )
       ],
+    );
+  }
+  
+  showModal(){
+    String nome = global.user["obj"]["name"] ?? "";
+    inputController.text = "Olá eu sou $nome, gostaria de ser contratado!";
+
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          width: double.maxFinite,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20)
+          ),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  leading: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
+                  ),
+                  title: const Text("Quero ser contratado"),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10
+                  ),
+                  child: TextField(
+                    controller: inputController,
+                    decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(18)),
+                        borderSide: BorderSide(
+                          color: Colors.black54, 
+                          width: 1
+                        )
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: const BorderRadius.all(Radius.circular(18)),
+                        borderSide: BorderSide(
+                          color: global.colorTheme["clearMainPurple"] as Color,
+                          width: 2
+                        )
+                      ),
+                    ),
+                  ),
+                ),
+                
+                GestureDetector(
+                  child: Container(
+                    height: 40,
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: global.colorTheme["clearMainPurple"] as Color,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: const Text(
+                      'Enviar notificação',
+                      style: TextStyle(
+                        color: Colors.white
+                      ),
+                    ),
+                  ),
+                  onTap: (){
+                    Map obj = {
+                      "name": global.user["obj"]["username"],
+                      "description": inputController.text,
+                      "providerUid": global.user["uid"],
+                      "userUid":"${widget.uidUser}"
+                    };
+                    sendNotification(obj);
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

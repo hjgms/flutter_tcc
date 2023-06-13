@@ -450,23 +450,24 @@ saveEditingProfile({
 
 //notification
 
-Future<Map> sendNotification(String obj) async{
-	String name = obj[“name”];
-	var resp = await database.collection(“notification”).add({
-		“name”:name,
-		“description”:””,
-		“uid”:””,
+Future<Map> sendNotification(Map obj) async {
+	Map resp = await dataBase.collection("notification").add({
+		"providerName": obj["name"],
+		"description": obj["description"],
+		"providerUid": obj["providerUid"],
+    "type":0,
+    "userUid":""
 	}).then((value){
 	
-		if(!value){
-			return typedreturn(false,value.error);
+		if(value.id != ""){
+			return typedReturn(true, {});
 		}
-		return typedreturn(true,{});
+		return typedReturn(true, {});
 	});
 
-	if(resp[“ok”] == true){
-		return typedreturn(true,{});
+	if(resp["ok"] == true){
+		return typedReturn(true, {});
 	}
 
-	return typedreturn(resp[“ok”],resp[“args”]);
+	return typedReturn(resp["ok"],resp["args"]);
 }

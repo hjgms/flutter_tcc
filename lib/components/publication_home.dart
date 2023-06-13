@@ -17,6 +17,7 @@ class PublicationHome extends StatefulWidget {
   final String? enderecotrabaho;
   final String? horasdetrabalho;
   final double? valorpagamento;
+  final String uidUser;
 
   const PublicationHome(
       {super.key,
@@ -27,7 +28,9 @@ class PublicationHome extends StatefulWidget {
       required this.enderecotrabaho,
       required this.horasdetrabalho,
       required this.valorpagamento,
-      required this.providerImagePerfil});
+      required this.providerImagePerfil,
+      required this.uidUser
+    });
 
   @override
   State<PublicationHome> createState() => _PublicationHomeState();
@@ -89,6 +92,7 @@ class _PublicationHomeState extends State<PublicationHome> {
                 contentHorario: widget.horasdetrabalho,
                 contentPagamento: widget.valorpagamento,
                 contentLocalizacao: widget.enderecotrabaho,
+                uidUser: widget.uidUser,
               ),
             ),
           )
