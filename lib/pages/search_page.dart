@@ -31,9 +31,10 @@ class _SearchPageState extends State<SearchPage> {
     if (!busca) {
       return true;
     }
-		setState(() async {
-	    Map resp = await searchAnouterUsers(text);
+	
+	  Map resp = await searchAnouterUsers(text);
 
+	  setState((){
 	    if (resp["ok"]) {
         global.searchUsersList;
 	    } else {
