@@ -89,6 +89,8 @@ class _PublicationHomeState extends State<PublicationHome> {
                 contentHorario: widget.horasdetrabalho,
                 contentPagamento: widget.valorpagamento,
                 contentLocalizacao: widget.enderecotrabaho,
+                titlePublication: widget.titlePublication,
+                imagePublication: widget.providerImagePerfil, 
               ),
             ),
           )

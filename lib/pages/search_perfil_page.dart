@@ -18,7 +18,6 @@ class SearchPerfilPage extends StatefulWidget {
     super.key,
     required this.name,
     required this.username,
-    // required this.localization,
     required this.description,
     required this.userUid,
   });
@@ -48,10 +47,28 @@ class _SearchPerfilPageState extends State<SearchPerfilPage> {
     return valores;
   }
 
+  Future<String> obterLocalization() async {
+    String? data;
+
+    try {
+      final value = await dataBase
+          .collection("users")
+          .doc(widget.userUid.toString().trim())
+          .get();
+
+      data = value.data()!["localization"];
+    } catch (e) {
+      return "";
+    }
+
+    return data ?? "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Perfil músico"),
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -121,6 +138,20 @@ class _SearchPerfilPageState extends State<SearchPerfilPage> {
                 ),
                 const SizedBox(height: 4),
                 // Text(widget.localization),
+                FutureBuilder<String>(
+                  future: obterLocalization(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Ocorreu um erro ao carregar os dados.');
+                    } else {
+                      return Text(snapshot.data ?? '');
+                    }
+                  },
+                ),
+
                 const SizedBox(
                   height: 12,
                 ),

@@ -11,7 +11,9 @@ class PublicationItems extends StatefulWidget {
       required this.contentEstilosMusicais,
       required this.contentHorario,
       required this.contentPagamento,
-      required this.contentLocalizacao});
+      required this.contentLocalizacao,
+      required titlePublication,
+      required imagePublication});
   final List? contentEstilosMusicais;
   final String? contentHorario;
   final double? contentPagamento;
@@ -39,7 +41,7 @@ class _PublicationItemsState extends State<PublicationItems> {
         ),
         PublicationItem(
             iconeNome: CategoriasPost.estilosMusicais,
-            content: widget.contentEstilosMusicais),
+            content: widget.contentEstilosMusicais?.join(", ")),
         const SizedBox(
           height: 8,
         ),
@@ -63,10 +65,10 @@ class _PublicationItemsState extends State<PublicationItems> {
         InkWell(
           onTap: () => {
             Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TrabalhoDetalhes(),
-                ),
-              )
+              MaterialPageRoute(
+                builder: (context) => const TrabalhoDetalhes(),
+              ),
+            )
           },
           child: Container(
             decoration: BoxDecoration(
