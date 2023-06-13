@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/components/publicationItem.dart';
 import 'package:flutter_application_firebase/data/functions.dart';
+
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
-import 'package:flutter_application_firebase/pages/trabalho_detalhes.dart';
+
+//cache
+import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
+
 import '../enum/categorias_post.dart';
 
 class PublicationItems extends StatefulWidget {
@@ -14,7 +18,7 @@ class PublicationItems extends StatefulWidget {
       required this.contentPagamento,
       required this.contentLocalizacao,
       required this.uidUser});
-  final String? uidUser;
+  final String uidUser;
   final List? contentEstilosMusicais;
   final String? contentHorario;
   final double? contentPagamento;
@@ -97,14 +101,18 @@ class _PublicationItemsState extends State<PublicationItems> {
     );
   }
   
-  showModal(){
-    String nome = global.user["obj"]["name"] ?? "";
+  Future showModal() async {
+    String uidUserCache = await cache.getCacheUserUid() ?? "";
+
+    String nome = global.user["obj"]["name"];
     inputController.text = "Olá eu sou $nome, gostaria de ser contratado!";
 
+    // ignore: use_build_context_synchronously
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
+
         return Container(
           height: 200,
           width: double.maxFinite,
@@ -160,7 +168,7 @@ class _PublicationItemsState extends State<PublicationItems> {
                     ),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: global.colorTheme["clearMainPurple"] as Color,
+                      color: global.colorTheme["mainPurple"] as Color,
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: const Text(
@@ -174,8 +182,8 @@ class _PublicationItemsState extends State<PublicationItems> {
                     Map obj = {
                       "name": global.user["obj"]["username"],
                       "description": inputController.text,
-                      "providerUid": global.user["uid"],
-                      "userUid":"${widget.uidUser}"
+                      "providerUid": uidUserCache.trim(),
+                      "userUid": widget.uidUser.trim()
                     };
                     sendNotification(obj);
                     Navigator.pop(context);
