@@ -448,3 +448,25 @@ saveEditingProfile({
   }
 }
 
+//notification
+
+Future<Map> sendNotification(String obj) async{
+	String name = obj[“name”];
+	var resp = await database.collection(“notification”).add({
+		“name”:name,
+		“description”:””,
+		“uid”:””,
+	}).then((value){
+	
+		if(!value){
+			return typedreturn(false,value.error);
+		}
+		return typedreturn(true,{});
+	});
+
+	if(resp[“ok”] == true){
+		return typedreturn(true,{});
+	}
+
+	return typedreturn(resp[“ok”],resp[“args”]);
+}
