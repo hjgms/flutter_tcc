@@ -448,3 +448,26 @@ saveEditingProfile({
   }
 }
 
+//notification
+
+Future<Map> sendNotification(Map obj) async {
+	Map resp = await dataBase.collection("notification").add({
+		"providerName": obj["name"],
+		"description": obj["description"],
+		"providerUid": obj["providerUid"],
+    "type":0,
+    "userUid":""
+	}).then((value){
+	
+		if(value.id != ""){
+			return typedReturn(true, {});
+		}
+		return typedReturn(true, {});
+	});
+
+	if(resp["ok"] == true){
+		return typedReturn(true, {});
+	}
+
+	return typedReturn(resp["ok"],resp["args"]);
+}

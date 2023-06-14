@@ -241,37 +241,71 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 "Estilos musicais",
                 style: global.styles.labelText(),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: FutureBuilder(
-                      future: getMusicStylesCombination(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data!["ok"] == true) {
-                          global.musicStylesList =
-                              (snapshot.data!["args"] as List);
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: global.musicStylesList.length,
-                            itemBuilder: (context, index) {
-                              if (global.musicStylesList[index]["selected"] ==
-                                  true) {
-                                return musicStyleSelected(global
-                                    .musicStylesList[index]["obj"]["name"]);
-                              }
-                              return Container();
-                            },
-                          );
-                        } else if (snapshot.hasData &&
-                            snapshot.data!["ok"] == false) {
-                          // Lógica para caso "ok" seja falso
+              SizedBox(
+                width: double.infinity,
+                child: FutureBuilder(
+                  future: getMusicStylesCombination(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Erro: ${snapshot.error}');
+                    } else {
+                      if (snapshot.data!['ok']) {
+                        List<dynamic> musicList = snapshot.data!['args'];
+
+                        List<Widget> textWidgets = [];
+
+                        for (var music in musicList) {
+                          if (music['selected']) {
+                            textWidgets.add(Container(
+                              margin: const EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(6),
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6)),
+                                  color: Color.fromARGB(255, 201, 201, 201)),
+                              child: Text(
+                                (music["obj"]['name']),
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color(0xff515151)),
+                              ),
+                            ));
+                          }
+                          if (musicList.last["obj"]["name"] ==
+                              music["obj"]["name"]) {
+                            textWidgets.add(GestureDetector(
+                              onTap: () {
+
+                              },
+                              child: Container(
+                                  margin: const EdgeInsets.all(4),
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(6)),
+                                      color: global.colorTheme["watergreen"]
+                                          as Color),
+                                  child: const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  )),
+                            ));
+                          }
                         }
-                        return const Text("Escolha seus estilos musicais");
-                      },
-                    ),
-                  ),
-                ],
+
+                        // Agora você pode usar a lista de widgets como children do Row
+                        return Wrap(
+                          children: textWidgets,
+                        );
+                      } else {
+                        return Text('Nenhuma música encontrada.');
+                      }
+                    }
+                  },
+                ),
               ),
               Text(
                 "Descrição",

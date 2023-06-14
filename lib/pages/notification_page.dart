@@ -62,7 +62,7 @@ class _NotificationPageState extends State<NotificationPage> {
         return NotificationItem(
           providerName: notif[index]["providerName"],
           description: notif[index]["description"],
-          uid: notif[index]["userUid"]
+          uid: notif[index]["providerUid"]
         );
       },
     );
