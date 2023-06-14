@@ -456,7 +456,7 @@ Future<Map> sendNotification(Map obj) async {
 		"description": obj["description"],
 		"providerUid": obj["providerUid"],
     "type":0,
-    "userUid":""
+    "userUid": obj["userUid"]
 	}).then((value){
 	
 		if(value.id != ""){
