@@ -252,11 +252,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       return Text('Erro: ${snapshot.error}');
                     } else {
                       if (snapshot.data!['ok']) {
-                        List<dynamic> musicList = snapshot.data!['args'];
+                        global.musicStylesList = snapshot.data!['args'];
 
                         List<Widget> textWidgets = [];
 
-                        for (var music in musicList) {
+                        for (var music in global.musicStylesList) {
                           if (music['selected']) {
                             textWidgets.add(Container(
                               margin: const EdgeInsets.all(4),
@@ -274,11 +274,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ),
                             ));
                           }
-                          if (musicList.last["obj"]["name"] ==
+                          if (global.musicStylesList.last["obj"]["name"] ==
                               music["obj"]["name"]) {
                             textWidgets.add(GestureDetector(
                               onTap: () {
-
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const ModalEstilosMusicais();
+                                  },
+                                );
                               },
                               child: Container(
                                   margin: const EdgeInsets.all(4),
