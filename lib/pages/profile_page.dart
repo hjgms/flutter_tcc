@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_firebase/global/variables.dart' as global;
+import 'package:flutter_application_firebase/data/cache/cache.dart' as cache;
 import 'package:flutter_application_firebase/pages/edit_profile_page.dart';
 
 //firebase
@@ -24,6 +25,11 @@ class _ProfilePageState extends State<ProfilePage> {
     Map valores =
         await getMusicStylesCombination(); // Simulação de operação assíncrona
     return valores;
+  }
+
+  Future<Map> imageUser() async {
+    String uid = await cache.getCacheUserUid();
+    return getPhotoPerfil(uid);
   }
 
   // final List<String> imageUrls = [
@@ -92,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 150,
                 width: double.infinity,
                 child: FutureBuilder(
-                  future: getPhotoPerfil(global.user["uid"]),
+                  future: imageUser(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!["ok"] == true) {
                       return CircleAvatar(
