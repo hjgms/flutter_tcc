@@ -99,6 +99,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Center(
+                child: Container(
+                  height:150,
+                  width:150,
+                  margin: EdgeInsets.only(bottom: 60),
+                  child:Image.asset("assets/logo-tcc.png")
+                )
+              ),
               TextField(
                 controller: emailController,
                 cursorColor: global.colorTheme["clearMainPurple"] as Color,
