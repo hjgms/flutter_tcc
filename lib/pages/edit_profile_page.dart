@@ -6,9 +6,6 @@ import 'package:flutter_application_firebase/data/functions.dart';
 
 //global
 import 'package:flutter_application_firebase/global/variables.dart' as global;
-import 'package:flutter_application_firebase/pages/home_page.dart';
-import 'package:flutter_application_firebase/pages/profile_page.dart';
-import 'package:flutter_application_firebase/pages/provider_page.dart';
 
 //components
 import '../components/modalDialog.dart';
@@ -117,6 +114,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           setState(() {
                             _fecharPagina = value;
                             if (_fecharPagina == true) {
+                              List estilosMusicais = global.musicStylesList;
                               saveEditingProfile(
                                 documentoId: userId,
                                 novosDados: {
@@ -125,6 +123,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   "cep": controllerCep.text,
                                   "description": controllerDescription.text,
                                   "freeHours": horariosEscolhidos,
+                                  "estilosmusicais": estilosMusicais,
                                   "telefone": controllerTelefone.text,
                                 },
                               ).then((_) {
@@ -247,12 +246,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   future: getMusicStylesCombination(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Erro: ${snapshot.error}');
                     } else {
                       if (snapshot.data!['ok']) {
                         global.musicStylesList = snapshot.data!['args'];
+                        
 
                         List<Widget> textWidgets = [];
 

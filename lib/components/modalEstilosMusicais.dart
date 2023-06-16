@@ -19,7 +19,8 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
     color: Color(0xffD9D9D9),
   );
 
-  List<String> estilosMusicaisSelecionados = ["Rock", "Funk", "Sertanejo"];
+  List musicStylesListInical = global.musicStylesList;
+  List estilosAdicionados = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,49 +60,47 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
               width: double.maxFinite,
               height: 200,
               child: DefaultTextStyle.merge(
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Color(0xff202020),
-                  fontWeight: FontWeight.w400,
-                ),
-                child: ListView.builder(
-                  itemCount: global.musicStylesList.length,
-                  itemBuilder: (context, index) {
-                    Map estiloMusical = global.musicStylesList[index];
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        checkboxTheme: CheckboxThemeData(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              4.0,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Color(0xff202020),
+                    fontWeight: FontWeight.w400,
+                  ),
+                  child: ListView.builder(
+                    itemCount: global.musicStylesList.length,
+                    itemBuilder: (context, index) {
+                      Map estiloMusical = global.musicStylesList[index];
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          checkboxTheme: CheckboxThemeData(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                4.0,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      child: CheckboxListTile(
-                        title: Text(estiloMusical["obj"]["name"]),
-                        value: estiloMusical["selected"],
-                        onChanged: (bool? value) {
-                          setState(() {
-                            if (value!) {
-                              estiloMusical["selected"] = true;
-                            } else {
-                              estiloMusical["selected"] = false;
-                            }
-                          });
-                        },
-                        contentPadding: const EdgeInsets.symmetric( 
-                          vertical: 0, 
-                          horizontal: 16
+                        child: CheckboxListTile(
+                          title: Text(estiloMusical["obj"]["name"]),
+                          value: estiloMusical["selected"],
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (value!) {
+                                estilosAdicionados.add(estiloMusical);
+                                estiloMusical["selected"] = true;
+                              } else {
+                                estiloMusical["selected"] = false;
+                              }
+                            });
+                          },
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 16),
+                          dense: false,
+                          activeColor: global.colorTheme["mainPurple"] as Color,
+                          selectedTileColor: Colors.grey.shade500,
                         ),
-                        dense: false,
-                        activeColor: global.colorTheme["mainPurple"] as Color,
-                        selectedTileColor: Colors.grey.shade500,
-                      ),
-                    );
-                  },
-                )
-              ),
+                      );
+                    },
+                  )),
             ),
           ],
         ),
@@ -119,60 +118,60 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(43, 70, 70, 70),
-                        spreadRadius: 2,
-                        blurRadius: 4,
-                        offset: Offset(0, 4)
-                      ),
-                    ],
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    color: Colors.grey.shade300
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8, 
-                    horizontal: 30
-                  ),
-                  child: Text(
-                    "Cancelar",
-                    style: TextStyle(
-                      color: Colors.grey.shade700
+                  onTap: () {
+                    estilosAdicionados.forEach((estiloSelecionado) {
+                      global.musicStylesList.forEach((estiloGlobalSelecionado) {
+                        if (estiloSelecionado == estiloGlobalSelecionado &&
+                            estiloSelecionado["selected"] == true) {
+                          estiloGlobalSelecionado["selected"] = false;
+                        }
+                      });
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Color.fromARGB(43, 70, 70, 70),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(0, 4)),
+                        ],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        color: Colors.grey.shade300),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+                    child: Text(
+                      "Cancelar",
+                      style: TextStyle(color: Colors.grey.shade700),
                     ),
-                  ),
-                )
-              ),
+                  )),
               GestureDetector(
-                onTap: () {
-                  //save function code
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(43, 70, 70, 70),
-                        spreadRadius: 2,
-                        blurRadius: 4,
-                        offset: Offset(0, 4)
-                      ),
-                    ],
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    color: global.colorTheme["mainPurple"] as Color
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-                  child: const Text(
-                    "Confirmar",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              ),
+                  onTap: () {
+                    //save function code
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Color.fromARGB(43, 70, 70, 70),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(0, 4)),
+                        ],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        color: global.colorTheme["mainPurple"] as Color),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+                    child: const Text(
+                      "Confirmar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
             ],
           ),
         ),
