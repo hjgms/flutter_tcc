@@ -114,7 +114,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           setState(() {
                             _fecharPagina = value;
                             if (_fecharPagina == true) {
-                              List estilosMusicais = global.musicStylesList;
+                              List estilosMusicais = [];
+                              global.musicStylesList.forEach((element) { 
+                                estilosMusicais.add(
+                                  {
+                                    "uid":"${element['uid']}"
+                                  }
+                                );
+                              });
+                              print(userId);
                               saveEditingProfile(
                                 documentoId: userId,
                                 novosDados: {
@@ -123,7 +131,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   "cep": controllerCep.text,
                                   "description": controllerDescription.text,
                                   "freeHours": horariosEscolhidos,
-                                  "estilosmusicais": estilosMusicais,
+                                  "musicStyles": estilosMusicais,
                                   "telefone": controllerTelefone.text,
                                 },
                               ).then((_) {
@@ -253,7 +261,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       if (snapshot.data!['ok']) {
                         global.musicStylesList = snapshot.data!['args'];
                         
-
                         List<Widget> textWidgets = [];
 
                         for (var music in global.musicStylesList) {

@@ -119,14 +119,6 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
             children: [
               GestureDetector(
                   onTap: () {
-                    estilosAdicionados.forEach((estiloSelecionado) {
-                      global.musicStylesList.forEach((estiloGlobalSelecionado) {
-                        if (estiloSelecionado == estiloGlobalSelecionado &&
-                            estiloSelecionado["selected"] == true) {
-                          estiloGlobalSelecionado["selected"] = false;
-                        }
-                      });
-                    });
                     Navigator.of(context).pop();
                   },
                   child: Container(
@@ -151,6 +143,14 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
               GestureDetector(
                   onTap: () {
                     //save function code
+                    estilosAdicionados.forEach((estiloSelecionado) {
+                      global.musicStylesList.forEach((estiloGlobalSelecionado) {
+                        if (estiloSelecionado == estiloGlobalSelecionado &&
+                            estiloSelecionado["selected"] == true) {
+                          estiloGlobalSelecionado["selected"] = true;
+                        }
+                      });
+                    });
                     Navigator.of(context).pop();
                   },
                   child: Container(

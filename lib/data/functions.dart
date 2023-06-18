@@ -471,3 +471,26 @@ Future<Map> sendNotification(Map obj) async {
 
 	return typedReturn(resp["ok"],resp["args"]);
 }
+
+// //music Style
+// Future<Map> saveMusicStyle(List musics){
+//   Map resp = await dataBase.collection("user").doc(uid).update({
+// 		"providerName": obj["name"],
+// 		"description": obj["description"],
+// 		"providerUid": obj["providerUid"],
+//     "type":0,
+//     "userUid": obj["userUid"]
+// 	}).then((value){
+	
+// 		if(value.id != ""){
+// 			return typedReturn(true, {});
+// 		}
+// 		return typedReturn(true, {});
+// 	});
+
+// 	if(resp["ok"] == true){
+// 		return typedReturn(true, {});
+// 	}
+
+// 	return typedReturn(resp["ok"],resp["args"]);
+// }
