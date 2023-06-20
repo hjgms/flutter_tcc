@@ -42,6 +42,7 @@ class ClassStyles {
 
   InputDecoration inputTextFieldDecoration({String hintText = ""}) {
     return InputDecoration(
+      counterText: '',
         focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(

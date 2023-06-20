@@ -115,14 +115,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             _fecharPagina = value;
                             if (_fecharPagina == true) {
                               List estilosMusicais = [];
-                              global.musicStylesList.forEach((element) { 
-                                estilosMusicais.add(
-                                  {
-                                    "uid":"${element['uid']}"
-                                  }
-                                );
-                              });
-                              print(userId);
+                              for (var element in global.musicStylesList) {
+                                if (element["selected"]) {
+                                  estilosMusicais
+                                      .add({"uid": "${element['uid']}"});
+                                }
+                              }
+                              print(global.musicStylesList);
                               saveEditingProfile(
                                 documentoId: userId,
                                 novosDados: {
@@ -134,9 +133,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   "musicStyles": estilosMusicais,
                                   "telefone": controllerTelefone.text,
                                 },
-                              ).then((_) {
+                              );
+                              if (mounted) {
                                 Navigator.of(context).pop();
-                              });
+                              }
                             }
                           });
                         },
@@ -260,7 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     } else {
                       if (snapshot.data!['ok']) {
                         global.musicStylesList = snapshot.data!['args'];
-                        
+
                         List<Widget> textWidgets = [];
 
                         for (var music in global.musicStylesList) {
@@ -324,7 +324,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 style: global.styles.labelText(),
               ),
               MarginInput(
-                // TODO mudar a cor da borda ou algo do tipo quando for focado
                 child: Container(
                   padding: const EdgeInsetsDirectional.all(14),
                   decoration: BoxDecoration(

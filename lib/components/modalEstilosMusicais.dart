@@ -143,14 +143,19 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
               GestureDetector(
                   onTap: () {
                     //save function code
-                    estilosAdicionados.forEach((estiloSelecionado) {
-                      global.musicStylesList.forEach((estiloGlobalSelecionado) {
-                        if (estiloSelecionado == estiloGlobalSelecionado &&
-                            estiloSelecionado["selected"] == true) {
-                          estiloGlobalSelecionado["selected"] = true;
-                        }
+                    setState(() {
+                      estilosAdicionados.forEach((estiloSelecionado) {
+                        global.musicStylesList
+                            .forEach((estiloGlobalSelecionado) {
+                          if (estiloSelecionado == estiloGlobalSelecionado &&
+                              estiloSelecionado["selected"] == true) {
+                            estiloGlobalSelecionado["selected"] = true;
+                          }
+                        });
                       });
                     });
+
+                    print(global.musicStylesList);
                     Navigator.of(context).pop();
                   },
                   child: Container(
@@ -179,46 +184,3 @@ class _ModalEstilosMusicaisState extends State<ModalEstilosMusicais> {
     );
   }
 }
-
-  // [
-  //   Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       const Flexible(child: Text("Nome do ")),
-  //       Flexible(
-  //         child:
-  //             Checkbox(value: true, onChanged: (bool) {}),
-  //       )
-  //     ],
-  //   ),
-  // ],
-
-
-  // FutureBuilder<List<dynamic>>(
-  //               future: getEstilosMusicais(),
-  //               builder: (BuildContext context,
-  //                   AsyncSnapshot<List<dynamic>> snapshot) {
-  //                 if (snapshot.connectionState == ConnectionState.waiting) {
-  //                   return CircularProgressIndicator();
-  //                 } else if (snapshot.hasError) {
-  //                   return Text('Erro: ${snapshot.error}');
-  //                 } else if (snapshot.hasData) {
-  //                   List<dynamic> data = snapshot.data ?? [];
-  //                   return Container(
-  //                     // Especificar um tamanho para o container
-  //                     height: 200, // Defina um valor adequado aqui
-  //                     child: ListView.builder(
-  //                       itemCount: data.length,
-  //                       itemBuilder: (BuildContext context, int index) {
-  //                         return ListTile(
-  //                           title: Text(data[index]['name']),
-  //                           // Outros campos do documento podem ser acessados usando data[index]['nomeDoCampo']
-  //                         );
-  //                       },
-  //                     ),
-  //                   );
-  //                 } else {
-  //                   return Text('Sem dados disponíveis.');
-  //                 }
-  //               },
-  //             ),

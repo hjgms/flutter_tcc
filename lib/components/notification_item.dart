@@ -24,7 +24,7 @@ class _NotificationItemState extends State<NotificationItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical:10),
+      padding: const EdgeInsets.symmetric(vertical:10),
       child:GestureDetector(
         onTap: (){
           //navigate for perfil user notification
@@ -38,13 +38,13 @@ class _NotificationItemState extends State<NotificationItem> {
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,
-                color: Color.fromARGB(20, 0, 0, 0),
+                color: Color.fromARGB(25, 0, 0, 0),
                 spreadRadius: 1
               )
             ]
           ),
           margin: const EdgeInsets.symmetric(horizontal: 10),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           height: 120,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class _NotificationItemState extends State<NotificationItem> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(3, 3, 5, 5),
+                    padding: const EdgeInsets.only(right: 8),
                     child: CircleAvatar(
                       backgroundColor: global.colorTheme["mainPurple"],
                     )
@@ -68,8 +68,9 @@ class _NotificationItemState extends State<NotificationItem> {
                   )
                 ],
               ),
+
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   widget.description,
                   style: const TextStyle(

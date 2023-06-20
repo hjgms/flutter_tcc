@@ -160,7 +160,6 @@ Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
   if (notSave) {
     var photoCache = await cache.getCacheUserPhoto();
     if (photoCache != null) {
-      print("wdwdw");
       return typedReturn(true, photoCache);
     }
   }
@@ -171,12 +170,11 @@ Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
         await FirebaseStorage.instance.ref().child(url).getDownloadURL();
 
     if (photo != "") {
-      print("wdwdw");
       if (notSave) {
         bool resp = await cache.setCacheUserPhoto(photo);
         if (resp) {
           //for photo download and save device
-          print("jojoj");
+         print("jojoj");
         } else {
           print("wdwdwd");
         }
@@ -184,7 +182,6 @@ Future<Map> getPhotoPerfil(String uid, {bool notSave = true}) async {
 
       return typedReturn(true, photo);
     }
-    print("wdwdw");
     return typedReturn(false, "photo is null returned !");
   } on FirebaseException catch (e) {
     return typedReturn(false, "topawdwd: $e");
