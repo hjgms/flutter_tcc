@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: MyHomePage());
+      debugShowCheckedModeBanner: false, 
+      home: MyHomePage()
+    );
   }
 }
 
@@ -43,34 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: testLogin(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data == true) {
-          return const ProviderPage();
-        } else if (snapshot.hasData && snapshot.data == false) {
-          return const LoginPage();
-        } else {
-          return Scaffold(
-              body: Center(
-            child: Container(
-              height: 200,
-              width: 200,
-              color: global.colorTheme["mainPurple"],
-            ),
-          ));
-        }
-      },
+      builder: (context, snapshot) => builderContext(snapshot),
     );
   }
 
   Future<bool> testLogin() async {
     bool resp = await cache.getCacheUserAuth();
-    if (resp == true) {
-      return true;
-    } else {
-      return false;
-    }
-    //anterior;
-    //global.user["auth"]? const ProviderPage() : const LoginPage()
+    return resp == true ? true : false;
   }
 
   pageTest() {
@@ -82,6 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
         return const SignPage();
       },
     ));
+  }
+
+  builderContext(AsyncSnapshot<bool> snap){
+    if (snap.hasData && snap.data == true) {
+      return const ProviderPage();
+    } else if (snap.hasData && snap.data == false) {
+      return const LoginPage();
+    } else {
+      return Scaffold(
+        body: Center(
+          child: Container(
+            height: 200,
+            width: 200,
+            color: global.colorTheme["mainPurple"],
+          ),
+        )
+      );
+    }
   }
 }
 
